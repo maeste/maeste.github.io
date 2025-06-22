@@ -1,0 +1,25 @@
+title: "Stefano Maestri"
+email: maestri.stefano@gmail.com
+description: >-
+  AI Engineer & Technical Manager focused on Multi-Agent Systems and AI for Middleware.
+baseurl: "" 
+url: "https://tuo-username.github.io"
+theme: minimal-mistakes-jekyll
+
+author:
+  name: "Stefano Maestri"
+  avatar: "/assets/images/profile.jpg"
+  bio: "AI Engineer & Technical Manager – Multi-Agent Systems & AI Middleware"
+  links:
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://linkedin.com/in/tuo-username"
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/maeste"
+    - label: "X / Twitter"
+      icon: "fab fa-x-twitter"
+      url: "https://x.com/maeste"
+
+plugins:
+  - jekyll-include-cache
