@@ -13,14 +13,13 @@
   .lang-section.active { display: block; }
 </style>
 
-## **Stefano Maestri**
 
 <div class="lang-tabs">
   <button onclick="showLang('it')" class="active">🇮🇹 Italiano</button>
   <button onclick="showLang('en')">🇬🇧 English</button>
 </div>
 
-<div id="it" class="lang-section active">
+<div id="it" class="lang-section active" markdown="1">
 
 AI Engineer & Technical Manager con focus su Sistemi Multi-Agente e AI per Middleware Enterprise
 
@@ -63,7 +62,7 @@ Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società
 
 </div>
 
-<div id="en" class="lang-section">
+<div id="en" class="lang-section" markdown="1">
 
 AI Engineer & Technical Manager focusing on Multi-Agent Systems, and AI for Enterprise Middleware
 
