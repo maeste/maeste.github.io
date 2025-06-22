@@ -3,8 +3,12 @@ email: maestri.stefano@gmail.com
 description: >-
   AI Engineer & Technical Manager focused on Multi-Agent Systems and AI for Middleware.
 baseurl: "" 
-url: "https://tuo-username.github.io"
-theme: minimal-mistakes-jekyll
+url: "https://tuo-username.github.io"  # cambia 'tuo-username' con il tuo GitHub username
+
+remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+
+plugins:
+  - jekyll-include-cache
 
 author:
   name: "Stefano Maestri"
@@ -21,5 +25,11 @@ author:
       icon: "fab fa-x-twitter"
       url: "https://x.com/maeste"
 
-plugins:
-  - jekyll-include-cache
+# Abilita sezione autore nella homepage
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: single
+      author_profile: true
