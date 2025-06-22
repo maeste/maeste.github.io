@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Stefano Maestri"
+title: ""
 permalink: /
 author_profile: true
 ---
@@ -70,7 +70,7 @@ Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società
 
 <div id="en" class="lang-section" markdown="1">
 
-# AI Engineer & Technical Manager focusing on Multi-Agent Systems, and AI for Enterprise Middleware
+## AI Engineer & Technical Manager focusing on Multi-Agent Systems, and AI for Enterprise Middleware
 
 ---
 
