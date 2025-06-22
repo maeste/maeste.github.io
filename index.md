@@ -26,10 +26,12 @@ Check them out below ⬇️
 
 🧠 CodiceArtificiale: Trend AI per sviluppatori
 🇮🇹 La versione italiana della newsletter: ogni settimana, una selezione ragionata delle novità AI per ingegneri, CTO e sviluppatori.
+
 👉 [Leggi su Substack ](https://codiceartificiale.substack.com/)
 
 🧠 ArtificialCode: Weekly AI Trends for Engineers
 🇬🇧 The english version of the newsletter: every week, a curated selection of AI trends for engineers, CTOs, and developers.
+
 👉 [Leggi su Substack ](https://artificialcode.substack.com/)
 
 **Podcast**
@@ -37,14 +39,20 @@ Check them out below ⬇️
 **Risorse Artificiali – Podcast**
 🇮🇹 Un podcast (solo in italiano) settimanale sull’AI e il suo impatto su società, coding, lavoro e tecnologia.
 🇬🇧 A weekly (italian only) podcast about AI and its impact on society, coding, work, and technology.
+
 👉 [Ascolta su Spotify – Listen on Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)
+
 👉 [Guarda su YouTube – Watch on YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)
+
 👉 [Segui la pagina LinkedIn – Follow the LinkedIn page](https://www.linkedin.com/company/risorseartificiali)
 
 ---
 
-**Contatti / Contact (opzionale)**
+**Contatti / Contact**
 💼 [LinkedIn](https://linkedin.com/in/tuo-username)
+
 🐙 [GitHub](https://github.com/maeste)
+
 ✖️ [X / Twitter](https://x.com/maeste)
+
 📧 [Email](mailto:maestri.stefano@gmail.com)
