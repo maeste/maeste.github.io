@@ -28,7 +28,7 @@ AI Engineer & Technical Manager con focus su Sistemi Multi-Agente e AI per Middl
 **Bio introduttiva**
 Con oltre 25 anni di esperienza nello sviluppo software enterprise e nell’AI engineering, esploro ogni settimana come l’intelligenza artificiale stia cambiando il modo in cui costruiamo, impariamo e viviamo la tecnologia.
 
-✨ Scrivo due newsletter (in italiano ed inglese).
+✨ Scrivo due newsletter (in italiano ed inglese).<br/>
 🎧 Co-conduco un podcast (solo in italiano) su AI, agenti e futuro.
 Scoprili qui sotto ⬇️
 
