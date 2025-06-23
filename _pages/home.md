@@ -69,8 +69,8 @@ Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società
 **About me**
 With over 25 years of experience in enterprise software development and AI engineering, I explore how artificial intelligence is transforming the way we build, learn, and live with technology.
 
-✍️ I write two newsletters (Italian and English).
-🎧 I co-host a podcast (Italian only) about AI, agents, and the future.
+✍️ I write two newsletters (Italian and English).<br/>
+🎧 I co-host a podcast (Italian only) about AI, agents, and the future.<br/>
 Check them out below ⬇️
 
 ---
@@ -78,20 +78,20 @@ Check them out below ⬇️
 **Newsletters**
 
 🧠 ArtificialCode: Weekly AI Trends for Engineers
-A curated selection of AI trends for engineers, CTOs, and developers.
+A curated selection of AI trends for engineers, CTOs, and developers.<br/>
 👉 [Read on Substack](https://artificialcode.substack.com/)
 
 🧠 CodiceArtificiale
-Italian-language version for technical AI insights.
+Italian-language version of the nesletter.<br/>
 👉 [Read on Substack](https://codiceartificiale.substack.com/)
 
 ---
 
 **Podcast – Risorse Artificiali**
 
-A weekly podcast (Italian only) about AI and its impact on society, coding, work, and technology.
-👉 [Listen on Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)
-👉 [Watch on YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)
+A weekly podcast (Italian only) about AI and its impact on society, coding, work, and technology.<br/>
+👉 [Listen on Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)<br/>
+👉 [Watch on YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)<br/>
 👉 [Follow on LinkedIn](https://www.linkedin.com/company/risorseartificiali)
 
 </div>
