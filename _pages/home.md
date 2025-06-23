@@ -35,28 +35,28 @@ author_profile: true
 Con oltre 25 anni di esperienza nello sviluppo software enterprise e nell’AI engineering, esploro ogni settimana come l’intelligenza artificiale stia cambiando il modo in cui costruiamo, impariamo e viviamo la tecnologia.
 
 ✨ Scrivo due newsletter (in italiano ed inglese).<br/>
-🎧 Co-conduco un podcast (solo in italiano) su AI, agenti e futuro.
+🎧 Co-conduco un podcast (solo in italiano) su AI, agenti e futuro.<br/>
 Scoprili qui sotto ⬇️
 
 ---
 
-**Newsletter**
+**Le Newsletter**
 
 🧠 CodiceArtificiale: Trend AI per sviluppatori
-La versione italiana della newsletter: ogni settimana, una selezione ragionata delle novità AI per ingegneri, CTO e sviluppatori.
+La versione italiana della newsletter: ogni settimana, una selezione ragionata delle novità AI per ingegneri, CTO e sviluppatori.<br/>
 👉 [Leggi su Substack](https://codiceartificiale.substack.com/)
 
-🧠 ArtificialCode: Weekly AI Trends for Engineers
+🧠 ArtificialCode: Weekly AI Trends for Engineers. The english version of the newsletter<br/>
 👉 [Leggi su Substack](https://artificialcode.substack.com/)
 
 ---
 
 **Podcast – Risorse Artificiali**
 
-Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società, coding, lavoro e tecnologia.
-👉 [Ascolta su Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)
-👉 [Guarda su YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)
-👉 [Segui su LinkedIn](https://www.linkedin.com/company/risorseartificiali)
+Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società, coding, lavoro e tecnologia.<br/>
+👉 [Ascolta su Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)<br/>
+👉 [Guarda su YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)<br/>
+👉 [Segui su LinkedIn](https://www.linkedin.com/company/risorseartificiali)<br/>
 
 ---
 

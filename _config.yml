@@ -24,6 +24,12 @@ author:
     - label: "X / Twitter"
       icon: "fab fa-x-twitter"
       url: "https://x.com/maeste"
+    - label: "Youtube"
+      icon: "fab fa-youtube"
+      url: "https://youtube.com/@maeste"
+    - label: "Substack"
+      icon: "fab fa-substack"
+      url: "https://maeste.substack.com"
 
 # Abilita sezione autore nella homepage
 defaults:
