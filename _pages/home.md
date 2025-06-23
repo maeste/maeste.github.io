@@ -58,14 +58,6 @@ Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società
 👉 [Guarda su YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)<br/>
 👉 [Segui su LinkedIn](https://www.linkedin.com/company/risorseartificiali)<br/>
 
----
-
-**Contatti**
-💼 [LinkedIn](https://linkedin.com/in/tuo-username)
-🐙 [GitHub](https://github.com/maeste)
-✖️ [X / Twitter](https://x.com/maeste)
-📧 [Email](mailto:maestri.stefano@gmail.com)
-
 </div>
 
 <div id="en" class="lang-section" markdown="1">
@@ -101,14 +93,6 @@ A weekly podcast (Italian only) about AI and its impact on society, coding, work
 👉 [Listen on Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)
 👉 [Watch on YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)
 👉 [Follow on LinkedIn](https://www.linkedin.com/company/risorseartificiali)
-
----
-
-**Contact**
-💼 [LinkedIn](https://linkedin.com/in/tuo-username)
-🐙 [GitHub](https://github.com/maeste)
-✖️ [X / Twitter](https://x.com/maeste)
-📧 [Email](mailto:maestri.stefano@gmail.com)
 
 </div>
 
