@@ -32,7 +32,8 @@ author_profile: true
 ---
 
 **Bio**
-Con oltre 25 anni di esperienza nello sviluppo software enterprise e nell’AI engineering, esploro ogni settimana come l’intelligenza artificiale stia cambiando il modo in cui costruiamo, impariamo e viviamo la tecnologia.
+Con oltre 25 anni di esperienza nello sviluppo software enterprise e nell’AI engineering, esploro ogni settimana come l’intelligenza artificiale stia cambiando il modo in cui costruiamo, impariamo e viviamo la tecnologia.<br/>
+Nutro una vecchia passione per l'OpenSource e una più recente per l'AI Engineering.
 
 ✨ Scrivo due newsletter (in italiano ed inglese).<br/>
 🎧 Co-conduco un podcast (solo in italiano) su AI, agenti e futuro.<br/>
@@ -67,7 +68,8 @@ Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società
 ---
 
 **About me**
-With over 25 years of experience in enterprise software development and AI engineering, I explore how artificial intelligence is transforming the way we build, learn, and live with technology.
+With over 25 years of experience in enterprise software development and AI engineering, I explore how artificial intelligence is transforming the way we build, learn, and live with technology.<br/>
+I have an old passion for Open Source and more recent one for AI Engineering.
 
 ✍️ I write two newsletters (Italian and English).<br/>
 🎧 I co-host a podcast (Italian only) about AI, agents, and the future.<br/>
