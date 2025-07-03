@@ -55,6 +55,7 @@ La versione italiana della newsletter: ogni settimana, una selezione ragionata d
 **Podcast – Risorse Artificiali**
 
 Un podcast settimanale (solo in italiano) sull’AI e il suo impatto su società, coding, lavoro e tecnologia.<br/>
+Leggi tutti i dettagli su [risorseartficiali.com](https://risorseartificiali.com) <br/>
 👉 [Ascolta su Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)<br/>
 👉 [Guarda su YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)<br/>
 👉 [Segui su LinkedIn](https://www.linkedin.com/company/risorseartificiali)<br/>

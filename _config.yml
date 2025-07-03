@@ -31,15 +31,8 @@ author:
       icon: "fas fa-envelope-o"
       url: "https://codiceartificiale.substack.com/"
     - label: "Risorse Artificiali 🇮🇹"
-      icon: "fab fa-youtube"
-      url: "https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg"
-    - label: "Risorse Artificiali 🇮🇹"
-      icon: "fab fa-spotify"
-      url: "https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e"
-    - label: "Risorse Artificiali LinkedIn 🇮🇹"
-      icon: "fab fa-linkedin"
-      url: "https://www.linkedin.com/company/risorseartificiali/"
-    
+      icon: "fab fa-headphones"
+      url: "https://risorseartificiali.com" 
     
 # Abilita sezione autore nella homepage
 defaults:
