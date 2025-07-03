@@ -25,13 +25,13 @@ author:
       icon: "fab fa-twitter"
       url: "https://x.com/maeste"
     - label: "ArtificialCode 🇬🇧"
-      icon: "fab fa-envelope-o"
+      icon: "fa fa-envelope"
       url: "https://ArtificialCode.substack.com/"
     - label: "CodiceArtificiale 🇮🇹"
-      icon: "fab fa-envelope-o"
+      icon: "fa fa-envelope"
       url: "https://codiceartificiale.substack.com/"
     - label: "Risorse Artificiali 🇮🇹"
-      icon: "fab fa-headphones"
+      icon: "fas fa-headphones"
       url: "https://risorseartificiali.com"
     
 # Abilita sezione autore nella homepage
