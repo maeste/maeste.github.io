@@ -32,7 +32,7 @@ author:
       url: "https://codiceartificiale.substack.com/"
     - label: "Risorse Artificiali 🇮🇹"
       icon: "fab fa-headphones"
-      url: "https://risorseartificiali.com" 
+      url: "https://risorseartificiali.com"
     
 # Abilita sezione autore nella homepage
 defaults:
