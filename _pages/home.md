@@ -37,6 +37,7 @@ Nutro una vecchia passione per l'OpenSource e una più recente per l'AI Engineer
 
 ✨ Scrivo due newsletter (in italiano ed inglese).<br/>
 🎧 Co-conduco un podcast (solo in italiano) su AI, agenti e futuro.<br/>
+💻 Mantainer di due repository GitHub per il progetto [A2A](https://github.com/a2a-protocol).<br/>
 Scoprili qui sotto ⬇️
 
 ---
@@ -60,6 +61,11 @@ Leggi tutti i dettagli su [risorseartficiali.com](https://risorseartificiali.com
 👉 [Guarda su YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)<br/>
 👉 [Segui su LinkedIn](https://www.linkedin.com/company/risorseartificiali)<br/>
 
+
+**Il progetto A2A**
+
+Sono maintainer di [A2A Java SDK](https://github.com/a2aproject/a2a-java) e [A2A TCK](https://github.com/a2aproject/a2a-tck). Sono anche attivamente coinvolto nella definisione della specifica [A2A](https://github.com/a2aproject/A2A)
+
 </div>
 
 <div id="en" class="lang-section" markdown="1">
@@ -74,6 +80,8 @@ I have an old passion for Open Source and more recent one for AI Engineering.
 
 ✍️ I write two newsletters (Italian and English).<br/>
 🎧 I co-host a podcast (Italian only) about AI, agents, and the future.<br/>
+💻 Mantainer of two GitHub repositories for project [A2A](https://github.com/a2a-protocol).<br/>
+
 Check them out below ⬇️
 
 ---
@@ -96,6 +104,10 @@ A weekly podcast (Italian only) about AI and its impact on society, coding, work
 👉 [Listen on Spotify](https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF?si=900902f2dca8442e)<br/>
 👉 [Watch on YouTube](https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg)<br/>
 👉 [Follow on LinkedIn](https://www.linkedin.com/company/risorseartificiali)
+
+**The A2A project**
+
+I'm the maintainer of [A2A Java SDK](https://github.com/a2aproject/a2a-java) and [A2A TCK](https://github.com/a2aproject/a2a-tck). I'm actively involved in [A2A](https://github.com/a2aproject/A2A) spec definition.
 
 </div>
 
