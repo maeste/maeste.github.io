@@ -13,6 +13,10 @@ Google’s Agent2Agent (A2A) protocol, now under the Linux Foundation, solves AI
 
 [Agentic System_A2A.pdf](https://maeste.it/Agentic%20System_%20A2A.pdf)
 
+### Video
+
+[Watch it on YouTube](https://www.youtube.com/watch?v=7nosZt4JjMg)
+
 ### Code
 
 * [Multi language example](https://github.com/cescoffier/agentic-deep-dive/tree/main/A2A)
