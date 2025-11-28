@@ -5,7 +5,7 @@ on:
       - opened
       - edited
   schedule:
-    - cron: 45 * * * *
+    - cron: 48 * * * *
 
 permissions:
   contents: write        # Allows merging
