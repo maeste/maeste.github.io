@@ -6,6 +6,12 @@ on:
       - edited
   schedule:
     - cron: 45 * * * *
+
+permissions:
+  contents: write        # Allows merging
+  pull-requests: write   # Allows PR operations
+  issues: write          # Often needed for PR comments
+
 jobs:
   merge_schedule:
     runs-on: ubuntu-latest
