@@ -1,7 +1,7 @@
 name: Merge Schedule
 on:
   schedule:
-    - cron: 58 * * * *
+    - cron: 12 * * * *
   workflow_dispatch:  # Allows manual triggering
 
 permissions:
