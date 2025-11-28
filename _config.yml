@@ -7,6 +7,9 @@ url: "https://tuo-username.github.io"  # cambia 'tuo-username' con il tuo GitHub
 
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
+# Permalink per i post
+permalink: /:year/:month/:day/:title/
+
 plugins:
   - jekyll-include-cache
 
@@ -33,7 +36,7 @@ author:
     - label: "Risorse Artificiali 🇮🇹"
       icon: "fas fa-headphones"
       url: "https://risorseartificiali.com"
-    
+
 # Abilita sezione autore nella homepage
 defaults:
   - scope:
@@ -42,6 +45,14 @@ defaults:
     values:
       layout: single
       author_profile: true
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: single
+      author_profile: true
+      share: true   # Abilita i tasti di condivisione social sotto gli articoli
+      comments: true # Predispone per i commenti (se li userai)
 
 collections:
   pages:
