@@ -14,9 +14,9 @@
 <nav>
   <a href="/new_website/" class="logo"><span>~</span>/maeste</a>
   <div class="links">
-    <a href="/new_website/speaking/">talks</a>
-    <a href="#projects">projects</a>
     <a href="#content">content</a>
+    <a href="#projects">projects</a>
+    <a href="/new_website/speaking/">talks</a>
     <div class="lang-toggle">
       <button id="btn-it" class="active" onclick="setLang('it')">IT</button>
       <button id="btn-en" onclick="setLang('en')">EN</button>
@@ -44,40 +44,47 @@
   </div>
 </div>
 
-<!-- Speaking Section -->
-<section id="speaking">
-  <h2 data-lang="it">// speaking_recente</h2>
-  <h2 data-lang="en" style="display:none;">// recent_talks</h2>
+<!-- Content Section -->
+<section id="content">
+  <h2 data-lang="it">// contenuti</h2>
+  <h2 data-lang="en" style="display:none;">// content</h2>
 
-  <div class="talk-item">
-    <div>
-      <a href="/new_website/speaking/devoxx.html" class="talk-link" style="color:#e2e8f0;font-weight:500;font-size:0.9rem;display:block;margin-bottom:0.15rem;">Breaking Down AI Silos: Building Interoperable Multi-Agent Systems with Google's A2A Protocol and Java SDK</a>
-      <div class="talk-event">
-        Devoxx 2025
-        <span class="talk-links">
-          <a href="/new_website/assets/pdfs/Agentic-System-A2A.pdf" target="_blank">[slides]</a>
-          <a href="https://www.youtube.com/watch?v=7nosZt4JjMg" target="_blank" rel="noopener">[video]</a>
-          <a href="/new_website/speaking/devoxx.html">[details]</a>
-        </span>
+  <div class="content-grid">
+    <div class="content-card">
+      <div class="icon">&#9997;&#65039;</div>
+      <h3>CodiceArtificiale</h3>
+      <div class="lang-tag">IT</div>
+      <p data-lang="it">Trend AI per sviluppatori. Selezione ragionata settimanale delle novit&agrave; AI.</p>
+      <p data-lang="en" style="display:none;">AI Trends for developers. Weekly curated selection of AI news.</p>
+      <div class="link-row">
+        <a href="https://codiceartificiale.substack.com/" target="_blank" rel="noopener">substack &rarr;</a>
       </div>
     </div>
-    <div class="talk-meta">2025</div>
-  </div>
 
-  <div class="talk-item">
-    <div>
-      <a href="/new_website/speaking/pycon2026.html" class="talk-link" style="color:#e2e8f0;font-weight:500;font-size:0.9rem;display:block;margin-bottom:0.15rem;">Multi-Agent Systems: From Theory to Production</a>
-      <div class="talk-event">
-        PyCon Italia 2026, Firenze
-        <span class="talk-links">
-          <a href="/new_website/speaking/pycon2026.html">[coming soon]</a>
-        </span>
+    <div class="content-card">
+      <div class="icon">&#9997;&#65039;</div>
+      <h3>ArtificialCode</h3>
+      <div class="lang-tag">EN</div>
+      <p data-lang="it">Versione inglese: trend AI settimanali per ingegneri.</p>
+      <p data-lang="en" style="display:none;">Weekly AI Trends for Engineers. The English edition.</p>
+      <div class="link-row">
+        <a href="https://artificialcode.substack.com/" target="_blank" rel="noopener">substack &rarr;</a>
       </div>
     </div>
-    <div class="talk-meta">2026</div>
-  </div>
 
-  <a href="/new_website/speaking/" class="see-all">all_talks &rarr;</a>
+    <div class="content-card">
+      <div class="icon">&#127908;</div>
+      <h3>Risorse Artificiali</h3>
+      <div class="lang-tag">IT &middot; PODCAST</div>
+      <p data-lang="it">Podcast settimanale su AI, agenti e impatto sulla societ&agrave; e il lavoro.</p>
+      <p data-lang="en" style="display:none;">Weekly podcast on AI, agents, and their impact on society and work.</p>
+      <div class="link-row">
+        <a href="https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF" target="_blank" rel="noopener">spotify &rarr;</a>
+        <a href="https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg" target="_blank" rel="noopener">youtube &rarr;</a>
+        <a href="https://www.linkedin.com/company/risorseartificiali" target="_blank" rel="noopener">linkedin &rarr;</a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Projects Section -->
@@ -128,47 +135,40 @@
   </div>
 </section>
 
-<!-- Content Section -->
-<section id="content">
-  <h2 data-lang="it">// contenuti</h2>
-  <h2 data-lang="en" style="display:none;">// content</h2>
+<!-- Speaking Section -->
+<section id="speaking">
+  <h2 data-lang="it">// speaking_recente</h2>
+  <h2 data-lang="en" style="display:none;">// recent_talks</h2>
 
-  <div class="content-grid">
-    <div class="content-card">
-      <div class="icon">&#9997;&#65039;</div>
-      <h3>CodiceArtificiale</h3>
-      <div class="lang-tag">IT</div>
-      <p data-lang="it">Trend AI per sviluppatori. Selezione ragionata settimanale delle novit&agrave; AI.</p>
-      <p data-lang="en" style="display:none;">AI Trends for developers. Weekly curated selection of AI news.</p>
-      <div class="link-row">
-        <a href="https://codiceartificiale.substack.com/" target="_blank" rel="noopener">substack &rarr;</a>
+  <div class="talk-item">
+    <div>
+      <a href="/new_website/speaking/devoxx.html" class="talk-link" style="color:#e2e8f0;font-weight:500;font-size:0.9rem;display:block;margin-bottom:0.15rem;">Breaking Down AI Silos: Building Interoperable Multi-Agent Systems with Google's A2A Protocol and Java SDK</a>
+      <div class="talk-event">
+        Devoxx 2025
+        <span class="talk-links">
+          <a href="/new_website/assets/pdfs/Agentic-System-A2A.pdf" target="_blank">[slides]</a>
+          <a href="https://www.youtube.com/watch?v=7nosZt4JjMg" target="_blank" rel="noopener">[video]</a>
+          <a href="/new_website/speaking/devoxx.html">[details]</a>
+        </span>
       </div>
     </div>
-
-    <div class="content-card">
-      <div class="icon">&#9997;&#65039;</div>
-      <h3>ArtificialCode</h3>
-      <div class="lang-tag">EN</div>
-      <p data-lang="it">Versione inglese: trend AI settimanali per ingegneri.</p>
-      <p data-lang="en" style="display:none;">Weekly AI Trends for Engineers. The English edition.</p>
-      <div class="link-row">
-        <a href="https://artificialcode.substack.com/" target="_blank" rel="noopener">substack &rarr;</a>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <div class="icon">&#127908;</div>
-      <h3>Risorse Artificiali</h3>
-      <div class="lang-tag">IT &middot; PODCAST</div>
-      <p data-lang="it">Podcast settimanale su AI, agenti e impatto sulla societ&agrave; e il lavoro.</p>
-      <p data-lang="en" style="display:none;">Weekly podcast on AI, agents, and their impact on society and work.</p>
-      <div class="link-row">
-        <a href="https://open.spotify.com/show/16dTKEEtKkIzhr1JJNMmSF" target="_blank" rel="noopener">spotify &rarr;</a>
-        <a href="https://www.youtube.com/channel/UCYQgzIby7QHkXBonTWk-2Fg" target="_blank" rel="noopener">youtube &rarr;</a>
-        <a href="https://www.linkedin.com/company/risorseartificiali" target="_blank" rel="noopener">linkedin &rarr;</a>
-      </div>
-    </div>
+    <div class="talk-meta">2025</div>
   </div>
+
+  <div class="talk-item">
+    <div>
+      <a href="/new_website/speaking/pycon2026.html" class="talk-link" style="color:#e2e8f0;font-weight:500;font-size:0.9rem;display:block;margin-bottom:0.15rem;">Multi-Agent Systems: From Theory to Production</a>
+      <div class="talk-event">
+        PyCon Italia 2026, Firenze
+        <span class="talk-links">
+          <a href="/new_website/speaking/pycon2026.html">[coming soon]</a>
+        </span>
+      </div>
+    </div>
+    <div class="talk-meta">2026</div>
+  </div>
+
+  <a href="/new_website/speaking/" class="see-all">all_talks &rarr;</a>
 </section>
 
 <footer>
