@@ -443,3 +443,20 @@ footer {
   line-height: 1.7;
   max-width: 600px;
 }
+
+/* --- YouTube Embed --- */
+.video-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  margin: 1rem 0 0.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1e293b;
+}
+.video-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
