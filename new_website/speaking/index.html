@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speaking | Stefano Maestri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/new_website/assets/css/style.css">
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="/new_website/" class="logo"><span>~</span>/maeste</a>
+  <div class="links">
+    <a href="/new_website/speaking/">talks</a>
+    <a href="/new_website/#projects">projects</a>
+    <a href="/new_website/#content">content</a>
+  </div>
+</nav>
+
+<!-- Page Intro -->
+<div class="page-intro">
+  <div class="lang-toggle" style="margin-bottom:0.75rem;">
+    <button id="btn-it" class="active" onclick="setLang('it')">IT</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+  <p data-lang="it">Presentazioni e talk a conferenze internazionali su multi-agent systems, protocolli di interoperabilit&agrave; AI e sviluppo software enterprise.</p>
+  <p data-lang="en" style="display:none;">Talks and presentations at international conferences on multi-agent systems, AI interoperability protocols, and enterprise software development.</p>
+</div>
+
+<!-- Talks Listing -->
+<section style="padding-top:1.5rem;">
+  <h2 data-lang="it">// tutti_i_talk</h2>
+  <h2 data-lang="en" style="display:none;">// all_talks</h2>
+
+  <div class="talks-timeline">
+
+    <!-- PyCon Italia 2026 -->
+    <div class="talk-timeline-item">
+      <div class="timeline-year">2026</div>
+      <div class="timeline-content">
+        <div class="talk-item">
+          <div>
+            <a href="/new_website/speaking/pycon2026.html" class="talk-link">Multi-Agent Systems: From Theory to Production</a>
+            <div class="talk-event">
+              PyCon Italia 2026, Firenze
+              <span class="talk-links">
+                <a href="/new_website/speaking/pycon2026.html" data-lang="it">[prossimamente]</a>
+                <a href="/new_website/speaking/pycon2026.html" data-lang="en" style="display:none;">[coming soon]</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Devoxx 2025 -->
+    <div class="talk-timeline-item">
+      <div class="timeline-year">2025</div>
+      <div class="timeline-content">
+        <div class="talk-item">
+          <div>
+            <a href="/new_website/speaking/devoxx.html" class="talk-link">Breaking Down AI Silos: Building Interoperable Multi-Agent Systems with Google's A2A Protocol and Java SDK</a>
+            <div class="talk-event">
+              Devoxx 2025
+              <span class="talk-links">
+                <a href="/new_website/assets/pdfs/Agentic-System-A2A.pdf" target="_blank">[slides]</a>
+                <a href="https://www.youtube.com/watch?v=7nosZt4JjMg" target="_blank" rel="noopener">[video]</a>
+                <a href="/new_website/speaking/devoxx.html">[details]</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Stefano Maestri
+</footer>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll('[data-lang]').forEach(function(el) {
+    el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
+  });
+  document.getElementById('btn-it').classList.toggle('active', lang === 'it');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+</script>
+</body>
+</html>
