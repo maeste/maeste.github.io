@@ -27,6 +27,16 @@ nav .logo {
   font-weight: 500;
   font-size: 0.9rem;
   color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+nav .logo .nav-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #334155;
 }
 nav .logo span { color: #60a5fa; }
 nav .links { display: flex; gap: 1.5rem; align-items: center; }
