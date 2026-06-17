@@ -11,6 +11,10 @@
  *   Submissions auto-publish (approved defaults true), so there is no
  *   "pending" state: on submit we prepend the row the server returns.
  *
+ *   Takeaway is OPTIONAL. But when a rating of 2 or lower is given without any
+ *   written feedback, a modal prompts once for improvement notes; the user may
+ *   write something, or skip and submit the rating alone.
+ *
  * CONFIG: SUPABASE_URL + ANON_KEY (the publishable key) below. Safe to expose —
  * RLS allows SELECT of approved rows only and INSERTs (server-validated).
  *
@@ -33,6 +37,7 @@
   const talk = form.getAttribute('data-talk');
   const jsonUrl = `/assets/feedback/${talk}.json`;
   const SELECT = 'id,author_handle,rating,takeaway,created_at';
+  const LOW_RATING_THRESHOLD = 2; // <= this triggers the improvement prompt
 
   const state = { entries: [] };
 
@@ -60,7 +65,7 @@
       id: r.id,
       author: r.author_handle && String(r.author_handle).trim() ? String(r.author_handle).trim() : null,
       rating: r.rating,
-      takeaway: r.takeaway,
+      takeaway: r.takeaway ? String(r.takeaway) : null,
       created_at: r.created_at,
     };
   }
@@ -74,7 +79,7 @@
           `<span class="fb-author">${author}</span>` +
           `<span class="fb-date">${fmtDate(e.created_at)}</span>` +
         '</div>' +
-        `<p class="fb-takeaway">${esc(e.takeaway)}</p>` +
+        (e.takeaway ? `<p class="fb-takeaway">${esc(e.takeaway)}</p>` : '') +
       '</article>'
     );
   }
@@ -134,6 +139,45 @@
     paint();
   }
 
+  // ---- low-rating improvement prompt (native <dialog>) ----
+  // Returns: a non-null string (user wrote something or skipped), or null if
+  // the user dismissed the dialog (ESC / backdrop) -> abort the submission.
+  function promptForImprovement(rating) {
+    return new Promise((resolve) => {
+      const dlg = document.createElement('dialog');
+      dlg.className = 'fb-improve';
+      dlg.innerHTML =
+        '<form method="dialog">' +
+          '<h3>Help me improve</h3>' +
+          `<p>You rated this <span class="fb-improve-stars">\u2605</span> ${rating}/5. ` +
+          'What didn&rsquo;t land, or what could be better? <span class="fb-opt">(optional)</span></p>' +
+          '<textarea maxlength="500" rows="4" placeholder="What could be improved?" aria-label="Improvement feedback" autofocus></textarea>' +
+          '<div class="fb-improve-actions">' +
+            '<button type="submit" value="skip" class="fb-improve-skip">Skip &mdash; rating only</button>' +
+            '<button type="submit" value="submit" class="fb-improve-send">Submit feedback</button>' +
+          '</div>' +
+        '</form>';
+      document.body.appendChild(dlg);
+
+      // Backdrop click = cancel (abort).
+      dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close('cancel'); });
+
+      dlg.addEventListener('close', () => {
+        const v = dlg.returnValue;
+        let result;
+        if (v === 'submit') result = dlg.querySelector('textarea').value.trim();
+        else if (v === 'skip') result = '';
+        else result = null; // cancel (ESC / backdrop)
+        dlg.remove();
+        resolve(result);
+      });
+
+      dlg.showModal();
+      // Ensure focus across browsers even if autofocus is ignored.
+      requestAnimationFrame(() => dlg.querySelector('textarea').focus());
+    });
+  }
+
   // ---- submission ----
   form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
@@ -146,12 +190,18 @@
 
     const ratingEl = form.querySelector('input[name="rating"]:checked');
     const rating = ratingEl ? Number(ratingEl.value) : null;
-    const takeaway = form.takeaway.value.trim();
+    let takeaway = form.takeaway.value.trim();
     const author = form.author.value.trim();
 
     if (!rating) { errEl.textContent = 'Please select a rating.'; return; }
-    if (!takeaway) { errEl.textContent = 'Please share a takeaway.'; return; }
     if (takeaway.length > 500) { errEl.textContent = 'Takeaway must be 500 characters or fewer.'; return; }
+
+    // Low rating with no written feedback: prompt once for improvement notes.
+    if (rating <= LOW_RATING_THRESHOLD && !takeaway) {
+      const extra = await promptForImprovement(rating);
+      if (extra === null) return; // dismissed -> abort, nothing submitted
+      takeaway = extra;
+    }
 
     const btn = form.querySelector('button[type="submit"]');
     const origLabel = btn.textContent;
@@ -167,8 +217,10 @@
           'Content-Type': 'application/json',
           Prefer: 'return=representation',
         },
+        // Empty takeaway -> null (column allows NULL; constraint permits 1-500 or null).
         body: JSON.stringify({
-          talk, rating, takeaway,
+          talk, rating,
+          takeaway: takeaway || null,
           author_handle: author || null,
         }),
       });
