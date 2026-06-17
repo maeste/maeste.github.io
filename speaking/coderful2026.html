@@ -44,9 +44,60 @@
   </div>
 </div>
 
+<!-- Feedback -->
+<section class="feedback-section">
+  <h2>feedback</h2>
+
+  <div class="fb-list-wrap" data-feedback-list data-talk="coderful2026">
+    <p class="fb-empty">No feedback yet &mdash; be the first below.</p>
+  </div>
+
+  <form class="fb-form" data-feedback-form data-talk="coderful2026" novalidate>
+    <h3>Share your feedback</h3>
+
+    <div class="fb-field">
+      <span class="fb-label">Rating</span>
+      <div class="fb-stars-input">
+        <input type="radio" name="rating" id="fb-r5" value="5" aria-label="5 out of 5"><label for="fb-r5">&starf;</label>
+        <input type="radio" name="rating" id="fb-r4" value="4" aria-label="4 out of 5"><label for="fb-r4">&starf;</label>
+        <input type="radio" name="rating" id="fb-r3" value="3" aria-label="3 out of 5"><label for="fb-r3">&starf;</label>
+        <input type="radio" name="rating" id="fb-r2" value="2" aria-label="2 out of 5"><label for="fb-r2">&starf;</label>
+        <input type="radio" name="rating" id="fb-r1" value="1" aria-label="1 out of 5"><label for="fb-r1">&starf;</label>
+      </div>
+    </div>
+
+    <div class="fb-field">
+      <label class="fb-label" for="fb-takeaway">Key takeaway <span class="fb-opt">(required)</span></label>
+      <textarea id="fb-takeaway" name="takeaway" rows="3" maxlength="500" placeholder="What was the most useful or interesting thing?" required></textarea>
+    </div>
+
+    <div class="fb-field">
+      <span class="fb-label">Recommend this talk?</span>
+      <div class="fb-radio-row">
+        <label><input type="radio" name="recommend" value="yes" checked> Yes</label>
+        <label><input type="radio" name="recommend" value="no"> No</label>
+      </div>
+    </div>
+
+    <div class="fb-field">
+      <label class="fb-label" for="fb-author">Your handle / name <span class="fb-opt">(optional)</span></label>
+      <input type="text" id="fb-author" name="author" maxlength="40" placeholder="@github or your name">
+    </div>
+
+    <input class="fb-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="fb-actions">
+      <button type="submit">Submit feedback</button>
+      <p class="fb-success" hidden>Thanks! Your feedback will appear on this page shortly.</p>
+      <p class="fb-error" role="alert"></p>
+    </div>
+  </form>
+</section>
+
 <footer>
   &copy; 2026 Stefano Maestri
 </footer>
 
+<script src="/assets/js/feedback.js" defer></script>
 </body>
 </html>
