@@ -517,14 +517,13 @@ footer {
   margin-top: 0.6rem;
   flex-wrap: wrap;
 }
-.fb-rec, .fb-pending {
+.fb-rec {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.65rem;
   padding: 0.1rem 0.5rem;
   border-radius: 20px;
+  color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2);
 }
-.fb-rec { color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); }
-.fb-pending { color: #fbbf24; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); }
 
 /* form */
 .fb-form {

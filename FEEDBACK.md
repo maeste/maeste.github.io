@@ -1,19 +1,21 @@
 # Talk Feedback
 
 Attendees submit structured feedback (rating + takeaway + recommend) via an
-in-page form. Submissions land in **Supabase**, and a **GitHub Action**
-publishes the approved entries to static JSON every 30 min. The talk page
-renders that JSON — the site stays fully static, the only runtime call is the
-write to Supabase.
+in-page form. Submissions land in **Supabase** and auto-publish immediately
+(`approved` defaults to `true`). The page reads approved rows **live from
+Supabase** on load, so new feedback appears instantly for everyone. A GitHub
+Action also snapshots approved rows to static JSON every 30 min as a fallback
+cache (used if Supabase is unreachable, and as a no-JS / SEO snapshot).
 
 ```
-form ──POST──► Supabase (publishable key: INSERT via RLS)
+form ──POST──► Supabase (publishable key: INSERT via RLS, auto-publish)
                     │
-   GitHub Action (cron 30 min / manual) reads approved rows
-                    │   (same publishable key — RLS allows SELECT approved=true)
-              assets/feedback/<slug>.json  ──► committed to main
+   talk page reads approved rows LIVE from Supabase on load
+   (immediate for everyone); falls back to assets/feedback/<slug>.json
+   if Supabase is unreachable.
                     │
-              talk page renders it (pure static, fast)
+   GitHub Action (cron 30 min) refreshes that JSON snapshot
+   used as the fallback / static cache (committed to main).
 ```
 
 ## One-time setup
@@ -74,9 +76,9 @@ Hidden/deleted rows disappear from the site on the next Action run.
 
 ## Notes
 
-- **Latency**: a submission appears on the page within ~30 min (next cron run),
-  or instantly via the optimistic "pending publish" card shown to the submitter.
-  Use the manual *Run workflow* button to publish immediately.
+- **Latency**: none — the page reads live from Supabase, so a submission
+  appears immediately for everyone (on their next page load / submit). The
+  JSON snapshot lags by up to 30 min but is only the fallback cache.
 - **Spam**: the form has a honeypot field. For heavier protection, enable
   Supabase rate limiting or add a CAPTCHA later.
 - **Cost**: the repo is public, so GitHub Actions minutes are unlimited.
