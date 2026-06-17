@@ -470,3 +470,154 @@ footer {
   width: 100%; height: 100%;
   border: none;
 }
+
+/* --- Feedback --- */
+.feedback-section { padding-top: 1.5rem; }
+.fb-list-wrap { margin-bottom: 2rem; }
+.fb-summary {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+.fb-summary .fb-stars { color: #60a5fa; }
+.fb-empty {
+  font-size: 0.85rem;
+  color: #475569;
+  font-style: italic;
+}
+.fb-card {
+  background: #1e293b;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.6rem;
+  transition: border-color 0.2s;
+}
+.fb-card:hover { border-color: #334155; }
+.fb-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.fb-stars { color: #60a5fa; font-size: 0.85rem; letter-spacing: 1px; }
+.fb-author { font-size: 0.85rem; color: #e2e8f0; font-weight: 500; }
+.fb-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #475569;
+  margin-left: auto;
+}
+.fb-takeaway { font-size: 0.88rem; color: #cbd5e1; line-height: 1.6; }
+.fb-card-foot {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+.fb-rec, .fb-pending {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+}
+.fb-rec { color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); }
+.fb-pending { color: #fbbf24; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); }
+
+/* form */
+.fb-form {
+  background: #1e293b;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+.fb-form h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin-bottom: 1.25rem;
+}
+.fb-field { margin-bottom: 1.1rem; }
+.fb-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+.fb-opt { text-transform: none; letter-spacing: 0; color: #475569; }
+.fb-form textarea,
+.fb-form input[type="text"] {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  padding: 0.6rem 0.75rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.fb-form textarea:focus,
+.fb-form input[type="text"]:focus {
+  outline: none;
+  border-color: #60a5fa;
+}
+.fb-form textarea::placeholder,
+.fb-form input::placeholder { color: #475569; }
+
+/* star rating input (CSS-only, reversed so hover/fill goes leftward) */
+.fb-stars-input { display: inline-flex; flex-direction: row-reverse; gap: 0.2rem; }
+.fb-stars-input input { position: absolute; opacity: 0; width: 0; height: 0; }
+.fb-stars-input label {
+  font-size: 1.4rem;
+  color: #334155;
+  cursor: pointer;
+  transition: color 0.15s;
+  line-height: 1;
+}
+.fb-stars-input label:hover,
+.fb-stars-input label:hover ~ label,
+.fb-stars-input input:checked ~ label { color: #60a5fa; }
+.fb-stars-input input:focus-visible ~ label { color: #93bbfc; }
+
+.fb-radio-row { display: flex; gap: 1.25rem; }
+.fb-radio-row label { font-size: 0.85rem; color: #cbd5e1; display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; }
+.fb-radio-row input { accent-color: #60a5fa; }
+
+.fb-actions { margin-top: 0.5rem; }
+.fb-actions button {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #60a5fa;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.fb-actions button:hover:not(:disabled) { background: #93bbfc; }
+.fb-actions button:disabled { opacity: 0.6; cursor: default; }
+.fb-success { font-size: 0.82rem; color: #34d399; margin-top: 0.75rem; }
+.fb-error { font-size: 0.82rem; color: #f87171; margin-top: 0.75rem; }
+
+/* honeypot (hidden from humans) */
+.fb-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important; height: 1px !important;
+  opacity: 0;
+}
+
+@media (max-width: 700px) {
+  .fb-form { padding: 1.25rem; }
+  .fb-date { margin-left: 0; }
+}

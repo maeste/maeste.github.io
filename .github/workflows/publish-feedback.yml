@@ -1,0 +1,42 @@
+name: Publish feedback
+
+on:
+  schedule:
+    # every 30 minutes (public repo -> unlimited Actions minutes)
+    - cron: '*/30 * * * *'
+  workflow_dispatch: {} # manual "Run workflow" button
+
+permissions:
+  contents: write # allow the bot to push the committed JSON
+
+concurrency:
+  group: publish-feedback
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch approved feedback and write JSON
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+        run: node scripts/publish-feedback.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/feedback/*.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(feedback): publish approved feedback [skip ci]"
+            git push
+          fi
