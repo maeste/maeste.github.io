@@ -21,17 +21,26 @@ create index if not exists feedback_talk_approved_idx
 
 alter table public.feedback enable row level security;
 
--- Anonymous visitors may INSERT feedback only.
--- Auto-publish is handled by the `approved = true` default above.
+-- SELECT: anonymous visitors (and the Action) may read ONLY approved rows.
+-- Published feedback is public by definition (it's shown on the site), so this
+-- leaks nothing; it only keeps un-approved / pending / spam rows hidden.
+drop policy if exists "anon read approved feedback" on public.feedback;
+create policy "anon read approved feedback"
+  on public.feedback for select
+  to anon
+  using (approved = true);
+
+-- INSERT: anonymous visitors may INSERT feedback (any values; server-side
+-- CHECK constraints validate the payload). Auto-publish via the default above.
 drop policy if exists "anon insert feedback" on public.feedback;
 create policy "anon insert feedback"
   on public.feedback for insert
   to anon
   with check (true);
 
--- NOTE: anon has NO select policy on purpose.
--- Reads happen server-side in the GitHub Action using the service role key,
--- which bypasses RLS. This keeps the public anon key strictly insert-only.
+-- anon has NO update/delete policy on purpose: only you can moderate,
+-- via the SQL below in the dashboard. The Action reads with the SAME anon
+-- (publishable) key, so NO service-role secret is required anywhere.
 
 -- To hide a single submission without deleting it:
 --   update public.feedback set approved = false where id = <id>;

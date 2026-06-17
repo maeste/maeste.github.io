@@ -5,8 +5,9 @@
  *   Read path:  renders the static JSON published by the GitHub Action
  *               at /assets/feedback/<talk>.json (no runtime DB read).
  *
- * CONFIG: set SUPABASE_URL and ANON_KEY below after creating your project.
- * The anon key is safe to expose — RLS restricts anonymous use to INSERT.
+ * CONFIG: SUPABASE_URL + ANON_KEY (the publishable key) below.
+ * The publishable key is safe to expose — RLS restricts anonymous reads to
+ * approved rows only, and allows inserts (server-side validated).
  *
  * A talk page activates feedback by including this script and providing:
  *   <div data-feedback-list  data-talk="<slug>"></div>
@@ -16,8 +17,8 @@
   'use strict';
 
   // ---- CONFIG: fill these in ----------------------------------------------
-  const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co'; // TODO: set
-  const ANON_KEY = 'YOUR_ANON_KEY';                         // TODO: set
+  const SUPABASE_URL = 'https://iiioplvkkyowpebdjpal.supabase.co';
+  const ANON_KEY = 'sb_publishable_qepKAmUC-8zZFzbari4i5g_lTOIVeWf';
   // -------------------------------------------------------------------------
 
   const form = document.querySelector('[data-feedback-form]');

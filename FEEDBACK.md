@@ -7,10 +7,10 @@ renders that JSON — the site stays fully static, the only runtime call is the
 write to Supabase.
 
 ```
-form ──POST──► Supabase (anon key, insert-only via RLS)
+form ──POST──► Supabase (publishable key: INSERT via RLS)
                     │
    GitHub Action (cron 30 min / manual) reads approved rows
-                    │
+                    │   (same publishable key — RLS allows SELECT approved=true)
               assets/feedback/<slug>.json  ──► committed to main
                     │
               talk page renders it (pure static, fast)
@@ -22,20 +22,21 @@ form ──POST──► Supabase (anon key, insert-only via RLS)
 
 2. **Create the table**: open the SQL Editor and run [`supabase/schema.sql`](./supabase/schema.sql).
 
-3. **Grab the keys** from *Project Settings &rarr; API*:
+3. **Grab the project URL + publishable key** from *Project Settings &rarr; API*:
    - `Project URL` (looks like `https://abcd.supabase.co`)
-   - `anon` public key
-   - `service_role` secret key (**keep private**)
+   - `publishable` (`anon`) key &mdash; safe to expose in client JS
 
 4. **Fill in the client config** in [`assets/js/feedback.js`](./assets/js/feedback.js):
-   set `SUPABASE_URL` and `ANON_KEY` (the anon key is safe to expose).
+   set `SUPABASE_URL` and `ANON_KEY` to the values from step 3.
 
-5. **Give the Action access** (run once from the repo root):
+5. **Give the Action access** &mdash; set both as repo **variables** (not secrets; the
+   publishable key is safe to expose and already ships in the client JS):
    ```bash
    gh variable set SUPABASE_URL -b "https://abcd.supabase.co"
-   gh secret  set SUPABASE_SERVICE_ROLE_KEY   # paste the service_role key
+   gh variable set SUPABASE_PUBLISHABLE_KEY -b "sb_publishable_…"
    ```
-   The service role key bypasses RLS so the Action can read approved rows.
+   RLS lets the Action read only approved rows with this key &mdash; no service-role
+   secret is needed anywhere.
 
 6. **Publish once** to verify the loop:
    *Actions &rarr; Publish feedback &rarr; Run workflow*, then submit a test
@@ -43,9 +44,11 @@ form ──POST──► Supabase (anon key, insert-only via RLS)
 
 ## Security model
 
-- The public **anon key** can only `INSERT` (RLS policy in `schema.sql`); it
-  cannot read, update, or delete. That is by design and safe to ship in client JS.
-- The **service role key** (repo secret only) is used by the Action to read.
+- The public **publishable (anon) key** is used everywhere &mdash; client and Action.
+  RLS (see `schema.sql`) lets it `INSERT` anything and `SELECT` only rows where
+  `approved = true`. It can never read pending/spam rows, nor update or delete.
+  That makes it safe to expose in client JS (and store as a repo *variable*, not a secret).
+- There is **no service-role key** in use &mdash; nothing secret is required.
 - Inputs are constrained server-side (`rating` 1&ndash;5, `takeaway` 1&ndash;500 chars).
 - Output is HTML-escaped on render (see `assets/js/feedback.js`).
 

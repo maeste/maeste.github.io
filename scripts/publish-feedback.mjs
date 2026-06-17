@@ -3,7 +3,9 @@
 //
 // Env:
 //   SUPABASE_URL              (repo variable)
-//   SUPABASE_SERVICE_ROLE_KEY (repo secret)  -- bypasses RLS for reads
+//   SUPABASE_PUBLISHABLE_KEY  (repo variable) -- anon/publishable key;
+//                                               RLS allows SELECT of approved
+//                                               rows only. No secret needed.
 //
 // To add a talk, append its slug to TALK_SLUGS. Each talk's data is written
 // to assets/feedback/<slug>.json and committed by the workflow.
@@ -15,10 +17,10 @@
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
 
-if (!SUPABASE_URL || !SERVICE_KEY) {
-  console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env.');
+if (!SUPABASE_URL || !PUBLISHABLE_KEY) {
+  console.error('Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY env.');
   process.exit(1);
 }
 
@@ -35,7 +37,7 @@ async function fetchFeedback(talk) {
     select: COLUMNS,
   });
   const res = await fetch(`${SUPABASE_URL}/rest/v1/feedback?${params}`, {
-    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` },
+    headers: { apikey: PUBLISHABLE_KEY, Authorization: `Bearer ${PUBLISHABLE_KEY}` },
   });
   if (!res.ok) {
     throw new Error(`GET feedback for "${talk}" failed: ${res.status} ${await res.text()}`);
