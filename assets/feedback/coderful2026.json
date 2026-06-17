@@ -1,7 +1,24 @@
 {
   "talk": "coderful2026",
-  "updated": null,
-  "count": 0,
-  "average_rating": null,
-  "entries": []
+  "updated": "2026-06-17T21:29:53.128214+00:00",
+  "count": 2,
+  "average_rating": 5,
+  "entries": [
+    {
+      "id": 5,
+      "author": null,
+      "rating": 5,
+      "takeaway": "probe",
+      "would_recommend": true,
+      "created_at": "2026-06-17T21:29:53.128214+00:00"
+    },
+    {
+      "id": 4,
+      "author": null,
+      "rating": 5,
+      "takeaway": "probe",
+      "would_recommend": true,
+      "created_at": "2026-06-17T21:29:52.956689+00:00"
+    }
+  ]
 }
