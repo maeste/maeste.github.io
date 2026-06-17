@@ -614,7 +614,11 @@ footer {
 }
 
 /* --- Feedback: low-rating improvement prompt (native <dialog>) --- */
+/* margin: auto restores native modal centering (the top-of-file universal
+   reset `* { margin: 0 }` strips the UA's default `dialog { margin: auto }`,
+   which otherwise leaves the modal stuck top-left). */
 .fb-improve {
+  margin: auto;
   background: #1e293b;
   border: 1px solid #334155;
   border-radius: 12px;
