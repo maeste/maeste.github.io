@@ -1,6 +1,6 @@
 # Talk Feedback
 
-Attendees submit structured feedback (rating + takeaway + recommend) via an
+Attendees submit structured feedback (rating + takeaway) via an
 in-page form. Submissions land in **Supabase** and auto-publish immediately
 (`approved` defaults to `true`). The page reads approved rows **live from
 Supabase** on load, so new feedback appears instantly for everyone. A GitHub

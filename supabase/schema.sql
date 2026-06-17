@@ -10,7 +10,6 @@ create table if not exists public.feedback (
   author_handle   text,                                       -- optional, free text
   rating          smallint    not null check (rating between 1 and 5),
   takeaway        text        not null check (char_length(takeaway) between 1 and 500),
-  would_recommend boolean     not null default true,
   approved        boolean     not null default true,          -- auto-publish
   metadata        jsonb       not null default '{}'::jsonb
 );
@@ -46,3 +45,6 @@ create policy "anon insert feedback"
 --   update public.feedback set approved = false where id = <id>;
 -- To delete spam:
 --   delete from public.feedback where id = <id>;
+--
+-- Migration for projects created before this column was dropped:
+--   alter table public.feedback drop column if exists would_recommend;
