@@ -9,7 +9,7 @@ create table if not exists public.feedback (
   created_at      timestamptz not null default now(),
   author_handle   text,                                       -- optional, free text
   rating          smallint    not null check (rating between 1 and 5),
-  takeaway        text        not null check (char_length(takeaway) between 1 and 500),
+  takeaway        text check (takeaway is null or char_length(takeaway) between 1 and 500),
   approved        boolean     not null default true,          -- auto-publish
   metadata        jsonb       not null default '{}'::jsonb
 );
@@ -48,3 +48,10 @@ create policy "anon insert feedback"
 --
 -- Migration for projects created before this column was dropped:
 --   alter table public.feedback drop column if exists would_recommend;
+--
+-- Migration to make takeaway optional (run once on databases created when it
+-- was NOT NULL):
+--   alter table public.feedback alter column takeaway drop not null;
+--   alter table public.feedback drop constraint if exists feedback_takeaway_check;
+--   alter table public.feedback add constraint feedback_takeaway_check
+--     check (takeaway is null or char_length(takeaway) between 1 and 500);

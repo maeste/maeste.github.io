@@ -50,7 +50,7 @@ function buildPayload(talk, rows) {
     id: r.id,
     author: r.author_handle && r.author_handle.trim() ? r.author_handle.trim() : null,
     rating: r.rating,
-    takeaway: r.takeaway,
+    takeaway: r.takeaway ? r.takeaway : null,
     created_at: r.created_at,
   }));
   const average_rating = entries.length
