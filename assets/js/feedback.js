@@ -1,22 +1,27 @@
 /*
  * Talk feedback — client side.
  *
- *   Write path: form -> Supabase REST (anon key; insert-only via RLS).
- *   Read path:  renders the static JSON published by the GitHub Action
- *               at /assets/feedback/<talk>.json (no runtime DB read).
+ *   Write path: form -> Supabase REST (publishable key; INSERT via RLS).
+ *   Read path:  fetches approved rows LIVE from Supabase on load, so a new
+ *               submission appears immediately for everyone. Falls back to the
+ *               JSON snapshot at /assets/feedback/<talk>.json (refreshed by the
+ *               GitHub Action) if Supabase is unreachable — keeps the page
+ *               resilient and gives a static snapshot for SEO / no-JS.
  *
- * CONFIG: SUPABASE_URL + ANON_KEY (the publishable key) below.
- * The publishable key is safe to expose — RLS restricts anonymous reads to
- * approved rows only, and allows inserts (server-side validated).
+ *   Submissions auto-publish (approved defaults true), so there is no
+ *   "pending" state: on submit we prepend the row the server returns.
  *
- * A talk page activates feedback by including this script and providing:
+ * CONFIG: SUPABASE_URL + ANON_KEY (the publishable key) below. Safe to expose —
+ * RLS allows SELECT of approved rows only and INSERTs (server-validated).
+ *
+ * Activate on a page with:
  *   <div data-feedback-list  data-talk="<slug>"></div>
  *   <form data-feedback-form data-talk="<slug>"> ... </form>
  */
 (function () {
   'use strict';
 
-  // ---- CONFIG: fill these in ----------------------------------------------
+  // ---- CONFIG -------------------------------------------------------------
   const SUPABASE_URL = 'https://iiioplvkkyowpebdjpal.supabase.co';
   const ANON_KEY = 'sb_publishable_qepKAmUC-8zZFzbari4i5g_lTOIVeWf';
   // -------------------------------------------------------------------------
@@ -27,8 +32,9 @@
 
   const talk = form.getAttribute('data-talk');
   const jsonUrl = `/assets/feedback/${talk}.json`;
+  const SELECT = 'id,author_handle,rating,takeaway,would_recommend,created_at';
 
-  const state = { entries: [], pending: [] };
+  const state = { entries: [] };
 
   // ---- helpers ----
   const esc = (s) =>
@@ -46,12 +52,21 @@
     }
   };
 
-  function card(e, pending) {
+  // Normalise a Supabase row to the shape used for rendering.
+  function normalize(r) {
+    return {
+      id: r.id,
+      author: r.author_handle && String(r.author_handle).trim() ? String(r.author_handle).trim() : null,
+      rating: r.rating,
+      takeaway: r.takeaway,
+      would_recommend: r.would_recommend,
+      created_at: r.created_at,
+    };
+  }
+
+  function card(e) {
     const author = e.author ? `@${esc(e.author)}` : 'Anonymous attendee';
-    const foot = [
-      e.would_recommend ? '<span class="fb-rec">would recommend</span>' : '',
-      pending ? '<span class="fb-pending">pending publish</span>' : '',
-    ].join('');
+    const foot = e.would_recommend ? '<span class="fb-rec">would recommend</span>' : '';
     return (
       '<article class="fb-card">' +
         '<div class="fb-card-head">' +
@@ -72,22 +87,42 @@
   }
 
   function paint() {
-    const published = state.entries;
-    if (!state.pending.length && !published.length) {
+    if (!state.entries.length) {
       list.innerHTML = '<p class="fb-empty">No feedback yet &mdash; be the first below.</p>';
       return;
     }
-    const count = published.length;
-    const avg = count
-      ? (published.reduce((s, e) => s + e.rating, 0) / count).toFixed(2)
-      : null;
-    list.innerHTML =
-      summary(count, Number(avg)) +
-      state.pending.map((e) => card(e, true)).join('') +
-      published.map((e) => card(e, false)).join('');
+    const count = state.entries.length;
+    const avg = (state.entries.reduce((s, e) => s + e.rating, 0) / count).toFixed(2);
+    list.innerHTML = summary(count, Number(avg)) + state.entries.map(card).join('');
+  }
+
+  // Newest first.
+  function sortEntries() {
+    state.entries.sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
   }
 
   async function load() {
+    // Primary: live read from Supabase (immediate for everyone).
+    try {
+      const params = new URLSearchParams({
+        talk: `eq.${talk}`,
+        approved: 'eq.true',
+        order: 'created_at.desc',
+        select: SELECT,
+      });
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/feedback?${params}`, {
+        headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` },
+      });
+      if (res.ok) {
+        const rows = await res.json();
+        state.entries = Array.isArray(rows) ? rows.map(normalize) : [];
+        paint();
+        return;
+      }
+    } catch {
+      /* fall through to JSON snapshot */
+    }
+    // Fallback: the JSON snapshot the Action commits (resilience if Supabase is down).
     try {
       const res = await fetch(jsonUrl, { cache: 'no-cache' });
       if (res.ok) {
@@ -142,13 +177,14 @@
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
 
-      // Optimistic render (this session only); the Action publishes it for real.
-      state.pending.unshift({
-        rating, takeaway, would_recommend,
-        author: author || null,
-        created_at: new Date().toISOString(),
-      });
-      paint();
+      // The server returns the created row (real id + created_at). Prepend it
+      // immediately — no "pending" state, since approved defaults to true.
+      const rows = await res.json();
+      if (Array.isArray(rows) && rows[0]) {
+        state.entries.unshift(normalize(rows[0]));
+        sortEntries();
+        paint();
+      }
       form.reset();
       if (okEl) okEl.hidden = false;
     } catch {
