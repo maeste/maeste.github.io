@@ -27,7 +27,7 @@ if (!SUPABASE_URL || !PUBLISHABLE_KEY) {
 // Talks to publish. Add new slugs here as the feature rolls out.
 const TALK_SLUGS = ['coderful2026'];
 
-const COLUMNS = 'id,author_handle,rating,takeaway,would_recommend,created_at';
+const COLUMNS = 'id,author_handle,rating,takeaway,created_at';
 
 async function fetchFeedback(talk) {
   const params = new URLSearchParams({
@@ -51,7 +51,6 @@ function buildPayload(talk, rows) {
     author: r.author_handle && r.author_handle.trim() ? r.author_handle.trim() : null,
     rating: r.rating,
     takeaway: r.takeaway,
-    would_recommend: r.would_recommend,
     created_at: r.created_at,
   }));
   const average_rating = entries.length

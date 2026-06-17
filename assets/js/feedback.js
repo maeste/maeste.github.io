@@ -32,7 +32,7 @@
 
   const talk = form.getAttribute('data-talk');
   const jsonUrl = `/assets/feedback/${talk}.json`;
-  const SELECT = 'id,author_handle,rating,takeaway,would_recommend,created_at';
+  const SELECT = 'id,author_handle,rating,takeaway,created_at';
 
   const state = { entries: [] };
 
@@ -41,7 +41,9 @@
     String(s).replace(/[&<>"']/g, (c) =>
       ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
     );
-  const stars = (n) => '\u2605'.repeat(n) + '\u2606'.repeat(5 - n);
+  // Rated stars = solid filled ★ (yellow via .fb-on); the rest = outline ☆ (light blue via .fb-off).
+  const stars = (n) =>
+    `<span class="fb-on">${'\u2605'.repeat(n)}</span><span class="fb-off">${'\u2606'.repeat(5 - n)}</span>`;
   const fmtDate = (iso) => {
     try {
       return new Date(iso).toLocaleDateString('en-US', {
@@ -59,14 +61,12 @@
       author: r.author_handle && String(r.author_handle).trim() ? String(r.author_handle).trim() : null,
       rating: r.rating,
       takeaway: r.takeaway,
-      would_recommend: r.would_recommend,
       created_at: r.created_at,
     };
   }
 
   function card(e) {
     const author = e.author ? `@${esc(e.author)}` : 'Anonymous attendee';
-    const foot = e.would_recommend ? '<span class="fb-rec">would recommend</span>' : '';
     return (
       '<article class="fb-card">' +
         '<div class="fb-card-head">' +
@@ -75,14 +75,13 @@
           `<span class="fb-date">${fmtDate(e.created_at)}</span>` +
         '</div>' +
         `<p class="fb-takeaway">${esc(e.takeaway)}</p>` +
-        (foot ? `<div class="fb-card-foot">${foot}</div>` : '') +
       '</article>'
     );
   }
 
   function summary(count, avg) {
     if (!count) return '';
-    const a = avg ? ` &middot; <span class="fb-stars">\u2605</span> ${avg}/5` : '';
+    const a = avg ? ` &middot; <span class="fb-stars"><span class="fb-on">\u2605</span></span> ${avg}/5` : '';
     return `<p class="fb-summary">${count} response${count === 1 ? '' : 's'}${a}</p>`;
   }
 
@@ -149,8 +148,6 @@
     const rating = ratingEl ? Number(ratingEl.value) : null;
     const takeaway = form.takeaway.value.trim();
     const author = form.author.value.trim();
-    const recEl = form.querySelector('input[name="recommend"]:checked');
-    const would_recommend = recEl ? recEl.value === 'yes' : true;
 
     if (!rating) { errEl.textContent = 'Please select a rating.'; return; }
     if (!takeaway) { errEl.textContent = 'Please share a takeaway.'; return; }
@@ -171,7 +168,7 @@
           Prefer: 'return=representation',
         },
         body: JSON.stringify({
-          talk, rating, takeaway, would_recommend,
+          talk, rating, takeaway,
           author_handle: author || null,
         }),
       });

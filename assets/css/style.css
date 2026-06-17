@@ -480,7 +480,7 @@ footer {
   color: #64748b;
   margin-bottom: 1rem;
 }
-.fb-summary .fb-stars { color: #60a5fa; }
+.fb-summary .fb-stars .fb-on { color: #facc15; }
 .fb-empty {
   font-size: 0.85rem;
   color: #475569;
@@ -502,7 +502,9 @@ footer {
   margin-bottom: 0.5rem;
   flex-wrap: wrap;
 }
-.fb-stars { color: #60a5fa; font-size: 0.85rem; letter-spacing: 1px; }
+.fb-stars { font-size: 0.85rem; letter-spacing: 1px; }
+.fb-stars .fb-on { color: #facc15; }   /* rated: solid yellow filled ★ */
+.fb-stars .fb-off { color: #7dd3fc; }  /* unrated: light-blue outline ☆ */
 .fb-author { font-size: 0.85rem; color: #e2e8f0; font-weight: 500; }
 .fb-date {
   font-family: 'JetBrains Mono', monospace;
@@ -511,19 +513,6 @@ footer {
   margin-left: auto;
 }
 .fb-takeaway { font-size: 0.88rem; color: #cbd5e1; line-height: 1.6; }
-.fb-card-foot {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.6rem;
-  flex-wrap: wrap;
-}
-.fb-rec {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  padding: 0.1rem 0.5rem;
-  border-radius: 20px;
-  color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2);
-}
 
 /* form */
 .fb-form {
@@ -576,19 +565,22 @@ footer {
 .fb-stars-input input { position: absolute; opacity: 0; width: 0; height: 0; }
 .fb-stars-input label {
   font-size: 1.4rem;
-  color: #334155;
+  color: transparent;                  /* unselected: outline only */
+  -webkit-text-stroke: 1.5px #7dd3fc;  /* light-blue border */
   cursor: pointer;
-  transition: color 0.15s;
+  transition: color 0.15s, -webkit-text-stroke 0.15s;
   line-height: 1;
 }
 .fb-stars-input label:hover,
 .fb-stars-input label:hover ~ label,
-.fb-stars-input input:checked ~ label { color: #60a5fa; }
-.fb-stars-input input:focus-visible ~ label { color: #93bbfc; }
-
-.fb-radio-row { display: flex; gap: 1.25rem; }
-.fb-radio-row label { font-size: 0.85rem; color: #cbd5e1; display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; }
-.fb-radio-row input { accent-color: #60a5fa; }
+.fb-stars-input input:checked ~ label {
+  color: #facc15;                      /* selected: solid yellow */
+  -webkit-text-stroke: 0;
+}
+.fb-stars-input input:focus-visible ~ label {
+  color: #facc15;
+  -webkit-text-stroke: 0;
+}
 
 .fb-actions { margin-top: 0.5rem; }
 .fb-actions button {
