@@ -55,6 +55,32 @@ Current subsites:
 2. Add the talk entry to both `index.html` (recent talks section) and `speaking/index.html` (full timeline). Follow the existing `.talk-item` markup pattern.
 3. Place any PDFs in `assets/pdfs/`.
 4. If the talk has its own slide deck, create a top-level folder named after the talk slug, copy an existing subsite (e.g. `coderful2026/`) as a starting point, and use **relative paths only** (see [Talk deck subsites](#talk-deck-subsites)). Then link to it from the detail page as `https://maeste.it/<folder>/`.
+5. If the talk should collect feedback, follow [Talk Feedback](#talk-feedback) &mdash; a few per-talk steps (seed JSON, register slug, add the section, wire the deck CTA).
+
+## Talk Feedback
+
+Each talk can collect structured feedback (1&ndash;5 rating + optional takeaway) from attendees. The infrastructure is **already set up once** (Supabase project, repo variables `SUPABASE_URL` / `SUPABASE_PUBLISHABLE_KEY`, the `publish-feedback` workflow, the shared `feedback` table + RLS, and `assets/js/feedback.js` + CSS). New talks only need a small per-talk setup. Full architecture, security model, and ops are in [`FEEDBACK.md`](./FEEDBACK.md) &mdash; this section covers just the per-new-talk steps.
+
+**Slug invariant**: a talk's feedback is keyed by its **slug**, which must match in all of these places:
+- `data-talk="<slug>"` on both the feedback list `<div>` and the form `<form>`
+- the filename `assets/feedback/<slug>.json`
+- the entry in `TALK_SLUGS` ([`scripts/publish-feedback.mjs`](./scripts/publish-feedback.mjs))
+- (by convention) the talk page `speaking/<slug>.html` and the deck folder `<slug>/`
+
+### Per-talk setup (when you create a talk's slides)
+
+1. **Seed the JSON snapshot** &mdash; copy `assets/feedback/coderful2026.json` to `assets/feedback/<slug>.json` (it ships empty; the Action refreshes it). *The live page reads from Supabase; this file is only the fallback cache used if Supabase is unreachable.*
+2. **Register the slug** &mdash; append `'<slug>'` to `TALK_SLUGS` in [`scripts/publish-feedback.mjs`](./scripts/publish-feedback.mjs) so the snapshot Action includes it.
+3. **Add the feedback section** to `speaking/<slug>.html` &mdash; copy the whole `<!-- Feedback -->` block from `speaking/coderful2026.html` (the `[data-feedback-list]` div, the `[data-feedback-form]` form with all its fields, and `<script src="/assets/js/feedback.js" defer>`), then set **both** `data-talk` attributes to the new slug. The form writes to the shared `feedback` table with `talk = <slug>`.
+4. **Wire the CTA from the deck** (critical &mdash; otherwise the form is unreachable) &mdash; attendees land on the deck at `maeste.it/<slug>/` (via QR codes and site links), never on the talk page directly. Add a `// feedback` section to `<slug>/index.html` linking to `https://maeste.it/speaking/<slug>.html`; copy the markup from `coderful2026/index.html`.
+
+**No DB change per talk** &mdash; the shared `feedback` table has a free-text `talk` column, so a new slug just works. No new Supabase project, no new repo variable, no workflow edit.
+
+### Day-to-day
+
+- Submissions **auto-publish** and appear live immediately (the page reads from Supabase; `approved` defaults `true`).
+- **Moderate** by running SQL in the Supabase dashboard (`update ... set approved = false`, or `delete`) &mdash; hidden/removed rows vanish on the next page load (live read) and the next Action run (snapshot). See `FEEDBACK.md` &rarr; Moderation.
+- The form has a **low-rating prompt**: a rating &le; 2 with no takeaway opens a native dialog asking for improvement notes (submittable or skippable).
 
 ## Key Conventions
 
