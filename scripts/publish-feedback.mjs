@@ -25,7 +25,7 @@ if (!SUPABASE_URL || !PUBLISHABLE_KEY) {
 }
 
 // Talks to publish. Add new slugs here as the feature rolls out.
-const TALK_SLUGS = ['coderful2026'];
+const TALK_SLUGS = ['coderful2026', 'aiconf2026'];
 
 const COLUMNS = 'id,author_handle,rating,takeaway,created_at';
 
