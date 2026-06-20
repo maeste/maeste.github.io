@@ -332,19 +332,75 @@
     <div class="grid-overlay"></div>
     <div class="wrap stack gap">
       <div class="stack gap-sm"><span class="eyebrow">Where you land</span>
-        <h2>Four levels, 0–100.</h2>
+        <h2>Five levels, 0–100. <span class="text-gradient">Sequential.</span></h2>
       </div>
-      <div class="levels">
-        <div class="level l1"><div class="dot">🔴</div><div class="rng">0–30</div><div class="nm">Not Ready</div></div>
-        <div class="level l2"><div class="dot">🟡</div><div class="rng">31–60</div><div class="nm">Partially</div></div>
-        <div class="level l3"><div class="dot">🟢</div><div class="rng">61–80</div><div class="nm">Ready</div></div>
-        <div class="level l4"><div class="dot">🏆</div><div class="rng">81–100</div><div class="nm">Optimized</div></div>
+      <div class="levels" style="grid-template-columns:repeat(5,1fr)">
+        <div class="level l1"><div class="dot">🔴</div><div class="rng">≥40</div><div class="nm" style="font-size:19px">L1 Foundational</div></div>
+        <div class="level l2"><div class="dot">🟠</div><div class="rng">≥55</div><div class="nm" style="font-size:19px">L2 Guided</div></div>
+        <div class="level l3"><div class="dot">🟡</div><div class="rng">≥70</div><div class="nm" style="font-size:19px">L3 Structured</div></div>
+        <div class="level l4"><div class="dot">🟢</div><div class="rng">≥85</div><div class="nm" style="font-size:19px">L4 Optimized</div></div>
+        <div class="level l4" style="border-top:3px solid var(--secondary)"><div class="dot">🏆</div><div class="rng">≥95</div><div class="nm" style="font-size:19px;color:var(--secondary)">L5 Autonomous</div></div>
       </div>
-      <p style="font-size:24px;text-align:center;color:var(--text-darker)">Evidence-based: file presence + content quality — not folklore, not self-report.</p>
+      <p style="font-size:23px;text-align:center">Each level needs <b>80% of criteria</b> met at that tier — you can't skip. Most repos in the wild sit at <em>L1 or L2</em>. Evidence-based: file presence + content quality, not folklore.</p>
     </div>
   </section>
 
-  <!-- 10 — how scoring works (full scan ASCII — the first tool output) -->
+  <!-- 10 — WHAT IS agent-ready + the 6 skills -->
+  <section class="s" data-label="What is agent-ready">
+    <div class="bg-glow fuchsia"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">The project — agent-ready-skill</span>
+        <h2>6 <span class="text-gradient">Agent Skills</span>. One rubric. Any agent.</h2>
+      </div>
+      <p style="font-size:24px;max-width:90ch">A set of <a href="https://agentskills.io" style="color:var(--primary)">Agent Skills</a> that evaluate how well a codebase is prepared for agentic coding — and scaffold new projects to be ready from day one. AGENTS.md-first, cross-vendor, MIT.</p>
+      <div class="three-col" style="grid-template-columns:repeat(3,1fr);gap:1rem">
+        <div class="card"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready-scan</div><p style="font-size:19px;margin-top:0.4rem">Full diagnostic across the 7 dimensions. The x-ray.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready-fix</div><p style="font-size:19px;margin-top:0.4rem">Auto-generate missing files, ranked by impact.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready-report</div><p style="font-size:19px;margin-top:0.4rem">Layered report + badge in <span class="mono">.agent-ready/</span>.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--secondary);font-size:20px;font-weight:600">/agent-ready-diff</div><p style="font-size:19px;margin-top:0.4rem">Delta vs previous scan — track progress.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--secondary);font-size:20px;font-weight:600">/agent-ready-init</div><p style="font-size:19px;margin-top:0.4rem">Greenfield scaffolding — don't accrue debt.</p></div>
+        <div class="card card-highlight"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready <span style="color:var(--text-darker)">(router)</span></div><p style="font-size:19px;margin-top:0.4rem">Main entry point — routes to sub-commands.</p></div>
+      </div>
+      <p style="font-family:var(--mono);font-size:17px;color:var(--text-darker);text-align:center">scan → fix → report → diff · the closed loop. init for greenfield.</p>
+    </div>
+  </section>
+
+  <!-- 11 — Repo A vs Repo B (the difference is the codebase) -->
+  <section class="s" data-label="Repo A vs Repo B">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Magic moment #1</span>
+        <h2>Same tool. Same model. <span class="text-gradient">Different scores.</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card" style="border-left:4px solid var(--error)">
+          <h3 class="text-error">🔴 Repo A — Chaos Monkey</h3>
+          <ul class="clean" style="margin-top:0.6rem">
+            <li>No AGENTS.md, no README</li>
+            <li>No linter, no type checker</li>
+            <li>No tests, no CI</li>
+            <li>No sandbox policy, secrets leak</li>
+            <li>No .env.example, no lockfile</li>
+          </ul>
+          <p style="font-size:36px;font-weight:800;color:var(--error);margin-top:0.6rem">23% · L1</p>
+        </div>
+        <div class="card card-highlight" style="border-left:4px solid var(--success)">
+          <h3 class="text-success">🟢 Repo B — Agent Heaven</h3>
+          <ul class="clean" style="margin-top:0.6rem">
+            <li>Tight AGENTS.md (+ MCP wired)</li>
+            <li>Ruff + mypy strict, typed code</li>
+            <li>Tests + coverage + CI</li>
+            <li>devcontainer + exec policy</li>
+            <li>.env.example + lockfile + Dependabot</li>
+          </ul>
+          <p style="font-size:36px;font-weight:800;color:var(--success);margin-top:0.6rem">81% · L4</p>
+        </div>
+      </div>
+      <p style="font-size:26px;text-align:center"><b>The difference isn't the agent. It's the codebase.</b> Same language, same complexity.</p>
+    </div>
+  </section>
+
+  <!-- 12 — how scoring works (full scan ASCII) -->
   <section class="s" data-label="How scoring works">
     <div class="grid-overlay"></div>
     <div class="wrap stack gap">
@@ -370,17 +426,30 @@ Overall: <span class="warn">52%</span>  │  🟡 Partially Ready</div>
     </div>
   </section>
 
-  <!-- 11 — DIVIDER: INSTRUCT -->
-  <section class="divider cover" data-label="INSTRUCT">
-    <div class="bg-glow fuchsia"></div>
-    <div class="wrap stack center gap-sm">
-      <span class="dv-emoji">📝</span>
-      <h2 class="dv-title">INSTRUCT</h2>
-      <p class="dv-sub">Does the agent understand <em>WHAT</em> we want? · weight 28%</p>
+  <!-- 13 — INSTRUCT (informativo: dimensioni D1/D7) -->
+  <section class="s" data-label="INSTRUCT">
+    <div class="bg-glow fuchsia"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Axis 1 · weight 28%</span>
+        <h2>📝 INSTRUCT — <span class="text-gradient">does it understand WHAT?</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-primary">D1 · +18 pts</span><b style="font-size:24px">Agent Instructions &amp; Context</b></div>
+          <p style="margin-top:0.6rem"><b>AGENTS.md first</b> (cross-vendor standard), not CLAUDE.md. CLAUDE.md = one-line symlink bridge. Scores <em>conciseness</em> — bloated instructions <b>hurt</b>. Scoped/hierarchical files.</p>
+        </div>
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-violet">D7 · +10 pts</span><b style="font-size:24px">Spec-Driven Workflow &amp; Docs</b></div>
+          <p style="margin-top:0.6rem"><b>specs/</b> with acceptance criteria, ADRs, issue/PR templates, <span class="mono">ARCHITECTURE</span> + comprehension signals. The agent reads intent, not just code.</p>
+        </div>
+      </div>
+      <div class="card card-highlight" style="border-left:4px solid var(--primary)">
+        <p style="font-size:23px">If you do one thing: <b>write a tight AGENTS.md</b> (&lt;200 lines: overview, build/test/lint, structure, conventions, safe-to-run). <span class="mono" style="color:var(--primary)">$ ln -s AGENTS.md CLAUDE.md</span></p>
+      </div>
     </div>
   </section>
 
-  <!-- 12 — one file = biggest INSTRUCT jump + before/after -->
+  <!-- 14 — one file = biggest INSTRUCT jump + before/after -->
   <section class="s" data-label="One file, biggest jump">
     <div class="grid-overlay"></div>
     <div class="wrap stack gap">
@@ -400,17 +469,28 @@ Overall: <span class="warn">52%</span>  │  🟡 Partially Ready</div>
     </div>
   </section>
 
-  <!-- 13 — DIVIDER: NAVIGATE -->
-  <section class="divider cover" data-label="NAVIGATE">
-    <div class="bg-glow violet"></div>
-    <div class="wrap stack center gap-sm">
-      <span class="dv-emoji">🧭</span>
-      <h2 class="dv-title">NAVIGATE</h2>
-      <p class="dv-sub">Can the agent find <em>WHERE</em> things are + reach tools? · weight 30%</p>
+  <!-- 15 — NAVIGATE (informativo: dimensioni D2/D5) -->
+  <section class="s" data-label="NAVIGATE">
+    <div class="bg-glow violet"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Axis 2 · weight 30%</span>
+        <h2>🧭 NAVIGATE — <span class="text-gradient">can it find WHERE + reach tools?</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-primary">D2 · +18 pts</span><b style="font-size:24px">Navigability &amp; Code Intelligence</b></div>
+          <p style="margin-top:0.6rem"><b>Repo map</b>, semantic-nav amenability (typed, analyzable code), dependency clarity, README, file-size sanity. <em>v2 retired the weak heuristics</em> — directory depth &amp; naming don't predict success.</p>
+        </div>
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-violet">D5 · +12 pts</span><b style="font-size:24px">Agent Tooling &amp; Capabilities</b></div>
+          <p style="margin-top:0.6rem"><b>Standard Skills</b>, bundled scripts, MCP declaration + <em>nav servers actually wired up</em> (Serena/Sourcegraph) so the agent jumps to symbols instead of grepping.</p>
+        </div>
+      </div>
+      <p style="font-size:23px;text-align:center;color:var(--text-darker)">Real levers — repo map, typed code, wired MCP — <em>not naming folklore.</em></p>
     </div>
   </section>
 
-  <!-- 14 — scan axis 2 (ASCII) -->
+  <!-- 16 — scan axis 2 (ASCII) -->
   <section class="s" data-label="Scan — NAVIGATE">
     <div class="grid-overlay"></div>
     <div class="wrap stack gap">
@@ -438,17 +518,30 @@ Overall: <span class="warn">52%</span>  │  🟡 Partially Ready</div>
     </div>
   </section>
 
-  <!-- 15 — DIVIDER: VALIDATE -->
-  <section class="divider cover" data-label="VALIDATE">
-    <div class="bg-glow fuchsia"></div>
-    <div class="wrap stack center gap-sm">
-      <span class="dv-emoji">✅</span>
-      <h2 class="dv-title">VALIDATE</h2>
-      <p class="dv-sub">Did the agent do it <em>RIGHT</em>? · weight 30%</p>
+  <!-- 17 — VALIDATE (informativo: dimensioni D3/D4) -->
+  <section class="s" data-label="VALIDATE">
+    <div class="bg-glow fuchsia"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Axis 3 · weight 30%</span>
+        <h2>✅ VALIDATE — <span class="text-gradient">did it do it RIGHT?</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-primary">D3 · +16 pts</span><b style="font-size:24px">Testing &amp; Feedback</b></div>
+          <p style="margin-top:0.6rem">Test suite, documented + fast commands, coverage — and <em>feedback quality</em>: <b>descriptive assertion messages</b> (not bare asserts) + a type checker the agent can run.</p>
+        </div>
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-violet">D4 · +14 pts</span><b style="font-size:24px">CI/CD, Automation &amp; Governance</b></div>
+          <p style="margin-top:0.6rem"><b>CI runs tests + lint</b>, automated formatting, pre-commit, governance: <span class="mono">CODEOWNERS</span> + Dependabot/Renovate.</p>
+        </div>
+      </div>
+      <div class="card" style="border-left:4px solid var(--error)">
+        <p style="font-size:23px"><b class="text-error">Where most repos bleed points.</b> Tests are the agent's <em>only</em> signal — skip VALIDATE and it's flying blind. <em>This is the axis that decides if your loop can converge.</em></p>
+      </div>
     </div>
   </section>
 
-  <!-- 16 — scan axis 3 (ASCII) -->
+  <!-- 18 — scan axis 3 (ASCII) -->
   <section class="s" data-label="Scan — VALIDATE">
     <div class="grid-overlay"></div>
     <div class="wrap stack gap">
@@ -515,50 +608,32 @@ Overall: <span class="warn">52%</span>  │  🟡 Partially Ready</div>
     </div>
   </section>
 
-  <!-- 18 — DIVIDER: SECURE -->
-  <section class="divider cover" data-label="SECURE">
-    <div class="bg-glow violet"></div>
-    <div class="wrap stack center gap-sm">
-      <span class="dv-emoji">🛡️</span>
-      <h2 class="dv-title">SECURE</h2>
-      <p class="dv-sub">Can the agent run <em>SAFELY</em>? · weight 12%</p>
-    </div>
-  </section>
-
-  <!-- 19 — SECURE: sandbox + LINCE + hygiene -->
-  <section class="s" data-label="SECURE — boundaries">
-    <div class="grid-overlay"></div>
+  <!-- 19 — SECURE (informativo: D6 + LINCE) -->
+  <section class="s" data-label="SECURE">
+    <div class="bg-glow violet"></div><div class="grid-overlay"></div>
     <div class="wrap stack gap">
-      <div class="stack gap-sm"><span class="eyebrow">The boundaries</span>
-        <h2>You can't delegate what you can't <span class="text-gradient">confine</span>.</h2>
+      <div class="stack gap-sm"><span class="eyebrow">Axis 4 · weight 12% · the plot twist</span>
+        <h2>🛡️ SECURE — <span class="text-gradient">can it run SAFELY?</span></h2>
       </div>
       <div class="three-col">
         <div class="card">
-          <span class="badge badge-primary">SANDBOX</span>
-          <h3 style="margin-top:0.6rem">Isolation</h3>
-          <p>Committed devcontainer · a <b>documented</b> execution policy.</p>
-          <p style="color:var(--primary);font-size:20px;margin-top:0.4rem"><b>LINCE.sh</b> — a documented, repeatable OS-level sandbox. Credit for evidence in the repo, not self-report.</p>
+          <div class="cover-row" style="gap:0.6rem;align-items:baseline"><span class="badge badge-primary">D6</span><b style="font-size:22px">📦 Sandbox &amp; Isolation</b></div>
+          <p style="margin-top:0.6rem;font-size:20px">Committed <b>devcontainer</b>, documented execution policy. <span style="color:var(--primary)"><b>LINCE.sh</b></span> — a documented, repeatable OS-level sandbox. <em>Credit for evidence in the repo, not self-report.</em></p>
         </div>
         <div class="card">
-          <span class="badge badge-violet">HYGIENE</span>
-          <h3 style="margin-top:0.6rem">Secrets &amp; supply-chain</h3>
-          <ul class="clean" style="margin-top:0.6rem">
-            <li>.gitignore secrets · .env.example</li>
-            <li>committed lockfiles</li>
-            <li>Dependabot / Renovate</li>
-          </ul>
+          <div class="cover-row" style="gap:0.6rem;align-items:baseline"><span class="badge badge-violet">D6</span><b style="font-size:22px">🔑 Secret &amp; Supply-Chain</b></div>
+          <p style="margin-top:0.6rem;font-size:20px"><span class="mono">.gitignore</span> secrets, <span class="mono">.env.example</span>, committed <b>lockfiles</b>, Dependabot. No unverifiable <span class="mono">--sandbox</span> flag.</p>
         </div>
         <div class="card" style="border-left:4px solid var(--error)">
-          <span class="badge badge-red">PERMISSIONS</span>
-          <h3 style="margin-top:0.6rem" class="text-error">Injection</h3>
-          <p>Instructions only in trusted files · restrictive agent deny rules.</p>
-          <p style="color:var(--text-darker);font-size:19px;margin-top:0.4rem">The most-skipped axis — and the one that blocks real delegation.</p>
+          <div class="cover-row" style="gap:0.6rem;align-items:baseline"><span class="badge badge-red">D6</span><b style="font-size:22px" class="text-error">💉 Injection &amp; Perms</b></div>
+          <p style="margin-top:0.6rem;font-size:20px">Instructions only in <b>trusted files</b>; restrictive agent deny rules. <em>The most-skipped axis — and the one that blocks real delegation.</em></p>
         </div>
       </div>
+      <p style="font-size:23px;text-align:center"><b>You can't delegate what you can't confine.</b> One dimension (D6) — for now.</p>
     </div>
   </section>
 
-  <!-- 20 — MAGIC MOMENT: full scan, all four axes -->
+  <!-- 20 — MAGIC MOMENT: full scan -->
   <section class="s" data-label="Full scan">
     <div class="bg-glow fuchsia"></div><div class="bg-glow violet"></div>
     <div class="wrap stack gap">
