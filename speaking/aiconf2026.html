@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIConf 2026 | Stefano Maestri</title>
+  <title>Your Repo Is Half the Harness | AI Conf 2026 | Stefano Maestri</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
@@ -20,34 +20,109 @@
   </div>
 </nav>
 
-<!-- Coming Soon -->
-<div class="coming-soon">
-  <div class="badge">coming soon</div>
+<!-- Talk Detail -->
+<div class="talk-detail">
 
-  <a href="/speaking/" class="back-link" style="margin-bottom:1.5rem;">&larr; // speaking</a>
+  <a href="/speaking/" class="back-link">&larr; // speaking</a>
 
-  <h1>AI Conf 2026</h1>
-  <div class="event-meta">AI Conf 2026 &middot; Milano &middot; June 24, 2026</div>
-
-  <p class="description">7a edizione della prima conferenza italiana sull'Intelligenza Artificiale. Una giornata con speaker internazionali su Data Science, AI Generativa, Agentic AI, MLOps e Use Case in produzione.</p>
-
-  <div class="placeholder-links">
-    <a href="https://www.aiconf.it/" target="_blank" rel="noopener">[event page]</a>
-    <span>&nbsp;</span>
-    <span>[title] &nbsp;</span>
-    <span>[slides] &nbsp;</span>
-    <span>[video]</span>
+  <div class="talk-header">
+    <h1>Your Repo Is Half the Harness: Measuring What Makes an Agent Loop Converge</h1>
+    <div class="event-info">AI Conf 2026 &middot; Milano &middot; June 24, 2026</div>
+    <p class="description">A 40-minute frontal talk on agent readiness, harness &amp; loop engineering. The repo is part of the harness &mdash; the slice you own &mdash; and VALIDATE is the axis that decides whether it can host the verifier that makes a loop converge instead of vibe. Covers the four-axis model (INSTRUCT / NAVIGATE / VALIDATE / SECURE), the maturity scoring, a real before/after scan, the testing paradox as stop condition, SECURE as the boundary that lets you delegate &mdash; including LINCE.sh as a documented sandbox.</p>
   </div>
-  <p style="font-size:0.78rem;color:#475569;margin-top:0.5rem;">Resources will be available after the event.</p>
 
-  <div style="margin-top:2.5rem;">
-    <a href="/speaking/" class="see-all" style="opacity:1;">&larr; all_talks</a>
+  <!-- Resources -->
+  <div class="resource-section">
+    <h2>// resources</h2>
+    <div class="resource-list">
+
+      <a href="https://maeste.it/aiconf2026/" target="_blank" rel="noopener" class="resource-item" style="color:inherit;text-decoration:none;">
+        <div class="icon">&#128196;</div>
+        <div>
+          <div class="label">Slide deck (HTML, interactive)</div>
+          <div class="url">maeste.it/aiconf2026</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/RisorseArtificiali/agent-ready-skill" target="_blank" rel="noopener" class="resource-item" style="color:inherit;text-decoration:none;">
+        <div class="icon">&#128187;</div>
+        <div>
+          <div class="label">Agent-ready toolkit (scan / fix / report)</div>
+          <div class="url">RisorseArtificiali/agent-ready-skill</div>
+        </div>
+      </a>
+
+      <a href="https://www.aiconf.it/" target="_blank" rel="noopener" class="resource-item" style="color:inherit;text-decoration:none;">
+        <div class="icon">&#127909;</div>
+        <div>
+          <div class="label">Event page</div>
+          <div class="url">aiconf.it</div>
+        </div>
+      </a>
+
+      <a href="https://artificialcode.substack.com/p/the-agent-is-a-process-and-it-runs" target="_blank" rel="noopener" class="resource-item" style="color:inherit;text-decoration:none;">
+        <div class="icon">&#128214;</div>
+        <div>
+          <div class="label">The agent is a process (Stefano Maestri)</div>
+          <div class="url">artificialcode.substack.com</div>
+        </div>
+      </a>
+
+    </div>
   </div>
+
+  <div style="margin-top:2rem;">
+    <a href="/speaking/" class="back-link">&larr; // all talks</a>
+  </div>
+
 </div>
+
+<!-- Feedback -->
+<section class="feedback-section">
+  <h2>feedback</h2>
+
+  <div class="fb-list-wrap" data-feedback-list data-talk="aiconf2026">
+    <p class="fb-empty">No feedback yet &mdash; be the first below.</p>
+  </div>
+
+  <form class="fb-form" data-feedback-form data-talk="aiconf2026" novalidate>
+    <h3>Share your feedback</h3>
+
+    <div class="fb-field">
+      <span class="fb-label">Rating</span>
+      <div class="fb-stars-input">
+        <input type="radio" name="rating" id="fb-r5" value="5" aria-label="5 out of 5"><label for="fb-r5">&starf;</label>
+        <input type="radio" name="rating" id="fb-r4" value="4" aria-label="4 out of 5"><label for="fb-r4">&starf;</label>
+        <input type="radio" name="rating" id="fb-r3" value="3" aria-label="3 out of 5"><label for="fb-r3">&starf;</label>
+        <input type="radio" name="rating" id="fb-r2" value="2" aria-label="2 out of 5"><label for="fb-r2">&starf;</label>
+        <input type="radio" name="rating" id="fb-r1" value="1" aria-label="1 out of 5"><label for="fb-r1">&starf;</label>
+      </div>
+    </div>
+
+    <div class="fb-field">
+      <label class="fb-label" for="fb-takeaway">Key takeaway <span class="fb-opt">(optional)</span></label>
+      <textarea id="fb-takeaway" name="takeaway" rows="3" maxlength="500" placeholder="What was the most useful or interesting thing?"></textarea>
+    </div>
+
+    <div class="fb-field">
+      <label class="fb-label" for="fb-author">Your handle / name <span class="fb-opt">(optional)</span></label>
+      <input type="text" id="fb-author" name="author" maxlength="40" placeholder="@github or your name">
+    </div>
+
+    <input class="fb-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="fb-actions">
+      <button type="submit">Submit feedback</button>
+      <p class="fb-success" hidden>Thanks for your feedback!</p>
+      <p class="fb-error" role="alert"></p>
+    </div>
+  </form>
+</section>
 
 <footer>
   &copy; 2026 Stefano Maestri
 </footer>
 
+<script src="/assets/js/feedback.js" defer></script>
 </body>
 </html>

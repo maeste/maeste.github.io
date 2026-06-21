@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Measuring AI-Readiness — AI Conf 2026 — Stefano Maestri</title>
+<meta name="description" content="Your repo is part of the harness. Measuring what makes an agent loop converge. AI Conf 2026, Milano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  deck-stage:not(:defined) { visibility: hidden; }
+
+  /* ═══ DESIGN SYSTEM — pycon organization, AICOnf palette ═══ */
+  :root {
+    --bg: #10071e;
+    --surface: #1a0e2b;
+    --surface-light: #241138;
+    --border: rgba(220,5,247,0.10);
+    --primary: #dc05f7;            /* fuchsia */
+    --primary-dim: rgba(220,5,247,0.15);
+    --secondary: #a855f7;          /* violet */
+    --secondary-2: #7c3aed;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --text: #f3f0ff;
+    --text-dim: #b8aede;
+    --text-darker: #7c6fa3;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --font: 'Inter', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  deck-stage > section {
+    font-family: var(--font);
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    position: relative;
+  }
+  deck-stage > section.s,
+  deck-stage > section.divider,
+  deck-stage > section.cover {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 3rem 4.5rem;
+  }
+
+  /* background decorations */
+  .bg-glow { position: absolute; width: 640px; height: 640px; border-radius: 50%; filter: blur(120px); opacity: 0.14; pointer-events: none; z-index: 0; }
+  .bg-glow.fuchsia { background: var(--primary); top: -220px; right: -220px; }
+  .bg-glow.violet  { background: var(--secondary); bottom: -220px; left: -220px; }
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(220,5,247,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(220,5,247,0.035) 1px, transparent 1px);
+    background-size: 60px 60px; pointer-events: none; z-index: 0;
+  }
+  section > * { position: relative; z-index: 1; }
+
+  /* typography */
+  h1 { font-size: 88px; font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; max-width: 1500px; }
+  h2 { font-size: 56px; font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; }
+  h3 { font-size: 30px; font-weight: 600; line-height: 1.3; }
+  p  { font-size: 26px; line-height: 1.5; color: var(--text-dim); max-width: 64ch; }
+  .text-gradient { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .text-primary { color: var(--primary); }
+  .text-secondary { color: var(--secondary); }
+  .text-success { color: var(--success); }
+  .text-warning { color: var(--warning); }
+  .text-error { color: var(--error); }
+  .text-dim { color: var(--text-dim); }
+  strong, b { font-weight: 700; color: #fff; }
+  em { font-style: normal; color: var(--primary); font-weight: 600; }
+
+  /* layout helpers */
+  .wrap { width: 100%; max-width: 1500px; }
+  .stack { display: flex; flex-direction: column; }
+  .gap-sm { gap: 0.75rem; } .gap { gap: 1.5rem; } .gap-lg { gap: 2.5rem; }
+  .center { text-align: center; align-items: center; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 20px; font-weight: 600;
+    letter-spacing: 0.16em; color: var(--primary); text-transform: uppercase;
+  }
+
+  /* cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem 2rem; backdrop-filter: blur(10px); }
+  .card-highlight { background: linear-gradient(135deg, var(--surface-light), var(--surface)); border-color: rgba(220,5,247,0.22); box-shadow: 0 0 40px rgba(220,5,247,0.06); }
+  .card h3 { margin-bottom: 0.5rem; }
+  .card p { font-size: 22px; }
+
+  /* badges */
+  .badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.9rem; border-radius: 999px; font-size: 22px; font-weight: 600; }
+  .badge-primary { background: var(--primary-dim); color: var(--primary); }
+  .badge-green { background: rgba(34,197,94,0.12); color: var(--success); }
+  .badge-amber { background: rgba(245,158,11,0.12); color: var(--warning); }
+  .badge-red { background: rgba(239,68,68,0.12); color: var(--error); }
+  .badge-violet { background: rgba(168,85,247,0.14); color: var(--secondary); }
+
+  /* axis chips */
+  .axis-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; width: 100%; }
+  .axis-card { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: var(--radius-lg); padding: 1.5rem 1.6rem; }
+  .axis-card .ax-emoji { font-size: 34px; }
+  .axis-card .ax-name { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 0.3rem; }
+  .axis-card .ax-q { font-size: 19px; color: var(--text-dim); margin-top: 0.4rem; line-height: 1.35; min-height: 52px; }
+  .axis-card .ax-w { font-family: var(--mono); font-size: 18px; color: var(--text-darker); margin-top: 0.6rem; }
+
+  /* terminal (the "scan screenshots" — mac-style) */
+  .terminal { background: #0a0414; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden; font-family: var(--mono); font-size: 21px; line-height: 1.55; box-shadow: 0 12px 40px rgba(0,0,0,0.45); }
+  .terminal.sm { font-size: 18px; }
+  .terminal-header { display: flex; align-items: center; gap: 7px; padding: 11px 15px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-red { background: #ff5f57; } .dot-yellow { background: #febc2e; } .dot-green { background: #28c840; }
+  .terminal-title { margin-left: 10px; color: var(--text-darker); font-size: 18px; }
+  .terminal-body { padding: 1.3rem 1.6rem; color: var(--text-dim); white-space: pre; overflow: hidden; }
+  .terminal-body .prompt { color: var(--success); }
+  .terminal-body .cmd { color: var(--text); }
+  .terminal-body .ok { color: var(--success); }
+  .terminal-body .err { color: var(--error); }
+  .terminal-body .warn { color: var(--warning); }
+  .terminal-body .hl { color: var(--primary); font-weight: 600; }
+  .terminal-body .dim { color: var(--text-darker); }
+
+  /* two columns */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; width: 100%; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; width: 100%; }
+
+  /* failure mode cards */
+  .fail-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--error); border-radius: var(--radius); padding: 1.4rem 1.6rem; }
+  .fail-card .fm-q { font-size: 20px; color: var(--text-dim); line-height: 1.4; }
+  .fail-card .fm-axis { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 0.5rem; }
+
+  /* before/after */
+  .ba { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: center; width: 100%; }
+  .ba .arrow-big { font-size: 48px; color: var(--primary); }
+  .ba .ba-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.3rem 1.5rem; text-align: center; }
+  .ba .ba-card .num { font-size: 52px; font-weight: 800; line-height: 1; }
+  .ba .ba-card .lab { font-family: var(--mono); font-size: 18px; color: var(--text-darker); margin-top: 0.4rem; }
+
+  /* maturity levels */
+  .levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; width: 100%; }
+  .level { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; text-align: center; }
+  .level .dot { font-size: 30px; }
+  .level .rng { font-family: var(--mono); font-size: 18px; color: var(--text-darker); margin-top: 0.3rem; }
+  .level .nm { font-size: 21px; font-weight: 600; margin-top: 0.3rem; }
+  .level.l1 .nm { color: var(--error); } .level.l2 .nm { color: var(--warning); }
+  .level.l3 .nm { color: var(--success); } .level.l4 .nm { color: var(--primary); }
+
+  /* divider */
+  .divider .dv-emoji { font-size: 70px; }
+  .divider .dv-title { font-size: 76px; font-weight: 800; letter-spacing: -0.02em; margin-top: 0.8rem; }
+  .divider .dv-sub { font-size: 26px; color: var(--text-dim); margin-top: 0.8rem; max-width: 60ch; }
+
+  /* cover */
+  .cover-kicker { font-family: var(--mono); font-size: 24px; font-weight: 600; letter-spacing: 0.18em; color: var(--primary); text-transform: uppercase; }
+  .cover-row { display: flex; align-items: center; gap: 2.5rem; }
+  .avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); box-shadow: 0 0 0 6px rgba(220,5,247,0.12); }
+  .qr-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.4rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; }
+  .qr-box { background: #fff; padding: 14px; border-radius: 12px; line-height: 0; }
+  .qr-box img { width: 220px; height: 220px; display: block; }
+  .qr-card .url { font-family: var(--mono); font-size: 20px; color: var(--primary); }
+  .qr-card .cap { font-size: 17px; color: var(--text-dim); text-align: center; max-width: 240px; line-height: 1.35; }
+
+  /* speaker line */
+  .speaker { margin-top: 1.5rem; }
+  .speaker .nm { font-size: 34px; font-weight: 700; }
+  .speaker .rl { font-size: 24px; color: var(--text-dim); margin-top: 0.2rem; }
+
+  /* misc */
+  .takeaway { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; }
+  .takeaway .ta { background: linear-gradient(135deg, var(--surface-light), var(--surface)); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.8rem; }
+  .takeaway .ta .ic { font-size: 40px; }
+  .takeaway .ta .tt { font-size: 24px; font-weight: 700; margin-top: 0.4rem; }
+  .takeaway .ta .td { font-size: 19px; color: var(--text-dim); margin-top: 0.4rem; line-height: 1.4; }
+
+  ul.clean { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  ul.clean li { font-size: 22px; color: var(--text-dim); padding-left: 1.6rem; position: relative; line-height: 1.4; }
+  ul.clean li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+  ul.clean li b { color: #fff; }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- 01 — COVER 1 (original title, as in the template) -->
+  <section class="cover" data-label="Title">
+    <div class="bg-glow fuchsia"></div><div class="bg-glow violet"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap center">
+      <p class="cover-kicker">» AI CONF 2026</p>
+      <h1>Measuring AI-Readiness:<br>A <span class="text-gradient">Three-Axis</span> Maturity Model<br>for Agent-Optimized Codebases</h1>
+      <div class="speaker center">
+        <p class="nm">Stefano Maestri</p>
+        <p class="rl">Software and AI engineering manager · IBM</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — COVER 2 (new title + avatar + QR) -->
+  <section class="cover" data-label="Today">
+    <div class="bg-glow fuchsia"></div><div class="grid-overlay"></div>
+    <div class="wrap cover-row" style="gap:3.5rem">
+      <div class="stack gap" style="flex:1">
+        <p class="cover-kicker">» But really, today</p>
+        <h1 style="font-size:72px">Your repo is <span class="text-gradient">half</span> the harness.<br>Measuring what makes an agent <em>loop converge</em>.</h1>
+        <p style="font-size:24px">Drop feedback, grab these slides, get the toolkit — one QR for all of it.</p>
+        <div class="cover-row" style="gap:1.3rem">
+          <img class="avatar" src="assets/profile.jpg" alt="Stefano Maestri">
+          <div class="stack">
+            <p class="nm" style="font-size:30px;font-weight:700">Stefano Maestri</p>
+            <p style="font-size:20px;color:var(--text-dim)">maeste.it · @maeste</p>
+          </div>
+        </div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-box"><img src="assets/qr-aiconf.png" alt="QR to the talk page"></div>
+        <span class="url">maeste.it</span>
+        <span class="cap">Feedback + slides + agent-ready toolkit</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — DIVIDER: the agent is a process (loop engineering intro) -->
+  <section class="divider cover" data-label="Loop engineering">
+    <div class="bg-glow violet"></div><div class="grid-overlay"></div>
+    <div class="wrap stack center gap-sm">
+      <span class="dv-emoji">🔁</span>
+      <h2 class="dv-title">The agent is a <span class="text-gradient">process</span>.</h2>
+      <p class="dv-sub">It runs inside a second-level operating system. And most of that OS is <em>already in your repo</em> — usually broken.</p>
+      <p style="font-family:var(--mono);font-size:18px;color:var(--text-darker);margin-top:0.5rem">// context first, then the measurement</p>
+    </div>
+  </section>
+
+  <!-- 04 — harness = space, loop = time + decision (your article) -->
+  <section class="s" data-label="Harness vs loop">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">A compass</span>
+        <h2>Harness = <span class="text-primary">space</span>. Loop = <span class="text-secondary">time + decision</span>.</h2>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <span class="badge badge-primary">THE HARNESS</span>
+          <h3 style="margin-top:0.7rem">The space the agent moves in</h3>
+          <p>The limits: what it's allowed to do, what it can reach, how its work gets checked.</p>
+          <p style="color:var(--primary);font-family:var(--mono);font-size:20px;margin-top:0.5rem">sandbox · permissions · tools · tests · evals</p>
+        </div>
+        <div class="card card-highlight">
+          <span class="badge badge-violet">THE LOOP</span>
+          <h3 style="margin-top:0.7rem">Time + a decision inside it</h3>
+          <p>How many times to repeat, and <b>when to stop</b>. A loop is not an automation — a loop has a decision inside it.</p>
+          <p style="color:var(--secondary);font-family:var(--mono);font-size:20px;margin-top:0.5rem">trigger · goal · verifier · state</p>
+        </div>
+      </div>
+      <p style="font-size:24px;text-align:center">An agent is a process running in a second-level OS — <em>the harness draws the limits, the loop manages the process.</em></p>
+      <p style="font-family:var(--mono);font-size:17px;color:var(--text-darker);text-align:center">artificialcode.substack.com — "The agent is a process, and it runs in a second-level OS"</p>
+    </div>
+  </section>
+
+  <!-- 05 — why this matters: the repo is the slice you own -->
+  <section class="s" data-label="The slice you own">
+    <div class="bg-glow fuchsia"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Why this makes your repo decisive</span>
+        <h2>You can't own the model. You <span class="text-gradient">own the repo.</span></h2>
+      </div>
+      <p style="font-size:28px;max-width:70ch">The full harness is <span style="font-family:var(--mono);color:var(--primary)">LLM + repo + external apparatus</span> (sandbox, skills, MCP, evals). The model and the cloud runtime are not yours. <b>The repo is the slice you own — and it's where the verifier lives.</b></p>
+      <div class="card card-highlight" style="border-left:4px solid var(--primary)">
+        <p style="font-size:26px;color:var(--text)">The loop is the new expensive, failure-prone part. <b>A weak repo = a loop that doesn't converge.</b> So we measure the repo — and fix what we find.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — it worked on my machine → in my prompt -->
+  <section class="s" data-label="It worked in my prompt">
+    <div class="bg-glow violet"></div>
+    <div class="wrap stack gap center">
+      <h2 style="text-align:center">"It worked on my machine" <span class="text-dim">→</span><br><span class="text-gradient">"It worked in my prompt."</span></h2>
+      <p style="text-align:center;max-width:80ch;font-size:26px">An agent ships plausible, confident work. Nothing in the repo pushes back. By the time a human notices, it's a PR — or worse, it's merged.</p>
+      <p style="text-align:center;font-size:28px"><b>The failure is almost never the model. It's the environment the model ran in.</b></p>
+    </div>
+  </section>
+
+  <!-- 07 — why agents fail (3 failure modes) -->
+  <section class="s" data-label="Why agents fail">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Three failure modes</span>
+        <h2>Every horror story maps to one of <span class="text-gradient">three</span> questions.</h2>
+      </div>
+      <div class="three-col">
+        <div class="fail-card">
+          <p class="fm-q">"What does this project even do? What conventions should I follow?"</p>
+          <p class="fm-axis">→ INSTRUCT</p>
+        </div>
+        <div class="fail-card">
+          <p class="fm-q">"Where do tests go? What's the entry point? Why is this 2000 lines?"</p>
+          <p class="fm-axis">→ NAVIGATE</p>
+        </div>
+        <div class="fail-card">
+          <p class="fm-q">"Did my change break anything? Is there CI? Do tests pass?"</p>
+          <p class="fm-axis">→ VALIDATE</p>
+        </div>
+      </div>
+      <p style="font-size:24px;text-align:center;color:var(--text-darker)">…and a fourth we'll meet shortly: <em>can the agent run safely?</em> 🛡️ SECURE</p>
+    </div>
+  </section>
+
+  <!-- 08 — the three questions + 4th -->
+  <section class="s" data-label="The questions">
+    <div class="bg-glow fuchsia"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">The model</span>
+        <h2>Four questions. Four axes.</h2>
+      </div>
+      <div class="axis-grid">
+        <div class="axis-card"><div class="ax-emoji">📝</div><div class="ax-name">INSTRUCT</div><div class="ax-q">Does it understand <b>WHAT</b> we want?</div><div class="ax-w">weight 28%</div></div>
+        <div class="axis-card"><div class="ax-emoji">🧭</div><div class="ax-name">NAVIGATE</div><div class="ax-q">Can it find <b>WHERE</b> + reach tools?</div><div class="ax-w">weight 30%</div></div>
+        <div class="axis-card"><div class="ax-emoji">✅</div><div class="ax-name">VALIDATE</div><div class="ax-q">Did it do it <b>RIGHT</b>?</div><div class="ax-w">weight 30%</div></div>
+        <div class="axis-card" style="border-top-color:var(--secondary)"><div class="ax-emoji">🛡️</div><div class="ax-name" style="color:var(--secondary)">SECURE</div><div class="ax-q">Can it run <b>SAFELY</b>?</div><div class="ax-w">weight 12%</div></div>
+      </div>
+      <p style="font-size:24px;text-align:center">One scan = an <b>x-ray of your slice of the harness</b>, axis by axis.</p>
+    </div>
+  </section>
+
+  <!-- 09 — maturity levels -->
+  <section class="s" data-label="Maturity levels">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Where you land</span>
+        <h2>Five levels, 0–100. <span class="text-gradient">Sequential.</span></h2>
+      </div>
+      <div class="levels" style="grid-template-columns:repeat(5,1fr)">
+        <div class="level l1"><div class="dot">🔴</div><div class="rng">≥40</div><div class="nm" style="font-size:19px">L1 Foundational</div></div>
+        <div class="level l2"><div class="dot">🟠</div><div class="rng">≥55</div><div class="nm" style="font-size:19px">L2 Guided</div></div>
+        <div class="level l3"><div class="dot">🟡</div><div class="rng">≥70</div><div class="nm" style="font-size:19px">L3 Structured</div></div>
+        <div class="level l4"><div class="dot">🟢</div><div class="rng">≥85</div><div class="nm" style="font-size:19px">L4 Optimized</div></div>
+        <div class="level l4" style="border-top:3px solid var(--secondary)"><div class="dot">🏆</div><div class="rng">≥95</div><div class="nm" style="font-size:19px;color:var(--secondary)">L5 Autonomous</div></div>
+      </div>
+      <p style="font-size:23px;text-align:center">Each level needs <b>80% of criteria</b> met at that tier — you can't skip. Most repos in the wild sit at <em>L1 or L2</em>. Evidence-based: file presence + content quality, not folklore.</p>
+    </div>
+  </section>
+
+  <!-- 10 — WHAT IS agent-ready + the 6 skills -->
+  <section class="s" data-label="What is agent-ready">
+    <div class="bg-glow fuchsia"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">The project — agent-ready-skill</span>
+        <h2>6 <span class="text-gradient">Agent Skills</span>. One rubric. Any agent.</h2>
+      </div>
+      <p style="font-size:24px;max-width:90ch">A set of <a href="https://agentskills.io" style="color:var(--primary)">Agent Skills</a> that evaluate how well a codebase is prepared for agentic coding — and scaffold new projects to be ready from day one. AGENTS.md-first, cross-vendor, MIT.</p>
+      <div class="three-col" style="grid-template-columns:repeat(3,1fr);gap:1rem">
+        <div class="card"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready-scan</div><p style="font-size:19px;margin-top:0.4rem">Full diagnostic across the 7 dimensions. The x-ray.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready-fix</div><p style="font-size:19px;margin-top:0.4rem">Auto-generate missing files, ranked by impact.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready-report</div><p style="font-size:19px;margin-top:0.4rem">Layered report + badge in <span class="mono">.agent-ready/</span>.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--secondary);font-size:20px;font-weight:600">/agent-ready-diff</div><p style="font-size:19px;margin-top:0.4rem">Delta vs previous scan — track progress.</p></div>
+        <div class="card"><div style="font-family:var(--mono);color:var(--secondary);font-size:20px;font-weight:600">/agent-ready-init</div><p style="font-size:19px;margin-top:0.4rem">Greenfield scaffolding — don't accrue debt.</p></div>
+        <div class="card card-highlight"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready <span style="color:var(--text-darker)">(router)</span></div><p style="font-size:19px;margin-top:0.4rem">Main entry point — routes to sub-commands.</p></div>
+      </div>
+      <p style="font-family:var(--mono);font-size:17px;color:var(--text-darker);text-align:center">scan → fix → report → diff · the closed loop. init for greenfield.</p>
+    </div>
+  </section>
+
+  <!-- 11 — Repo A vs Repo B (the difference is the codebase) -->
+  <section class="s" data-label="Repo A vs Repo B">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Magic moment #1</span>
+        <h2>Same tool. Same model. <span class="text-gradient">Different scores.</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card" style="border-left:4px solid var(--error)">
+          <h3 class="text-error">🔴 Repo A — Chaos Monkey</h3>
+          <ul class="clean" style="margin-top:0.6rem">
+            <li>No AGENTS.md, no README</li>
+            <li>No linter, no type checker</li>
+            <li>No tests, no CI</li>
+            <li>No sandbox policy, secrets leak</li>
+            <li>No .env.example, no lockfile</li>
+          </ul>
+          <p style="font-size:36px;font-weight:800;color:var(--error);margin-top:0.6rem">23% · L1</p>
+        </div>
+        <div class="card card-highlight" style="border-left:4px solid var(--success)">
+          <h3 class="text-success">🟢 Repo B — Agent Heaven</h3>
+          <ul class="clean" style="margin-top:0.6rem">
+            <li>Tight AGENTS.md (+ MCP wired)</li>
+            <li>Ruff + mypy strict, typed code</li>
+            <li>Tests + coverage + CI</li>
+            <li>devcontainer + exec policy</li>
+            <li>.env.example + lockfile + Dependabot</li>
+          </ul>
+          <p style="font-size:36px;font-weight:800;color:var(--success);margin-top:0.6rem">81% · L4</p>
+        </div>
+      </div>
+      <p style="font-size:26px;text-align:center"><b>The difference isn't the agent. It's the codebase.</b> Same language, same complexity.</p>
+    </div>
+  </section>
+
+  <!-- 12 — how scoring works (full scan ASCII) -->
+  <section class="s" data-label="How scoring works">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">How scoring works</span>
+        <h2>One command. Four axes. <span class="text-gradient">A number.</span></h2>
+      </div>
+      <div class="terminal" style="max-width:760px;width:100%">
+        <div class="terminal-header"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span><span class="terminal-title">quicknote — before</span></div>
+        <div class="terminal-body"><span class="prompt">$</span> <span class="cmd">/agent-ready scan .</span>
+<span class="hl">╭─────────────────────────────────────╮</span>
+<span class="hl">│</span>  📝 INSTRUCT   <span class="warn">████████░░░░</span>  58%   <span class="hl">│</span>
+<span class="hl">│</span>  🧭 NAVIGATE   <span class="warn">██████████░░</span>  71%   <span class="hl">│</span>
+<span class="hl">│</span>  ✅ VALIDATE   <span class="err">█████░░░░░░░</span>  39%   <span class="hl">│</span>
+<span class="hl">│</span>  🛡️ SECURE     <span class="err">███░░░░░░░░░</span>  25%   <span class="hl">│</span>
+<span class="hl">├─────────────────────────────────────┤</span>
+<span class="hl">│</span>  Layers (v2):                       <span class="hl">│</span>
+<span class="hl">│</span>   Portable        54 / 88          <span class="hl">│</span>
+<span class="hl">│</span>   Target-specific  n/a (no --agents)<span class="hl">│</span>
+<span class="hl">╰─────────────────────────────────────╯</span>
+Overall: <span class="warn">52%</span>  │  🟡 Partially Ready</div>
+      </div>
+      <p style="font-size:22px;text-align:center;color:var(--text-darker)">7 dimensions, weighted, rolled into 4 axes. Portable layer (any agent) + target layer (per --agents).</p>
+    </div>
+  </section>
+
+  <!-- 13 — INSTRUCT (informativo: dimensioni D1/D7) -->
+  <section class="s" data-label="INSTRUCT">
+    <div class="bg-glow fuchsia"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Axis 1 · weight 28%</span>
+        <h2>📝 INSTRUCT — <span class="text-gradient">does it understand WHAT?</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-primary">D1 · +18 pts</span><b style="font-size:24px">Agent Instructions &amp; Context</b></div>
+          <p style="margin-top:0.6rem"><b>AGENTS.md first</b> (cross-vendor standard), not CLAUDE.md. CLAUDE.md = one-line symlink bridge. Scores <em>conciseness</em> — bloated instructions <b>hurt</b>. Scoped/hierarchical files.</p>
+        </div>
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-violet">D7 · +10 pts</span><b style="font-size:24px">Spec-Driven Workflow &amp; Docs</b></div>
+          <p style="margin-top:0.6rem"><b>specs/</b> with acceptance criteria, ADRs, issue/PR templates, <span class="mono">ARCHITECTURE</span> + comprehension signals. The agent reads intent, not just code.</p>
+        </div>
+      </div>
+      <div class="card card-highlight" style="border-left:4px solid var(--primary)">
+        <p style="font-size:23px">If you do one thing: <b>write a tight AGENTS.md</b> (&lt;200 lines: overview, build/test/lint, structure, conventions, safe-to-run). <span class="mono" style="color:var(--primary)">$ ln -s AGENTS.md CLAUDE.md</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 — one file = biggest INSTRUCT jump + before/after -->
+  <section class="s" data-label="One file, biggest jump">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">INSTRUCT — the quickest win</span>
+        <h2>One file. Biggest jump.</h2>
+      </div>
+      <div class="ba">
+        <div class="ba-card"><div class="num text-error">35%</div><div class="lab">BEFORE</div></div>
+        <div class="arrow-big">→</div>
+        <div class="ba-card"><div class="num text-success">53%</div><div class="lab">AFTER +AGENTS.md</div></div>
+      </div>
+      <div class="card card-highlight">
+        <p style="font-size:22px"><b>AGENTS.md</b> — the cross-vendor standard for project context. Overview, build/test/lint, structure, conventions, safe-to-run. Bridge to CLAUDE.md with a symlink — one source of truth, no drift.</p>
+        <p style="font-family:var(--mono);font-size:19px;color:var(--primary);margin-top:0.6rem">$ ln -s AGENTS.md CLAUDE.md   # bridge, no drift</p>
+      </div>
+      <p style="font-size:22px;text-align:center;color:var(--text-darker)">v2 <em>penalizes instruction bloat</em> — concise beats copied-and-drifted.</p>
+    </div>
+  </section>
+
+  <!-- 15 — NAVIGATE (informativo: dimensioni D2/D5) -->
+  <section class="s" data-label="NAVIGATE">
+    <div class="bg-glow violet"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Axis 2 · weight 30%</span>
+        <h2>🧭 NAVIGATE — <span class="text-gradient">can it find WHERE + reach tools?</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-primary">D2 · +18 pts</span><b style="font-size:24px">Navigability &amp; Code Intelligence</b></div>
+          <p style="margin-top:0.6rem"><b>Repo map</b>, semantic-nav amenability (typed, analyzable code), dependency clarity, README, file-size sanity. <em>v2 retired the weak heuristics</em> — directory depth &amp; naming don't predict success.</p>
+        </div>
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-violet">D5 · +12 pts</span><b style="font-size:24px">Agent Tooling &amp; Capabilities</b></div>
+          <p style="margin-top:0.6rem"><b>Standard Skills</b>, bundled scripts, MCP declaration + <em>nav servers actually wired up</em> (Serena/Sourcegraph) so the agent jumps to symbols instead of grepping.</p>
+        </div>
+      </div>
+      <p style="font-size:23px;text-align:center;color:var(--text-darker)">Real levers — repo map, typed code, wired MCP — <em>not naming folklore.</em></p>
+    </div>
+  </section>
+
+  <!-- 16 — scan axis 2 (ASCII) -->
+  <section class="s" data-label="Scan — NAVIGATE">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Scan your repo — axis 2</span>
+        <h2>What the agent can (and can't) <span class="text-gradient">reach</span>.</h2>
+      </div>
+      <div class="terminal" style="max-width:760px;width:100%">
+        <div class="terminal-header"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span><span class="terminal-title">quicknote — NAVIGATE</span></div>
+        <div class="terminal-body"><span class="hl">╭──────────────────────────────────────╮</span>
+<span class="hl">│</span>  🧭 AXIS 2: NAVIGATE                 <span class="hl">│</span>
+<span class="hl">│</span>  ════════════════════════════════    <span class="hl">│</span>
+<span class="hl">│</span>                                       <span class="hl">│</span>
+<span class="hl">│</span>  Score: 52/100 <span class="warn">██████████░░░░</span> 52%    <span class="hl">│</span>
+<span class="hl">│</span>                                       <span class="hl">│</span>
+<span class="hl">│</span>  <span class="ok">✅</span> .editorconfig       found    <span class="ok">+2</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="ok">✅</span> pyproject.toml      found    <span class="ok">+2</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="ok">✅</span> ruff configured     [tool]   <span class="ok">+4</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="err">❌</span> pyrightconfig.json  missing  <span class="err">-4</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="err">❌</span> .env.example        missing  <span class="err">-2</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="err">❌</span> Dockerfile          missing  <span class="err">-2</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="warn">⚠️</span>  Large files (&gt;300ln) 3 found <span class="warn">-2</span>  <span class="hl">│</span>
+<span class="hl">╰──────────────────────────────────────╯</span></div>
+      </div>
+      <p style="font-size:22px;text-align:center;color:var(--text-darker)">Repo maps, semantic-nav, MCP servers (Serena/Sourcegraph), file-size sanity — <em>real levers, not naming folklore.</em></p>
+    </div>
+  </section>
+
+  <!-- 17 — VALIDATE (informativo: dimensioni D3/D4) -->
+  <section class="s" data-label="VALIDATE">
+    <div class="bg-glow fuchsia"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Axis 3 · weight 30%</span>
+        <h2>✅ VALIDATE — <span class="text-gradient">did it do it RIGHT?</span></h2>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-primary">D3 · +16 pts</span><b style="font-size:24px">Testing &amp; Feedback</b></div>
+          <p style="margin-top:0.6rem">Test suite, documented + fast commands, coverage — and <em>feedback quality</em>: <b>descriptive assertion messages</b> (not bare asserts) + a type checker the agent can run.</p>
+        </div>
+        <div class="card">
+          <div class="cover-row" style="gap:0.8rem;align-items:baseline"><span class="badge badge-violet">D4 · +14 pts</span><b style="font-size:24px">CI/CD, Automation &amp; Governance</b></div>
+          <p style="margin-top:0.6rem"><b>CI runs tests + lint</b>, automated formatting, pre-commit, governance: <span class="mono">CODEOWNERS</span> + Dependabot/Renovate.</p>
+        </div>
+      </div>
+      <div class="card" style="border-left:4px solid var(--error)">
+        <p style="font-size:23px"><b class="text-error">Where most repos bleed points.</b> Tests are the agent's <em>only</em> signal — skip VALIDATE and it's flying blind. <em>This is the axis that decides if your loop can converge.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 — scan axis 3 (ASCII) -->
+  <section class="s" data-label="Scan — VALIDATE">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Scan your repo — axis 3</span>
+        <h2><span class="text-error">Where most repos bleed points.</span></h2>
+      </div>
+      <div class="terminal" style="max-width:780px;width:100%">
+        <div class="terminal-header"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span><span class="terminal-title">quicknote — VALIDATE</span></div>
+        <div class="terminal-body"><span class="hl">╭──────────────────────────────────────╮</span>
+<span class="hl">│</span>  ✅ AXIS 3: VALIDATE                  <span class="hl">│</span>
+<span class="hl">│</span>  ════════════════════════════════    <span class="hl">│</span>
+<span class="hl">│</span>                                       <span class="hl">│</span>
+<span class="hl">│</span>  Score: 28/100 <span class="err">████████░░░░░░░</span> 28%   <span class="hl">│</span>
+<span class="hl">│</span>                                       <span class="hl">│</span>
+<span class="hl">│</span>  <span class="ok">✅</span> pytest configured   [tool.pytest] <span class="ok">+6</span> <span class="hl">│</span>
+<span class="hl">│</span>  <span class="ok">✅</span> test files found    12 files  <span class="ok">+5</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="ok">✅</span> poetry.lock          present   <span class="ok">+2</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="err">❌</span> CI workflow          missing  <span class="err">-4</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="err">❌</span> coverage configured  no       <span class="err">-4</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="err">❌</span> SECURITY.md          missing  <span class="err">-2</span>  <span class="hl">│</span>
+<span class="hl">│</span>  <span class="err">❌</span> pre-commit           missing  <span class="err">-2</span>  <span class="hl">│</span>
+<span class="hl">╰──────────────────────────────────────╯</span></div>
+      </div>
+      <p style="font-size:22px;text-align:center;color:var(--text-darker)">This is the axis that decides if your loop can <em>converge</em> at all.</p>
+    </div>
+  </section>
+
+  <!-- 17 — testing paradox + CI file -->
+  <section class="s" data-label="Testing paradox">
+    <div class="bg-glow violet"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">The testing paradox</span>
+        <h2>Tests aren't for finding bugs.<br>They're the agent's <span class="text-gradient">stop condition</span>.</h2>
+      </div>
+      <div class="two-col">
+        <div class="card" style="border-left:4px solid var(--error)">
+          <h3 class="text-error">Without a verifier</h3>
+          <ul class="clean" style="margin-top:0.8rem">
+            <li>Agent writes code</li>
+            <li><b>You</b> manually verify everything</li>
+            <li>Bottleneck. Fatigue. Mistakes.</li>
+            <li class="text-error">No convergence — just repeated prompting. <b>Vibes.</b></li>
+          </ul>
+        </div>
+        <div class="card card-highlight" style="border-left:4px solid var(--success)">
+          <h3 class="text-success">With a verifier</h3>
+          <ul class="clean" style="margin-top:0.8rem">
+            <li>Agent writes code</li>
+            <li>Agent runs the check → <b>pass ✓</b></li>
+            <li>You review the PR confidently</li>
+            <li class="text-success">The loop can <b>decide when it's done.</b></li>
+          </ul>
+        </div>
+      </div>
+      <div class="terminal sm" style="max-width:760px;width:100%">
+        <div class="terminal-header"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span><span class="terminal-title">.github/workflows/ci.yml — copy, adapt, commit</span></div>
+        <div class="terminal-body"><span class="dim"># CI runs tests + lint — the cheapest verifier you can ship</span>
+<span class="hl">name:</span> CI
+<span class="hl">on:</span> [push, pull_request]
+<span class="hl">jobs:</span>
+  <span class="secondary">quality</span>: <span class="dim"># ruff check + ruff format --check</span>
+  <span class="secondary">test</span>:    <span class="dim"># pip install -e ".[dev]" · pytest</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 — SECURE (informativo: D6 + LINCE) -->
+  <section class="s" data-label="SECURE">
+    <div class="bg-glow violet"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Axis 4 · weight 12% · the plot twist</span>
+        <h2>🛡️ SECURE — <span class="text-gradient">can it run SAFELY?</span></h2>
+      </div>
+      <div class="three-col">
+        <div class="card">
+          <div class="cover-row" style="gap:0.6rem;align-items:baseline"><span class="badge badge-primary">D6</span><b style="font-size:22px">📦 Sandbox &amp; Isolation</b></div>
+          <p style="margin-top:0.6rem;font-size:20px">Committed <b>devcontainer</b>, documented execution policy. <span style="color:var(--primary)"><b>LINCE.sh</b></span> — a documented, repeatable OS-level sandbox. <em>Credit for evidence in the repo, not self-report.</em></p>
+        </div>
+        <div class="card">
+          <div class="cover-row" style="gap:0.6rem;align-items:baseline"><span class="badge badge-violet">D6</span><b style="font-size:22px">🔑 Secret &amp; Supply-Chain</b></div>
+          <p style="margin-top:0.6rem;font-size:20px"><span class="mono">.gitignore</span> secrets, <span class="mono">.env.example</span>, committed <b>lockfiles</b>, Dependabot. No unverifiable <span class="mono">--sandbox</span> flag.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--error)">
+          <div class="cover-row" style="gap:0.6rem;align-items:baseline"><span class="badge badge-red">D6</span><b style="font-size:22px" class="text-error">💉 Injection &amp; Perms</b></div>
+          <p style="margin-top:0.6rem;font-size:20px">Instructions only in <b>trusted files</b>; restrictive agent deny rules. <em>The most-skipped axis — and the one that blocks real delegation.</em></p>
+        </div>
+      </div>
+      <p style="font-size:23px;text-align:center"><b>You can't delegate what you can't confine.</b> One dimension (D6) — for now.</p>
+    </div>
+  </section>
+
+  <!-- 20 — MAGIC MOMENT: full scan -->
+  <section class="s" data-label="Full scan">
+    <div class="bg-glow fuchsia"></div><div class="bg-glow violet"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm center"><span class="eyebrow">✨ Magic moment</span>
+        <h2 style="text-align:center">Same repo. Same tool. <span class="text-gradient">Different number.</span></h2>
+      </div>
+      <div class="terminal" style="max-width:820px;width:100%">
+        <div class="terminal-header"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span><span class="terminal-title">quicknote — after the fixes</span></div>
+        <div class="terminal-body"><span class="prompt">$</span> <span class="cmd">/agent-ready scan .</span>
+<span class="hl">╭─────────────────────────────────────────────╮</span>
+<span class="hl">│</span>  AGENT READINESS ASSESSMENT               <span class="hl">│</span>
+<span class="hl">│</span>  Repo: quicknote  ·  Agents: claude         <span class="hl">│</span>
+<span class="hl">│</span>  ═══════════════════════════════════════   <span class="hl">│</span>
+<span class="hl">│</span>                                             <span class="hl">│</span>
+<span class="hl">│</span>  Overall: <span class="ok">84%</span>  │  🏆 Optimized              <span class="hl">│</span>
+<span class="hl">│</span>                                             <span class="hl">│</span>
+<span class="hl">│</span>  📝 INSTRUCT   <span class="ok">██████████████░░</span>  88%       <span class="hl">│</span>
+<span class="hl">│</span>  🧭 NAVIGATE   <span class="ok">█████████████░░░</span>  82%       <span class="hl">│</span>
+<span class="hl">│</span>  ✅ VALIDATE   <span class="ok">██████████████░░</span>  86%       <span class="hl">│</span>
+<span class="hl">│</span>  🛡️ SECURE     <span class="ok">████████████░░░░</span>  79%       <span class="hl">│</span>
+<span class="hl">╰─────────────────────────────────────────────╯</span></div>
+      </div>
+      <p style="font-size:24px;text-align:center">Your repo has a number. <b>Now you know which slice of the harness to build next.</b></p>
+    </div>
+  </section>
+
+  <!-- 21 — the agent fixes what the agent needs -->
+  <section class="s" data-label="Agent fixes what agent needs">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">The kicker</span>
+        <h2>The agent <span class="text-gradient">fixes</span> what the agent <span class="text-gradient">needs</span>.</h2>
+      </div>
+      <div class="terminal sm" style="max-width:820px;width:100%">
+        <div class="terminal-header"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span><span class="terminal-title">/agent-ready fix</span></div>
+        <div class="terminal-body"><span class="prompt">$</span> <span class="cmd">/agent-ready fix</span>
+<span class="ok">🔍 Loading previous scores...</span>
+<span class="ok">📊 Gaps identified (sorted by impact):</span>
+  1. AGENTS.md missing           <span class="dim">[instruct]</span> <span class="ok">+18pt</span>
+  2. No CI (tests+lint)          <span class="dim">[validate]</span> <span class="ok">+14pt</span>
+  3. No exec/sandbox policy      <span class="dim">[secure]</span>   <span class="ok">+12pt</span>
+  4. No .env.example / lockfile  <span class="dim">[secure]</span>    <span class="ok">+5pt</span>
+<span class="hl">## Files to Generate</span>
+  ✨ <span class="ok">AGENTS.md</span> (+ CLAUDE.md symlink bridge)
+  ✨ <span class="ok">docs/agent-execution.md</span> — sandbox policy
+  ✨ <span class="ok">.github/workflows/ci.yml</span> — test + lint
+  ✨ <span class="ok">.env.example</span> + .gitignore secret patterns
+<span class="hl">Proceed? (y/n) &gt; y</span>
+<span class="ok">✅ Created: AGENTS.md (tailored to your project)</span>
+<span class="ok">🔗 Created: CLAUDE.md → AGENTS.md (bridge, no drift)</span></div>
+      </div>
+      <p style="font-size:22px;text-align:center;color:var(--text-darker)">Not a generic template — <em>gaps ranked by impact, scoped to your repo.</em></p>
+    </div>
+  </section>
+
+  <!-- 22 — /init greenfield (day one) -->
+  <section class="s" data-label="Day one">
+    <div class="bg-glow fuchsia"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Start agent-ready on day one</span>
+        <h2>For a new project: <span class="text-gradient">don't accumulate the debt.</span></h2>
+      </div>
+      <div class="terminal sm" style="max-width:780px;width:100%">
+        <div class="terminal-header"><span class="terminal-dot dot-red"></span><span class="terminal-dot dot-yellow"></span><span class="terminal-dot dot-green"></span><span class="terminal-title">/agent-ready init</span></div>
+        <div class="terminal-body"><span class="prompt">$</span> <span class="cmd">/agent-ready init . --agents claude</span>
+<span class="ok">🌱 Scaffolding a portable-first baseline…</span>
+  ✨ <span class="ok">AGENTS.md</span> (&lt; 200 lines)  🔗 CLAUDE.md → AGENTS.md
+  ✨ <span class="ok">.env.example</span> + .gitignore secret coverage
+  ✨ <span class="ok">docs/agent-execution.md</span>  (sandbox policy)
+  ✨ <span class="ok">.github/workflows/ci.yml</span> + .pre-commit-config.yaml
+  ✨ <span class="ok">specs/TEMPLATE.md</span>
+Baseline score: <span class="warn">41/100</span>  🟡 Partially Ready</div>
+      </div>
+      <p style="font-size:22px;text-align:center;color:var(--text-darker)"><b style="color:#fff">init</b> (greenfield) sets an opinionated baseline · <b style="color:#fff">fix</b> (brownfield) remediates by impact. Same rubric, two entry points.</p>
+    </div>
+  </section>
+
+  <!-- 23 — what you take home -->
+  <section class="s" data-label="Take home">
+    <div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">What you take home</span>
+        <h2>Not theory. Not hype. <span class="text-gradient">Your repo.</span></h2>
+      </div>
+      <div class="takeaway">
+        <div class="ta"><div class="ic">🧠</div><div class="tt">A mental model</div><div class="td">4 axes — INSTRUCT · NAVIGATE · VALIDATE · SECURE — to size up any codebase.</div></div>
+        <div class="ta"><div class="ic">🔢</div><div class="tt">A number</div><div class="td">Your repo's score — and the loop-readiness it implies.</div></div>
+        <div class="ta"><div class="ic">🛠️</div><div class="tt">A toolkit</div><div class="td">6 skills — scan · fix · report · diff · init — AGENTS.md-first, any agent.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24 — THANK YOU + QR -->
+  <section class="cover" data-label="Thank you">
+    <div class="bg-glow fuchsia"></div><div class="bg-glow violet"></div><div class="grid-overlay"></div>
+    <div class="wrap cover-row" style="gap:3.5rem">
+      <div class="stack gap" style="flex:1">
+        <p class="cover-kicker">» 07 / 07</p>
+        <h1 style="font-size:76px">Build the loop.<br><span class="text-gradient">Stay the engineer.</span></h1>
+        <p style="font-size:25px;max-width:60ch">The loop, not the model, is now the expensive, failure-prone part. Measure the loop-readiness of your repo <em>before</em> you turn the model loose.</p>
+        <div class="stack gap-sm" style="margin-top:0.5rem">
+          <p style="font-family:var(--mono);font-size:20px;color:var(--text-dim)"><span class="text-primary">1.</span> scan your repo — RisorseArtificiali/agent-ready-skill</p>
+          <p style="font-family:var(--mono);font-size:20px;color:var(--text-dim)"><span class="text-primary">2.</span> read "L'agente è un processo…"</p>
+          <p style="font-family:var(--mono);font-size:20px;color:var(--text-dim)"><span class="text-primary">3.</span> move ONE axis this week</p>
+        </div>
+        <p class="speaker"><span class="nm">Stefano Maestri</span><br><span class="rl">maeste.it · @maeste · AI Conf 2026</span></p>
+      </div>
+      <div class="qr-card">
+        <div class="qr-box"><img src="assets/qr-aiconf.png" alt="QR to the talk page"></div>
+        <span class="url">maeste.it</span>
+        <span class="cap">Feedback + these slides + the toolkit</span>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+<script src="chrome.js"></script>
+</body>
+</html>
