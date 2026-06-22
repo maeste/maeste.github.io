@@ -181,6 +181,31 @@
   ul.clean li { font-size: 22px; color: var(--text-dim); padding-left: 1.6rem; position: relative; line-height: 1.4; }
   ul.clean li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
   ul.clean li b { color: #fff; }
+
+  /* ─── radar (SVG, 4-axis) ─── */
+  .radar-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; align-items: center; width: 100%; }
+  .radar-svg { width: 100%; max-width: 560px; height: auto; display: block; margin: 0 auto; }
+  .radar-svg .grid { fill: none; stroke: rgba(220,5,247,0.10); stroke-width: 1; }
+  .radar-svg .grid-outer { stroke: rgba(220,5,247,0.18); }
+  .radar-svg .axis-line { stroke: rgba(184,174,222,0.18); stroke-width: 1; }
+  .radar-svg .axis-lbl { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; fill: var(--text-dim); }
+  .radar-svg .axis-lval { font-family: 'JetBrains Mono', monospace; font-size: 16px; fill: var(--primary); font-weight: 600; }
+  .radar-svg .shape { fill: rgba(220,5,247,0.18); stroke: var(--primary); stroke-width: 2.5; }
+  .radar-svg .vertex { fill: var(--primary); }
+  .radar-legend { display: flex; flex-direction: column; gap: 0.9rem; }
+  .radar-legend .leg { display: flex; align-items: center; gap: 0.8rem; }
+  .radar-legend .leg .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--primary); }
+  .radar-legend .leg .nm { font-size: 22px; font-weight: 600; color: var(--text); width: 130px; }
+  .radar-legend .leg .vl { font-family: 'JetBrains Mono', monospace; font-size: 22px; color: var(--success); font-weight: 600; }
+  .radar-legend .leg .bar { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .radar-legend .leg .bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--secondary), var(--primary)); }
+
+  /* ─── playground slide ─── */
+  .play-row { display: grid; grid-template-columns: 1fr auto; gap: 2.5rem; align-items: center; width: 100%; }
+  .play-list { display: flex; flex-direction: column; gap: 0.9rem; }
+  .play-list .pi { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: var(--radius); padding: 1rem 1.2rem; }
+  .play-list .pi .pt { font-size: 22px; font-weight: 600; color: var(--text); }
+  .play-list .pi .pd { font-size: 19px; color: var(--text-dim); margin-top: 0.25rem; }
 </style>
 </head>
 <body>
@@ -327,7 +352,32 @@
     </div>
   </section>
 
-  <!-- 09 — maturity levels -->
+  <!-- 09 — Try it: interactive playground -->
+  <section class="s" data-label="Interactive playground">
+    <div class="bg-glow fuchsia"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Before the scan — feel the model</span>
+        <h2>Drag the axes. <span class="text-gradient">See your shape.</span></h2>
+      </div>
+      <div class="play-row">
+        <div class="stack gap">
+          <p style="font-size:24px;max-width:60ch">The interactive radar lets you explore the model before touching your repo: move each axis 0–100, watch the shape change, and see the level jump. A balanced shape means well-rounded; a dent on SECURE means work to do.</p>
+          <div class="play-list">
+            <div class="pi"><div class="pt">📝 · 🧭 · ✅ · 🛡️ four sliders</div><div class="pd">INSTRUCT / NAVIGATE / VALIDATE / SECURE, weighted 28/30/30/12</div></div>
+            <div class="pi"><div class="pt">Live level &amp; overall score</div><div class="pd">🔴 L1 ≥40 · 🟠 L2 ≥55 · 🟡 L3 ≥70 · 🟢 L4 ≥85 · 🏆 L5 ≥95</div></div>
+            <div class="pi"><div class="pt">Screenshot &amp; share</div><div class="pd">Drop it in your engineering blog to justify the next cleanup sprint</div></div>
+          </div>
+        </div>
+        <div class="qr-card">
+          <div class="qr-box"><img src="assets/qr-playground.png" alt="QR to the interactive radar playground"></div>
+          <span class="url">maeste.it</span>
+          <span class="cap">Interactive 4-axis radar playground</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — maturity levels -->
   <section class="s" data-label="Maturity levels">
     <div class="grid-overlay"></div>
     <div class="wrap stack gap">
@@ -726,7 +776,60 @@ Baseline score: <span class="warn">41/100</span>  🟡 Partially Ready</div>
     </div>
   </section>
 
-  <!-- 24 — THANK YOU + QR -->
+  <!-- 25 — YOUR AGENT READINESS RADAR (ricreato in stile AICOnf) -->
+  <section class="s" data-label="Your radar">
+    <div class="bg-glow fuchsia"></div><div class="bg-glow violet"></div><div class="grid-overlay"></div>
+    <div class="wrap stack gap">
+      <div class="stack gap-sm"><span class="eyebrow">Visualize your progress</span>
+        <h2>Your Agent Readiness <span class="text-gradient">Radar</span></h2>
+      </div>
+      <div class="radar-wrap">
+        <!--
+          4-axis radar, center at (250,250), radius 200.
+          Axes at top(INSTRUCT), right(NAVIGATE), bottom(VALIDATE), left(SECURE).
+          Vertex distance = pct * 200.
+          Values: INSTRUCT 88 -> 176, NAVIGATE 82 -> 164, VALIDATE 86 -> 172, SECURE 79 -> 158.
+          Top (250,74)  Right (414,250)  Bottom (250,422)  Left (92,250)
+        -->
+        <svg class="radar-svg" viewBox="0 0 500 500" role="img" aria-label="Agent readiness radar: INSTRUCT 88, NAVIGATE 82, VALIDATE 86, SECURE 79">
+          <!-- concentric grids (25/50/75/100%) -->
+          <polygon class="grid" points="250,200 300,250 250,300 200,250" />
+          <polygon class="grid" points="250,150 350,250 250,350 150,250" />
+          <polygon class="grid" points="250,100 400,250 250,400 100,250" />
+          <polygon class="grid grid-outer" points="250,50 450,250 250,450 50,250" />
+          <!-- axes -->
+          <line class="axis-line" x1="250" y1="250" x2="250" y2="50" />
+          <line class="axis-line" x1="250" y1="250" x2="450" y2="250" />
+          <line class="axis-line" x1="250" y1="250" x2="250" y2="450" />
+          <line class="axis-line" x1="250" y1="250" x2="50" y2="250" />
+          <!-- the shape (88/82/86/79) -->
+          <polygon class="shape" points="250,74 414,250 250,422 92,250" />
+          <circle class="vertex" cx="250" cy="74" r="6" />
+          <circle class="vertex" cx="414" cy="250" r="6" />
+          <circle class="vertex" cx="250" cy="422" r="6" />
+          <circle class="vertex" cx="92" cy="250" r="6" />
+          <!-- labels -->
+          <text class="axis-lbl" x="250" y="38" text-anchor="middle">📝 INSTRUCT</text>
+          <text class="axis-lval" x="250" y="60" text-anchor="middle">88%</text>
+          <text class="axis-lbl" x="466" y="246" text-anchor="start">🧭 NAVIGATE</text>
+          <text class="axis-lval" x="466" y="268" text-anchor="start">82%</text>
+          <text class="axis-lbl" x="250" y="476" text-anchor="middle">✅ VALIDATE</text>
+          <text class="axis-lval" x="250" y="458" text-anchor="middle">86%</text>
+          <text class="axis-lbl" x="34" y="246" text-anchor="end">🛡️ SECURE</text>
+          <text class="axis-lval" x="34" y="268" text-anchor="end">79%</text>
+        </svg>
+        <div class="radar-legend">
+          <div class="leg"><span class="dot"></span><span class="nm">📝 INSTRUCT</span><span class="bar"><span style="width:88%"></span></span><span class="vl">88%</span></div>
+          <div class="leg"><span class="dot" style="background:var(--secondary)"></span><span class="nm">🧭 NAVIGATE</span><span class="bar"><span style="width:82%"></span></span><span class="vl">82%</span></div>
+          <div class="leg"><span class="dot"></span><span class="nm">✅ VALIDATE</span><span class="bar"><span style="width:86%"></span></span><span class="vl">86%</span></div>
+          <div class="leg"><span class="dot" style="background:var(--secondary)"></span><span class="nm">🛡️ SECURE</span><span class="bar"><span style="width:79%"></span></span><span class="vl">79%</span></div>
+          <p style="font-size:21px;color:var(--text-dim);margin-top:0.5rem;line-height:1.45">Overall <b style="color:#fff">84% · 🏆 Optimized</b>. Put this in your engineering blog, share with your team, track progress over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26 — THANK YOU + QR -->
   <section class="cover" data-label="Thank you">
     <div class="bg-glow fuchsia"></div><div class="bg-glow violet"></div><div class="grid-overlay"></div>
     <div class="wrap cover-row" style="gap:3.5rem">
