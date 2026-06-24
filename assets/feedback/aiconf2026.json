@@ -1,7 +1,15 @@
 {
   "talk": "aiconf2026",
-  "updated": null,
-  "count": 0,
-  "average_rating": null,
-  "entries": []
+  "updated": "2026-06-24T06:08:00.644389+00:00",
+  "count": 1,
+  "average_rating": 5,
+  "entries": [
+    {
+      "id": 19,
+      "author": null,
+      "rating": 5,
+      "takeaway": null,
+      "created_at": "2026-06-24T06:08:00.644389+00:00"
+    }
+  ]
 }
