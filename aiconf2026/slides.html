@@ -386,24 +386,6 @@
     </div>
   </section>
 
-  <!-- 10 — maturity levels -->
-  <section class="s" data-label="Maturity levels">
-    <div class="grid-overlay"></div>
-    <div class="wrap stack gap">
-      <div class="stack gap-sm"><span class="eyebrow">Where you land</span>
-        <h2>Five levels, 0–100. <span class="text-gradient">Sequential.</span></h2>
-      </div>
-      <div class="levels" style="grid-template-columns:repeat(5,1fr)">
-        <div class="level l1"><div class="dot">🔴</div><div class="rng">≥40</div><div class="nm" style="font-size:19px">L1 Foundational</div></div>
-        <div class="level l2"><div class="dot">🟠</div><div class="rng">≥55</div><div class="nm" style="font-size:19px">L2 Guided</div></div>
-        <div class="level l3"><div class="dot">🟡</div><div class="rng">≥70</div><div class="nm" style="font-size:19px">L3 Structured</div></div>
-        <div class="level l4"><div class="dot">🟢</div><div class="rng">≥85</div><div class="nm" style="font-size:19px">L4 Optimized</div></div>
-        <div class="level l4" style="border-top:3px solid var(--secondary)"><div class="dot">🏆</div><div class="rng">≥95</div><div class="nm" style="font-size:19px;color:var(--secondary)">L5 Autonomous</div></div>
-      </div>
-      <p style="font-size:23px;text-align:center">Each level needs <b>80% of criteria</b> met at that tier — you can't skip. Most repos in the wild sit at <em>L1 or L2</em>. Evidence-based: file presence + content quality, not folklore.</p>
-    </div>
-  </section>
-
   <!-- 10 — WHAT IS agent-ready + the 6 skills -->
   <section class="s" data-label="What is agent-ready">
     <div class="bg-glow fuchsia"></div>
@@ -421,41 +403,6 @@
         <div class="card card-highlight"><div style="font-family:var(--mono);color:var(--primary);font-size:20px;font-weight:600">/agent-ready <span style="color:var(--text-darker)">(router)</span></div><p style="font-size:19px;margin-top:0.4rem">Main entry point — routes to sub-commands.</p></div>
       </div>
       <p style="font-family:var(--mono);font-size:17px;color:var(--text-darker);text-align:center">scan → fix → report → diff · the closed loop. init for greenfield.</p>
-    </div>
-  </section>
-
-  <!-- 11 — Repo A vs Repo B (the difference is the codebase) -->
-  <section class="s" data-label="Repo A vs Repo B">
-    <div class="grid-overlay"></div>
-    <div class="wrap stack gap">
-      <div class="stack gap-sm"><span class="eyebrow">Magic moment #1</span>
-        <h2>Same tool. Same model. <span class="text-gradient">Different scores.</span></h2>
-      </div>
-      <div class="two-col">
-        <div class="card" style="border-left:4px solid var(--error)">
-          <h3 class="text-error">🔴 Repo A — Chaos Monkey</h3>
-          <ul class="clean" style="margin-top:0.6rem">
-            <li>No AGENTS.md, no README</li>
-            <li>No linter, no type checker</li>
-            <li>No tests, no CI</li>
-            <li>No sandbox policy, secrets leak</li>
-            <li>No .env.example, no lockfile</li>
-          </ul>
-          <p style="font-size:36px;font-weight:800;color:var(--error);margin-top:0.6rem">23% · L1</p>
-        </div>
-        <div class="card card-highlight" style="border-left:4px solid var(--success)">
-          <h3 class="text-success">🟢 Repo B — Agent Heaven</h3>
-          <ul class="clean" style="margin-top:0.6rem">
-            <li>Tight AGENTS.md (+ MCP wired)</li>
-            <li>Ruff + mypy strict, typed code</li>
-            <li>Tests + coverage + CI</li>
-            <li>devcontainer + exec policy</li>
-            <li>.env.example + lockfile + Dependabot</li>
-          </ul>
-          <p style="font-size:36px;font-weight:800;color:var(--success);margin-top:0.6rem">81% · L4</p>
-        </div>
-      </div>
-      <p style="font-size:26px;text-align:center"><b>The difference isn't the agent. It's the codebase.</b> Same language, same complexity.</p>
     </div>
   </section>
 
