@@ -1,9 +1,16 @@
 {
   "talk": "aiconf2026",
-  "updated": "2026-06-24T06:08:00.644389+00:00",
-  "count": 1,
-  "average_rating": 5,
+  "updated": "2026-06-26T13:32:55.030535+00:00",
+  "count": 2,
+  "average_rating": 4.5,
   "entries": [
+    {
+      "id": 20,
+      "author": "macel94",
+      "rating": 4,
+      "takeaway": "Your english wasn't perfect, but i liked the speech anyway.\nSlides were very cool, and the concept itself not to just ask the agents \"make this repo better\" but to actually try and evaluate through rules that you studied and learned over time, is valuable.\nThanks!",
+      "created_at": "2026-06-26T13:32:55.030535+00:00"
+    },
     {
       "id": 19,
       "author": null,
