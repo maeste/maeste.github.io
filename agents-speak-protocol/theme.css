@@ -1,0 +1,141 @@
+/* Theme for "Agents Speak Protocol" — adapted from the slides-skill template.
+ * Derived coding: the talk has ONE recurring axis, maturity, used on every slide —
+ *   .ca = bet now (stable / de facto / convention)  → green
+ *   .cb = pin versions (emerging / draft / candidate) → amber
+ *   .cc = the new frontier (payments, x402)           → violet
+ * Display face kept serif (spec / technical-report voice), eyebrows and protocol
+ * names in mono. Tokens only on :root; components styled through tokens. */
+
+:root {
+  --ground: #F5F4F0; --surface: #FFFFFF; --ink: #1C2430; --dim: #5C6875;
+  --line: #D9DCE0; --code-bg: #EDEEE9;
+  --cat-a: #1F7A46; --cat-a-bg: #DFF0E5;
+  --cat-b: #9A6210; --cat-b-bg: #F6EBD4;
+  --cat-c: #5F4B9E; --cat-c-bg: #E9E4F6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #11161C; --surface: #1A212A; --ink: #E8EDF2; --dim: #94A1AD;
+    --line: #2B3540; --code-bg: #0C1116;
+    --cat-a: #6FCB96; --cat-a-bg: #14301F;
+    --cat-b: #D9A653; --cat-b-bg: #33260F;
+    --cat-c: #AF9BE3; --cat-c-bg: #271F3D;
+  }
+}
+
+.reveal-viewport { background: var(--ground); }
+.reveal {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 26px; color: var(--ink);
+}
+.reveal .slides section { text-align: left; line-height: 1.5; }
+.reveal h1, .reveal h2 {
+  font-family: Charter, "Iowan Old Style", Georgia, "Times New Roman", serif;
+  color: var(--ink); text-transform: none; letter-spacing: normal;
+  line-height: 1.15; font-weight: 600; margin-bottom: 0.5em; text-wrap: balance;
+}
+.reveal h1 { font-size: 2.6em; }
+.reveal h2 { font-size: 1.55em; }
+.reveal h3 { font-size: 1.1em; font-weight: 600; }
+.reveal p { margin: 0.5em 0; }
+.reveal a { color: var(--cat-a); }
+.reveal strong { color: var(--ink); }
+.reveal ul { margin: 0.4em 0; }
+.reveal li { margin: 0.35em 0; }
+
+.eyebrow {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.62em; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 0.6em;
+}
+.thesis {
+  font-family: Charter, "Iowan Old Style", Georgia, serif;
+  font-size: 1.35em; line-height: 1.35; margin: 1em 0;
+}
+.thesis strong { border-bottom: 3px solid var(--cat-a); }
+.lede { font-size: 0.95em; }
+.dimtext { color: var(--dim); }
+.small { font-size: 0.78em; }
+
+/* Code/data blocks (class "j" = the deck's monospace exhibit block) */
+.reveal pre.j {
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 0.6em 0.8em; overflow-x: auto; width: 100%;
+  font-size: 0.52em; line-height: 1.5; margin: 0.5em 0; box-shadow: none;
+  font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+  white-space: pre;
+}
+.reveal pre.j .k  { color: var(--dim); }
+.reveal pre.j .kd { font-weight: 700; }
+.reveal pre.j .ca { color: var(--cat-a); font-weight: 700; }
+.reveal pre.j .cb { color: var(--cat-b); font-weight: 700; }
+.reveal pre.j .cc { color: var(--cat-c); font-weight: 700; }
+.reveal code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.82em; background: var(--code-bg); border-radius: 4px; padding: 0.05em 0.3em;
+  color: var(--ink);
+}
+
+/* Status chips — the maturity axis, kept consistent on every slide */
+.pill {
+  display: inline-block; border-radius: 3px; padding: 0.02em 0.45em; font-size: 0.72em;
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 600; white-space: nowrap;
+}
+.pill.ca { background: var(--cat-a-bg); color: var(--cat-a); }
+.pill.cb { background: var(--cat-b-bg); color: var(--cat-b); }
+.pill.cc { background: var(--cat-c-bg); color: var(--cat-c); }
+
+/* Tables */
+.reveal table { border-collapse: collapse; margin: 0.6em 0; font-size: 0.72em; }
+.reveal th, .reveal td {
+  text-align: left; padding: 0.3em 0.9em 0.3em 0;
+  border-bottom: 1px solid var(--line); vertical-align: top; border-top: none;
+}
+.reveal th {
+  font-size: 0.8em; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--dim); font-weight: 600;
+}
+.tablewrap { overflow-x: auto; width: 100%; }
+
+/* Hand-built box-and-arrow diagrams (no external diagram libs) */
+.diagram { display: flex; align-items: center; gap: 0.7em; flex-wrap: wrap; margin: 0.9em 0; font-size: 0.8em; }
+.diagram.center { justify-content: center; }
+.dbox {
+  border: 1.5px solid var(--line); background: var(--surface); border-radius: 6px;
+  padding: 0.45em 0.8em; text-align: center; line-height: 1.3;
+}
+.dbox b { display: block; }
+.dbox.hero { border-color: var(--ink); border-width: 2.5px; font-weight: 600; }
+.dbox.dashed { border-style: dashed; color: var(--dim); }
+.dbox.new { border-color: var(--cat-c); border-width: 2.5px; }
+.darrow { color: var(--dim); white-space: nowrap; font-size: 0.9em; }
+.dlabel { font-size: 0.68em; color: var(--dim); display: block; text-align: center; }
+.dlabel.proto { color: var(--cat-a); font-family: ui-monospace, Menlo, Consolas, monospace; }
+.dstack { display: flex; flex-direction: column; gap: 0.4em; }
+.tag {
+  display: inline-block; border-radius: 3px; padding: 0 0.4em;
+  background: var(--cat-c-bg); color: var(--cat-c);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.62em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* Monospace tree/figure block */
+.tree {
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.62em;
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 0.7em 1em; overflow-x: auto; white-space: pre; line-height: 1.7; margin: 0.6em 0;
+}
+
+.cols { display: flex; gap: 1.5em; align-items: flex-start; }
+.col { flex: 1 1 0; min-width: 0; }
+
+/* Rule line for the closing takeaway sentences */
+.rule {
+  border-left: 4px solid var(--cat-a); padding: 0.2em 0 0.2em 0.8em; margin: 0.8em 0;
+  font-family: Charter, "Iowan Old Style", Georgia, serif; font-size: 1.1em; line-height: 1.4;
+}
+
+/* Reveal chrome on the token palette */
+.reveal .controls { color: var(--dim); }
+.reveal .progress { background: var(--line); color: var(--cat-a); height: 4px; }
+.reveal .slide-number { background: transparent; color: var(--dim); font-size: 16px; }
