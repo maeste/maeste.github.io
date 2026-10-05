@@ -62,14 +62,16 @@ Before WebSockets   <span class="k">→</span> <span class="kd">polling</span> e
 <section>
   <div class="eyebrow">history · part 2</div>
   <h2>History's rule</h2>
-  <p class="lede">CORBA vs REST · SOAP vs JSON · WebSockets vs polling</p>
+  <p class="lede">TCP/IP vs OSI · CORBA vs REST · SOAP vs JSON · WebSockets vs polling</p>
   <p>Winners are rarely the most feature-rich.</p>
   <p class="rule"><strong>The simplest protocol that reduces the most uncertainty wins.</strong></p>
-  <aside class="notes">⏱ min 4-5.5. Scegliere DUE guerre e raccontarle per bene, la terza solo
-  citata: (1) SOAP vs JSON: vince il più semplice, non il più completo; (2) WebSockets vs
-  polling: vince chi cambia il modello di comunicazione, non chi aggiunge feature. QUESTA frase è
-  la regola del talk: torna in chiusura e nella slide delle scommesse. Se il tempo stringe,
-  comprimere a 1 minuto.</aside>
+  <aside class="notes">⏱ min 4-5.5. Il precedente canonico da raccontare per bene: OSI era il
+  protocollo completo, a strati, disegnato dai comitati; TCP/IP era semplice, specificato in RFC
+  corte, e ship-pava. Ha vinto il più semplice, non il più completo: è lo stesso film di SOAP vs
+  JSON (vince il più semplice) e WebSockets vs polling (vince chi cambia il modello di
+  comunicazione, non chi aggiunge feature). CORBA vs REST solo nominata. QUESTA frase è la
+  regola del talk: torna nella slide delle scommesse. Se il tempo stringe: solo OSI + la regola,
+  1 minuto.</aside>
 </section>
 
 <!-- 5 · THE MAP -->
@@ -105,57 +107,108 @@ Before WebSockets   <span class="k">→</span> <span class="kd">polling</span> e
   <div class="eyebrow">boundary 1 · the model</div>
   <h2>Open Responses</h2>
   <ul>
-    <li>Early de facto: <strong>Chat Completions</strong> semantics (messages, roles, streaming,
-      tool calls), adopted by clients, gateways, providers</li>
-    <li>Now: <strong>Responses API</strong> — typed items, semantic streaming events,
-      state across turns</li>
-    <li><strong>Open Responses</strong>: the same contract, open and multi-provider</li>
+    <li>De facto: <strong>Chat Completions</strong> semantics — the lingua franca spoken by
+      clients, gateways, providers</li>
+    <li>Next: <strong>Responses API</strong> — typed items, semantic streaming events, state
+      across turns (agent-native, not chat-shaped)</li>
+    <li><strong>Open Responses</strong>: the same contract as an open spec — initiated by OpenAI,
+      built with the OSS community (Hugging Face); an IETF draft for multi-provider inference
+      uses it as reference</li>
+    <li>Already real: Vercel AI SDK ships an Open Responses provider</li>
   </ul>
-  <p>Status: <span class="pill cb">emerging</span></p>
-  <aside class="notes">⏱ min 8.5-11. Parallelo storico da martellare: quando la semantica de
-  facto di un vendor diventa la base del contratto neutro, come HTTP/1.1 de facto divenne
-  standard IETF. Chat Completions ha vinto come dialetto comune; Responses è la generazione dopo
-  (item tipati, eventi di streaming semantici, stato tra turni); Open Responses è la copia
-  aperta multi-provider. Onestà sullo status: emerging, da pinnare, non da scommettere ancora.</aside>
+  <div class="slidefoot">
+    <div class="parallel">≈ <b>POSIX for model APIs</b> — one contract, many kernels, portable apps</div>
+    <span class="pill cb">emerging</span>
+  </div>
+  <aside class="notes">⏱ min 8.5-11. Il momento POSIX: quando i dialetti vendor convergono su un
+  contratto unico, le applicazioni diventano portabili (UNIX vendor → POSIX → software portabile;
+  qui API vendor → Open Responses → agenti portabili). Chat Completions ha vinto come dialetto
+  comune de facto; Responses è la generazione dopo: item tipati, eventi di streaming semantici,
+  stato tra turni: un contratto pensato per agenti, non per chat. Segnali che non è vaporware:
+  draft IETF che lo usa come riferimento, provider già dentro l'AI SDK di Vercel. Per il
+  pubblico: se scrivete gateway o app multi-provider è il contratto da tenere d'occhio; se
+  siete locked su un vendor, oggi non vi cambia la vita.</aside>
 </section>
 
 <!-- 7 · MCP -->
 <section>
   <div class="eyebrow">boundary 2 · tools</div>
   <h2>MCP</h2>
-  <ul>
-    <li><strong>JSON-RPC 2.0</strong>, three roles: host (LLM app) → client (in host)
-      → server (capabilities)</li>
-    <li>Tools, resources and prompts through <strong>one connection</strong></li>
-    <li>Extensions: <strong>MCP Apps</strong> (sandboxed interactive HTML),
-      <strong>Skills over MCP</strong> (in development)</li>
-  </ul>
-  <p>Status: <span class="pill ca">de facto standard</span></p>
-  <aside class="notes">⏱ min 11-15. Il confine più maturo, il "vincitore attuale". Perché ha
-  vinto finora: semplice, SDK ovunque, e riduce il problema N×M (N agenti × M tool) a N+M.
-  Spiegare i tre ruoli: l'host è l'app che ha il modello, il client sta nell'host, il server
-  espone le capability. Attenzione onesta: MCP Apps e Skills-over-MCP sono estensioni, NON fanno
-  parte del supporto base, verificare prima di dipendere. Questa è la slide in cui stare comodi:
-  4 minuti pieni.</aside>
+  <div class="figure"><img src="assets/mcp-simple-diagram.png" alt="MCP: AI applications and data sources and tools connected through one standardized protocol"><div class="credit">diagram: modelcontextprotocol.io</div></div>
+  <div class="cols small">
+    <div class="col">
+      <ul>
+        <li>Official analogy: <strong>USB-C for AI applications</strong> — one port, any peripheral</li>
+        <li><strong>JSON-RPC 2.0</strong> over stdio or Streamable HTTP; host (owns model + user)
+          → client (1:1) → server (capabilities)</li>
+        <li>Three primitives, three controllers: <strong>tools</strong> (model decides) ·
+          <strong>resources</strong> (app decides) · <strong>prompts</strong> (user decides)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul>
+        <li>The N×M integration problem becomes <strong>N+M</strong>: one adapter, every agent × every tool</li>
+        <li>Ecosystem is the moat: Claude, ChatGPT, VS Code, Cursor already speak it</li>
+        <li>Extensions: <strong>MCP Apps</strong> (sandboxed HTML), <strong>Skills over MCP</strong> (in development)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slidefoot">
+    <div class="parallel">≈ <b>JDBC/ODBC for the agent era</b> — one driver API, any database behind it</div>
+    <span class="pill ca">de facto standard</span>
+  </div>
+  <aside class="notes">⏱ min 11-15. Il diagramma ufficiale racconta da solo il problema N×M: a
+  sinistra le AI application (chat, IDE), a destra dati e tool, in mezzo UN protocollo: gli
+  adattatori si scrivono una volta. Per un ingegnere: è JDBC. L'app parla un driver API, dietro
+  c'è qualsiasi database. I tre ruoli: l'host possiede modello e utente, il client vive
+  nell'host (1:1 col server), il server espone capability. Il dettaglio che pochi notano e che
+  distingue le primitive: CHI le controlla. Tools: decide il modello (function calling).
+  Resources: decide l'applicazione (dati contestuali). Prompts: decide l'utente (template).
+  Estensioni (MCP Apps, Skills over MCP): fuori dal supporto base, verificarle prima di
+  dipendere. Quando usarlo: esporre i VOSTRI dati/tool a qualunque runtime agentico, o
+  consumare capability esterne nel vostro agente.</aside>
 </section>
 
 <!-- 8 · A2A -->
 <section>
   <div class="eyebrow">boundary 3 · other agents</div>
   <h2>A2A</h2>
-  <ul>
-    <li><strong>Agent Card</strong> for discovery · <strong>Messages</strong> ·
-      <strong>Tasks</strong> for stateful work · <strong>Artifacts</strong> for results</li>
-    <li>Streaming and push notifications for long-running work</li>
-  </ul>
-  <p>Status: <span class="pill ca">1.0 stable</span></p>
-  <p class="lede">Key property: <strong>opaque execution</strong> — the remote agent keeps its
-  model, tools and context private.</p>
-  <aside class="notes">⏱ min 15-18. Passaggio di confine: non parliamo più di chiamare tool, ma
-  di delegare lavoro a un altro partecipante autonomo. Percorrere il ciclo: scopri (Agent Card),
-  incarica (Task), ricevi (Artifact), con streaming e push per il lungo periodo. Il punto chiave
-  da anticipare (si spacca nella prossima slide): l'esecuzione è opaca per progetto, l'agente
-  remoto non espone modello, tool né contesto.</aside>
+  <div class="figure"><img src="assets/a2a-actors.png" alt="A2A actors: end-user, client, client agent and the remote agent mesh"><div class="credit">diagram: a2a-protocol.org (Linux Foundation)</div></div>
+  <div class="cols small">
+    <div class="col">
+      <ul>
+        <li>The problem it kills: without a standard, every agent pair is a bespoke
+          point-to-point integration (official scenario: a travel planner delegating to flight,
+          hotel, currency agents)</li>
+        <li>Web-style discovery: <strong>Agent Card at <code>/.well-known/</code></strong> —
+          capabilities, auth, endpoints, self-described</li>
+        <li>Lifecycle: <strong>Tasks</strong> (stateful, long-running) · <strong>SSE
+          streaming</strong> + push notifications · results as <strong>Artifacts</strong></li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul>
+        <li>Built on what exists: HTTP, JSON-RPC, SSE — design principle #1 is reusing the
+          web's standards</li>
+        <li><strong>Opaque execution</strong>: no model, tools or memory exposed — you negotiate
+          with a peer, not inspect a tool</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slidefoot">
+    <div class="parallel">≈ <b>Agent Card = OpenAPI for agents</b> · <b>Tasks = message-queue jobs</b> (states, acks, retry)</div>
+    <span class="pill ca">1.0 stable</span>
+  </div>
+  <aside class="notes">⏱ min 15-18. Lo scenario ufficiale: un agente di viaggio che compone
+  agente voli, agente hotel, agente valuta. Senza standard: integrazioni point-to-point su
+  misura, esattamente il mondo pre-API. Discovery alla web: l'Agent Card sta su /.well-known/
+  come robots.txt e security.txt, la controparte si descrive da sola (capability, auth,
+  endpoint). Ciclo di vita: Task con stati (submitted, working, completed), streaming SSE per il
+  progresso, push per il lungo periodo, risultati come Artifact. Per un ingegnere: i Task sono
+  job da message queue, la Agent Card è l'OpenAPI della controparte. E il principio di design #1
+  del protocollo è riusare gli standard del web: HTTP, JSON-RPC, SSE, niente di esotico. Opaque
+  execution: il remoto non espone nulla del proprio interno, negotiate come pari. Anticipa la
+  slide dopo: è la differenza con MCP.</aside>
 </section>
 
 <!-- 9 · MCP + A2A SIDE BY SIDE -->
@@ -176,36 +229,68 @@ Before WebSockets   <span class="k">→</span> <span class="kd">polling</span> e
   </div>
   <p class="lede"><strong>MCP: capability access</strong> — my agent calls your tools.
   <strong>A2A: outcome delegation</strong> — your agent keeps its stack private.</p>
-  <p class="small dimtext">Complement, don't compete: each does what it does best.</p>
+  <p class="small">Why not wrap agents as tools? <strong>Agents are not tools</strong> — wrapping
+  amputates negotiation, planning, asking back.</p>
+  <p class="small dimtext">Rule of thumb: stateless capability → MCP · autonomous counterpart
+  with its own state → A2A.</p>
   <aside class="notes">⏱ min 18-21.5. LA slide che l'abstract promette: architettura concreta,
-  side by side. La distinzione da martellare: access to capabilities VS delegation to an
-  autonomous participant. Nel diagramma: il nostro agente usa MCP per i SUOI tool, e A2A per
-  delegare lavoro cross-org a un agente partner, che gira col suo stack e non espone nulla.
-  Complementari, non competitivi. Esempio parlato (adattare al pubblico): un agente di supporto
+  side by side. Nel diagramma: il nostro agente usa MCP per i SUOI tool, e A2A per delegare
+  lavoro cross-org a un agente partner, che gira col suo stack e non espone nulla. La regola
+  pratica da lasciare loro: capability senza stato → MCP; controparte autonoma col suo stato →
+  A2A. E il motivo per cui non si avvolge un agente in un tool (dritto dai doc A2A, "agents are
+  not tools"): un agente impacchettato come tool perde la capacità di negoziare, pianificare,
+  fare domande indietro, diventa una funzione sorda. Esempio parlato: un agente di supporto
   interno che gestisce i tool aziendali via MCP e delega a un agente partner la parte che
-  richiede dati che non possediamo.</aside>
+  richiede dati che non possediamo. Complementari, non competitivi: come JDBC e REST in uno
+  stesso backend.</aside>
 </section>
 
 <!-- 10 · USERS -->
 <section>
   <div class="eyebrow">boundary 4 · users</div>
   <h2>Three names, one boundary</h2>
-  <ul>
-    <li><strong>AG-UI</strong>: event stream between agent backend and user-facing app (run
-      lifecycle, messages, tool calls, state); human-in-the-loop: pause for approval, resume later</li>
-    <li><strong>A2UI</strong>: declarative UI from a <strong>client-owned</strong> component
-      catalogue → native widgets, no arbitrary code from the agent</li>
-    <li><strong>MCP Apps</strong>: interactive UI on the MCP side</li>
-    <li>The A2UI payload travels over AG-UI, A2A or any transport</li>
-  </ul>
-  <p>Status: <span class="pill cb">AG-UI: unratified draft</span>
-     <span class="pill cb">A2UI: 0.9.1, 1.0 candidate</span></p>
-  <aside class="notes">⏱ min 21.5-25. Tre nomi per un confine: mappa rapida di chi fa cosa, senza
-  perdersi. AG-UI trasporta l'interazione (eventi), A2UI descrive l'interfaccia (dichiarativo),
-  MCP Apps copre il lato MCP. Il punto di sicurezza del dichiarativo da dire esplicito: il client
-  possiede il catalogo dei componenti, l'agente DESCRIVE, non impone codice. E human-in-the-loop
-  (pausa per approvazione o credenziali, resume dopo) è il pattern che serve davvero in
-  enterprise. Nomi nuovi, status da pinnare: dirlo senza scuse.</aside>
+  <div class="figure"><img src="assets/ag-ui-overview.png" alt="AG-UI: agent and application connected through the event protocol, with a real STATE_SNAPSHOT payload"><div class="credit">diagram: docs.ag-ui.com (CopilotKit)</div></div>
+  <div class="cols small">
+    <div class="col">
+      <ul>
+        <li>Why request/response dies here: runs are <strong>long-running</strong> with
+          intermediate output, <strong>nondeterministic</strong> (the agent decides what to
+          render next), mix structured + unstructured IO, need human-in-the-loop</li>
+        <li><strong>AG-UI = typed event vocabulary</strong> (run lifecycle, messages, tool calls,
+          <code>STATE_SNAPSHOT</code>/<code>DELTA</code>) over plain HTTP/SSE/WebSocket —
+          transport- and framework-agnostic (LangGraph, CrewAI, ADK, Pydantic AI speak it)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul>
+        <li><strong>Human-in-the-loop as a first-class event</strong>: pause for approval or
+          credentials, resume later</li>
+        <li><strong>A2UI = declarative UI</strong>: component descriptions from a
+          <strong>client-owned</strong> catalogue → native widgets; the client never executes
+          agent code</li>
+        <li>Composable: an A2UI payload rides over AG-UI or A2A · <strong>MCP Apps</strong> =
+          same idea (sandboxed iframe) on the MCP side</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slidefoot">
+    <div class="parallel">≈ <b>A2UI re-discovers HTML's contract</b>: markup from the server, rendering owned by the client · <b>AG-UI ≈ EventSource/MQTT</b>: a standardized event stream</div>
+    <span class="pill cb">AG-UI: draft</span>
+    <span class="pill cb">A2UI: 0.9.1</span>
+  </div>
+  <aside class="notes">⏱ min 21.5-25. Il diagramma ufficiale mostra il punto: a sinistra il
+  grafo dell'agente, a destra l'applicazione, in mezzo solo eventi tipati, e guardate il
+  payload nel quadrante: STATE_SNAPSHOT con dentro lo stato sincronizzato, non testo. Perché
+  serve un protocollo qui: il request/response presuppone una risposta finita e deterministica,
+  un run agentico è lungo, produce output intermedio e nondeterministico (l'agente decide COSA
+  mostrare dopo), mescola strutturato e testo, e a volte si ferma a chiedere. AG-UI porta
+  ordine: un vocabolario di eventi standard su HTTP/SSE/WS, non un WebSocket su misura per app;
+  i framework principali lo parlano già (LangGraph, CrewAI, ADK, Pydantic AI: i loghi nel
+  diagramma). Human-in-the-loop come evento di prima classe: pausa per approvazione o
+  credenziali, resume dopo: il pattern enterprise. A2UI: l'agente DESCRIVE, il client possiede
+  il catalogo e renderizza widget nativi, mai codice arbitrario: è il contratto di HTML
+  riscoperto (markup dal server, rendering del client). MCP Apps: la stessa idea lato MCP,
+  iframe sandboxed.</aside>
 </section>
 
 <!-- 11 · KNOWLEDGE -->
@@ -213,22 +298,26 @@ Before WebSockets   <span class="k">→</span> <span class="kd">polling</span> e
   <div class="eyebrow">boundary 5 · knowledge &amp; instructions</div>
   <h2>Knowledge rides the filesystem</h2>
   <ul class="small">
-    <li><strong>AGENTS.md</strong>: repo convention, narrows as you descend</li>
+    <li><strong>AGENTS.md</strong>: repo convention, narrows as you descend — ≈ <b>robots.txt for repos</b></li>
     <li><strong>Agent Skills</strong>: a folder with <code>SKILL.md</code> + scripts and
-      references; progressive disclosure (discover the name → load the instructions → execute)</li>
+      references; progressive disclosure (discover the name → load the instructions → execute)
+      — ≈ <b>man pages</b>: synopsis always loaded, full page on demand</li>
     <li><strong>Agent Plugins</strong>: one package, <code>plugin.json</code> + <code>skills/</code>
       + <code>mcp.json</code>; vendor-neutral interoperability floor; spec 1.0.0, TSC from
-      Amazon, Cursor, Microsoft, OpenAI, Vercel</li>
+      Amazon, Cursor, Microsoft, OpenAI, Vercel — ≈ <b>apt/homebrew packages</b></li>
     <li><strong>OpenTelemetry GenAI</strong>: one trace across model calls, tools, agents —
-      status <span class="pill cb">Development</span></li>
+      ≈ <b>the OTel you already run</b>: new <code>gen_ai.*</code> conventions next to
+      <code>http.*</code> and <code>db.*</code> — status <span class="pill cb">Development</span></li>
   </ul>
-  <aside class="notes">⏱ min 25-28. Ritmo da lista: il messaggio è che anche la conoscenza sta
-  diventando un confine standardizzato. AGENTS.md è una convenzione, zero runtime, e funziona già
-  oggi. Skills: progressive disclosure in tre stadi (nome → istruzioni → esecuzione), nata da
-  Anthropic e ormai spec aperta. Plugins: il punto interessante per questo pubblico è
-  l'interoperability floor (core portabile, il client tiene distribuzione e UX) e il TSC con
-  cinque vendor pesanti: è il segnale a cui guardare. OTel GenAI una riga: Development, pinnare
-  la versione.</aside>
+  <aside class="notes">⏱ min 25-28. Ritmo da lista, ma ogni riga ha il suo cugino classico.
+  AGENTS.md: convenzione pura, zero runtime, come robots.txt: funziona perché tutti la
+  rispettano. Skills: la progressive disclosure è esattamente la filosofia delle man pages,
+  nome e synopsis sempre in memoria, pagina completa solo quando serve; nata da Anthropic,
+  ormai spec aperta con supporto ampio. Plugins: pacchetti alla apt/homebrew, manifest, skill e
+  MCP server in un bundle; il punto per questo pubblico è l'interoperability floor (core
+  portabile, il client tiene distribuzione e UX) e il TSC con cinque vendor pesanti: è il
+  segnale a cui guardare. OTel GenAI: non imparate nulla di nuovo se usate già OTel, sono le
+  semantic conventions gen_ai.* accanto a http.* e db.*; Development, pinnare la versione.</aside>
 </section>
 
 <!-- 12 · ACP (KEPT SHORT) -->
@@ -253,21 +342,46 @@ Before WebSockets   <span class="k">→</span> <span class="kd">polling</span> e
 <section>
   <div class="eyebrow">the newest boundary · payments</div>
   <h2>The boundary nobody used for 30 years</h2>
-  <ul>
-    <li>HTTP <strong>402 "Payment Required"</strong>: reserved in the protocol since 1996,
-      never put to use</li>
-    <li><strong>x402</strong> revives it for agents: server answers <code>402</code>
-      → client pays → retries with proof → <code>200</code></li>
-    <li>HTTP-native, no accounts, no API keys, one line of middleware</li>
-    <li>Blockchain-agnostic settlement (stablecoins first, extensible to traditional rails)</li>
-  </ul>
-  <p>Status: <span class="pill cc">production claims, adoption to be proved</span></p>
+  <p class="small">HTTP <strong>402 "Payment Required"</strong>: reserved in the protocol since
+  1996, never put to use.</p>
+  <div class="cols small">
+    <div class="col dbox dashed" style="text-align:left;">
+      <b>The old world — 5 frictions</b>
+      <ul style="margin:0.2em 0 0 1.1em;padding:0;">
+        <li>create account</li>
+        <li>KYC + payment method</li>
+        <li>buy credits</li>
+        <li>manage API keys</li>
+        <li>pay and reconcile</li>
+      </ul>
+    </div>
+    <div class="col dbox" style="text-align:left;border-color:var(--cat-c);border-width:2px;">
+      <b>The x402 way — 3 steps</b>
+      <ul style="margin:0.2em 0 0 1.1em;padding:0;">
+        <li>request</li>
+        <li><strong>402 + terms</strong> (scheme, asset, amount, payTo)</li>
+        <li>pay and retry with proof → <code>200</code></li>
+      </ul>
+    </div>
+  </div>
+  <p class="small">Keyless, per-call, machine-speed · zero protocol fees · blockchain-agnostic
+  (EVM + Solana) · extensible to traditional rails · Linux Foundation project, audited,
+  millions of transactions</p>
+  <div class="slidefoot">
+    <div class="parallel">≈ <b>TLS made security a transport feature; x402 makes payment one</b> — same shape as the 401 flow you know: challenge → retry, but the credential is money</div>
+    <span class="pill cc">production claims</span>
+  </div>
   <aside class="notes">⏱ min 29-31.5. La storia che chiude il cerchio: il protocollo aveva
   riservato un posto per i pagamenti trent'anni fa, gli agenti gli hanno dato un motivo per
-  esistere. Le macchine non hanno carte di credito: il flusso request → 402 con le condizioni di
-  pagamento → pay-and-retry è il contratto, non la valuta. Settlement blockchain-agnostic,
-  stablecoin come caso primario ma estensibile a rails tradizionali (se esce la domanda crypto,
-  questa è la risposta). Status onesto: production claims e foundation, ma adozione da
+  esistere. Le macchine non hanno carte di credito: il confronto è nelle due colonne. A
+  sinistra il mondo che conoscete (account, KYC, crediti, API key, riconciliazione: cinque
+  attriti prima che una macchina consumi un'API), a destra tre passi: richiesta, 402 con i
+  termini (scheme, asset, amount, payTo), pagamento e retry con proof. La forma è quella del
+  401 che conoscete: challenge → retry con credenziali, solo che la credenziale è denaro. E
+  come TLS ha reso la sicurezza una feature del transport, x402 fa lo stesso col pagamento: non
+  è un gateway, è nel protocollo. Zero fee di protocollo, agnostico (EVM e Solana, estensibile
+  a rail tradizionali: se esce la domanda crypto, questa è la risposta). Progetto Linux
+  Foundation, audited, milioni di transazioni in produzione; status onesto: adozione da
   dimostrare. Il flusso completo disegnato sta in appendice.</aside>
 </section>
 

@@ -135,6 +135,22 @@
   font-family: Charter, "Iowan Old Style", Georgia, serif; font-size: 1.1em; line-height: 1.4;
 }
 
+/* Official-diagram figure (vendored assets, credited on-slide) */
+.figure { text-align: center; margin: 0.35em 0 0.15em; }
+.figure img {
+  max-width: 640px; max-height: 215px;
+  border: 1px solid var(--line); border-radius: 6px; background: #FFFFFF;
+}
+.figure .credit { font-size: 0.55em; color: var(--dim); margin-top: 0.15em; }
+
+/* Slide footer: classic-cousin strip (amber) + status pill */
+.slidefoot { display: flex; justify-content: space-between; align-items: center; gap: 1em; margin-top: 0.45em; }
+.parallel {
+  font-family: Charter, "Iowan Old Style", Georgia, serif;
+  font-size: 0.92em; line-height: 1.35;
+  border-left: 4px solid var(--cat-b); padding: 0.1em 0 0.1em 0.7em;
+}
+
 /* Reveal chrome on the token palette */
 .reveal .controls { color: var(--dim); }
 .reveal .progress { background: var(--line); color: var(--cat-a); height: 4px; }
