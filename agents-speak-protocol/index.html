@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agents Speak Protocol</title>
+  <link rel="stylesheet" href="reveal/reset.css">
+  <link rel="stylesheet" href="reveal/reveal.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- 1 · TITLE -->
+<section>
+  <div class="eyebrow">talk · 45 min · intermediate / advanced</div>
+  <h1>Agents Speak Protocol</h1>
+  <p class="thesis">Why <strong>standards</strong> are the real infrastructure of AI.</p>
+  <p class="dimtext small">Devfest Milano 2026 · 10 October 2026 · Stefano Maestri · Alessio Soldano</p>
+  <aside class="notes">⏱ min 0-0.5, slide proiettata mentre la gente si sistema. La tesi sta tutta
+  nel titolo, non anticipate nulla. Verificare proiettore/adattatore PRIMA che la sessione
+  cominci. Il talk è parlato in italiano, le slide restano in inglese: dirlo solo se qualcuno
+  chiede.</aside>
+</section>
+
+<!-- 2 · WHO WE ARE -->
+<section>
+  <div class="eyebrow">who we are</div>
+  <h2>Two people who ship agents</h2>
+  <div class="cols">
+    <div class="col dbox"><b>Stefano Maestri</b><span class="dlabel">Software &amp; AI engineering manager<br>A2A technical steering committee, Linux Foundation<br>podcaster &amp; blogger about AI</span></div>
+    <div class="col dbox"><b>Alessio Soldano</b><span class="dlabel">Software engineer &amp; manager<br>RESTEasy · WildFly · Apache CXF · Quarkus<br>exploring generative AI in software development</span></div>
+  </div>
+  <p class="lede">Why this talk: our agents already need to talk to <strong>other people's agents, tools and users</strong>.</p>
+  <aside class="notes">⏱ min 0.5-2: blocco intro dei 2 minuti, una riga ciascuno, niente CV. Due
+  credenziali sono però oro per il talk e vanno dette qui: Stefano siede nel TSC di A2A alla
+  Linux Foundation (quando arriva la sezione A2A, le regole del protocollo le racconta chi le
+  scrive); Alessio ha costruito gli stack delle guerre di protocollo che la sezione 1 racconta
+  (Apache CXF è SOAP/WS, RESTEasy è REST): l'apertura storica è sua di diritto. Split da
+  confermare in prova, ma questa è la spaccatura naturale. Chiudere con la frase ponte "our
+  agents already need to talk to other people's agents, tools and users".</aside>
+</section>
+
+<!-- 3 · TOWER OF BABEL -->
+<section>
+  <div class="eyebrow">history · part 1</div>
+  <h2>Every revolution standardized how things talk</h2>
+  <pre class="j">Before TCP/IP       <span class="k">→</span> networks spoke <span class="kd">dialects</span>
+Before HTTP         <span class="k">→</span> every service invented its own <span class="kd">wire format</span>
+Before REST         <span class="k">→</span> SOAP was the only <span class="kd">"enterprise"</span> answer
+Before WebSockets   <span class="k">→</span> <span class="kd">polling</span> everywhere</pre>
+  <p class="lede">Each time, entropy was reduced not by better applications,
+  but by <strong>agreeing on how things connect</strong>.</p>
+  <aside class="notes">⏱ min 2-4. Quattro righe, quattro epoche: non leggere le righe,
+  raccontarle come un ritmo (chi era in azienda ai tempi di SOAP può confermare). Il punto non è
+  la storia: è che l'entropia NON è stata ridotta da applicazioni migliori, ma da un accordo su
+  come le cose si connettono. Land: "entropy was reduced by agreeing on how things connect".</aside>
+</section>
+
+<!-- 4 · HISTORY'S RULE -->
+<section>
+  <div class="eyebrow">history · part 2</div>
+  <h2>History's rule</h2>
+  <p class="lede">CORBA vs REST · SOAP vs JSON · WebSockets vs polling</p>
+  <p>Winners are rarely the most feature-rich.</p>
+  <p class="rule"><strong>The simplest protocol that reduces the most uncertainty wins.</strong></p>
+  <aside class="notes">⏱ min 4-5.5. Scegliere DUE guerre e raccontarle per bene, la terza solo
+  citata: (1) SOAP vs JSON: vince il più semplice, non il più completo; (2) WebSockets vs
+  polling: vince chi cambia il modello di comunicazione, non chi aggiunge feature. QUESTA frase è
+  la regola del talk: torna in chiusura e nella slide delle scommesse. Se il tempo stringe,
+  comprimere a 1 minuto.</aside>
+</section>
+
+<!-- 5 · THE MAP -->
+<section>
+  <div class="eyebrow">the map · anchor slide</div>
+  <h2>Seven boundaries, plus one</h2>
+  <div class="diagram center">
+    <div class="dbox"><b>Models</b><span class="dlabel">Open Responses</span></div>
+    <div class="dbox"><b>Tools</b><span class="dlabel proto">MCP</span></div>
+    <div class="dbox"><b>Other agents</b><span class="dlabel proto">A2A</span></div>
+    <div class="dbox"><b>Users</b><span class="dlabel">AG-UI · A2UI</span></div>
+  </div>
+  <div class="diagram center"><div class="darrow">▼</div><div class="dbox hero" style="padding:0.6em 2.4em;"><b>AGENT</b></div><div class="darrow">▼</div></div>
+  <div class="diagram center">
+    <div class="dbox"><b>Knowledge</b><span class="dlabel">AGENTS.md · Skills · Plugins</span></div>
+    <div class="dbox"><b>Operations</b><span class="dlabel">OTel GenAI</span></div>
+    <div class="dbox dashed"><b>IDE</b><span class="dlabel proto">ACP</span></div>
+    <div class="dbox new"><b>Payments</b><span class="dlabel">x402</span></div>
+  </div>
+  <p class="small dimtext">One contract per boundary, composed independently ·
+  map after Bilgin Ibryam, <i>The Generative Programmer</i> (2026) · payments added
+  <span class="tag">new</span></p>
+  <aside class="notes">⏱ min 5.5-8.5. LA slide-ancora: resta proiettata mentalmente per tutto il
+  talk. Percorrerla in 40 secondi: modello, tools, altri agenti, utenti, conoscenza, telemetria,
+  IDE. Due avvertenze da dire QUI: (1) non tutto è maturo allo stesso modo, lo chiudiamo con cosa
+  adottare oggi; (2) i protocolli si completano, non competono. Poi il perimetro: ACP (il confine
+  IDE) lo teniamo breve perché vive un po' a parte; i pagamenti sono il confine nuovo, arrivato
+  dopo la mappa originale (box viola).</aside>
+</section>
+
+<!-- 6 · OPEN RESPONSES -->
+<section>
+  <div class="eyebrow">boundary 1 · the model</div>
+  <h2>Open Responses</h2>
+  <ul>
+    <li>Early de facto: <strong>Chat Completions</strong> semantics (messages, roles, streaming,
+      tool calls), adopted by clients, gateways, providers</li>
+    <li>Now: <strong>Responses API</strong> — typed items, semantic streaming events,
+      state across turns</li>
+    <li><strong>Open Responses</strong>: the same contract, open and multi-provider</li>
+  </ul>
+  <p>Status: <span class="pill cb">emerging</span></p>
+  <aside class="notes">⏱ min 8.5-11. Parallelo storico da martellare: quando la semantica de
+  facto di un vendor diventa la base del contratto neutro, come HTTP/1.1 de facto divenne
+  standard IETF. Chat Completions ha vinto come dialetto comune; Responses è la generazione dopo
+  (item tipati, eventi di streaming semantici, stato tra turni); Open Responses è la copia
+  aperta multi-provider. Onestà sullo status: emerging, da pinnare, non da scommettere ancora.</aside>
+</section>
+
+<!-- 7 · MCP -->
+<section>
+  <div class="eyebrow">boundary 2 · tools</div>
+  <h2>MCP</h2>
+  <ul>
+    <li><strong>JSON-RPC 2.0</strong>, three roles: host (LLM app) → client (in host)
+      → server (capabilities)</li>
+    <li>Tools, resources and prompts through <strong>one connection</strong></li>
+    <li>Extensions: <strong>MCP Apps</strong> (sandboxed interactive HTML),
+      <strong>Skills over MCP</strong> (in development)</li>
+  </ul>
+  <p>Status: <span class="pill ca">de facto standard</span></p>
+  <aside class="notes">⏱ min 11-15. Il confine più maturo, il "vincitore attuale". Perché ha
+  vinto finora: semplice, SDK ovunque, e riduce il problema N×M (N agenti × M tool) a N+M.
+  Spiegare i tre ruoli: l'host è l'app che ha il modello, il client sta nell'host, il server
+  espone le capability. Attenzione onesta: MCP Apps e Skills-over-MCP sono estensioni, NON fanno
+  parte del supporto base, verificare prima di dipendere. Questa è la slide in cui stare comodi:
+  4 minuti pieni.</aside>
+</section>
+
+<!-- 8 · A2A -->
+<section>
+  <div class="eyebrow">boundary 3 · other agents</div>
+  <h2>A2A</h2>
+  <ul>
+    <li><strong>Agent Card</strong> for discovery · <strong>Messages</strong> ·
+      <strong>Tasks</strong> for stateful work · <strong>Artifacts</strong> for results</li>
+    <li>Streaming and push notifications for long-running work</li>
+  </ul>
+  <p>Status: <span class="pill ca">1.0 stable</span></p>
+  <p class="lede">Key property: <strong>opaque execution</strong> — the remote agent keeps its
+  model, tools and context private.</p>
+  <aside class="notes">⏱ min 15-18. Passaggio di confine: non parliamo più di chiamare tool, ma
+  di delegare lavoro a un altro partecipante autonomo. Percorrere il ciclo: scopri (Agent Card),
+  incarica (Task), ricevi (Artifact), con streaming e push per il lungo periodo. Il punto chiave
+  da anticipare (si spacca nella prossima slide): l'esecuzione è opaca per progetto, l'agente
+  remoto non espone modello, tool né contesto.</aside>
+</section>
+
+<!-- 9 · MCP + A2A SIDE BY SIDE -->
+<section>
+  <div class="eyebrow">the concrete architecture</div>
+  <h2>MCP and A2A in the same system</h2>
+  <div class="diagram">
+    <div class="dbox hero"><b>My agent</b></div>
+    <div class="darrow">── <span class="dlabel proto" style="display:inline">MCP</span> ──▶</div>
+    <div class="dbox"><b>My tools</b><span class="dlabel">MCP server · capability access</span></div>
+  </div>
+  <div class="diagram">
+    <div class="dbox hero"><b>My agent</b></div>
+    <div class="darrow">── <span class="dlabel proto" style="display:inline">A2A</span> ──▶</div>
+    <div class="dbox"><b>Partner agent</b><span class="dlabel">outcome delegation</span></div>
+    <div class="darrow">···▶</div>
+    <div class="dbox dashed"><b>own model · own tools · own context</b><span class="dlabel">opaque execution</span></div>
+  </div>
+  <p class="lede"><strong>MCP: capability access</strong> — my agent calls your tools.
+  <strong>A2A: outcome delegation</strong> — your agent keeps its stack private.</p>
+  <p class="small dimtext">Complement, don't compete: each does what it does best.</p>
+  <aside class="notes">⏱ min 18-21.5. LA slide che l'abstract promette: architettura concreta,
+  side by side. La distinzione da martellare: access to capabilities VS delegation to an
+  autonomous participant. Nel diagramma: il nostro agente usa MCP per i SUOI tool, e A2A per
+  delegare lavoro cross-org a un agente partner, che gira col suo stack e non espone nulla.
+  Complementari, non competitivi. Esempio parlato (adattare al pubblico): un agente di supporto
+  interno che gestisce i tool aziendali via MCP e delega a un agente partner la parte che
+  richiede dati che non possediamo.</aside>
+</section>
+
+<!-- 10 · USERS -->
+<section>
+  <div class="eyebrow">boundary 4 · users</div>
+  <h2>Three names, one boundary</h2>
+  <ul>
+    <li><strong>AG-UI</strong>: event stream between agent backend and user-facing app (run
+      lifecycle, messages, tool calls, state); human-in-the-loop: pause for approval, resume later</li>
+    <li><strong>A2UI</strong>: declarative UI from a <strong>client-owned</strong> component
+      catalogue → native widgets, no arbitrary code from the agent</li>
+    <li><strong>MCP Apps</strong>: interactive UI on the MCP side</li>
+    <li>The A2UI payload travels over AG-UI, A2A or any transport</li>
+  </ul>
+  <p>Status: <span class="pill cb">AG-UI: unratified draft</span>
+     <span class="pill cb">A2UI: 0.9.1, 1.0 candidate</span></p>
+  <aside class="notes">⏱ min 21.5-25. Tre nomi per un confine: mappa rapida di chi fa cosa, senza
+  perdersi. AG-UI trasporta l'interazione (eventi), A2UI descrive l'interfaccia (dichiarativo),
+  MCP Apps copre il lato MCP. Il punto di sicurezza del dichiarativo da dire esplicito: il client
+  possiede il catalogo dei componenti, l'agente DESCRIVE, non impone codice. E human-in-the-loop
+  (pausa per approvazione o credenziali, resume dopo) è il pattern che serve davvero in
+  enterprise. Nomi nuovi, status da pinnare: dirlo senza scuse.</aside>
+</section>
+
+<!-- 11 · KNOWLEDGE -->
+<section>
+  <div class="eyebrow">boundary 5 · knowledge &amp; instructions</div>
+  <h2>Knowledge rides the filesystem</h2>
+  <ul class="small">
+    <li><strong>AGENTS.md</strong>: repo convention, narrows as you descend</li>
+    <li><strong>Agent Skills</strong>: a folder with <code>SKILL.md</code> + scripts and
+      references; progressive disclosure (discover the name → load the instructions → execute)</li>
+    <li><strong>Agent Plugins</strong>: one package, <code>plugin.json</code> + <code>skills/</code>
+      + <code>mcp.json</code>; vendor-neutral interoperability floor; spec 1.0.0, TSC from
+      Amazon, Cursor, Microsoft, OpenAI, Vercel</li>
+    <li><strong>OpenTelemetry GenAI</strong>: one trace across model calls, tools, agents —
+      status <span class="pill cb">Development</span></li>
+  </ul>
+  <aside class="notes">⏱ min 25-28. Ritmo da lista: il messaggio è che anche la conoscenza sta
+  diventando un confine standardizzato. AGENTS.md è una convenzione, zero runtime, e funziona già
+  oggi. Skills: progressive disclosure in tre stadi (nome → istruzioni → esecuzione), nata da
+  Anthropic e ormai spec aperta. Plugins: il punto interessante per questo pubblico è
+  l'interoperability floor (core portabile, il client tiene distribuzione e UX) e il TSC con
+  cinque vendor pesanti: è il segnale a cui guardare. OTel GenAI una riga: Development, pinnare
+  la versione.</aside>
+</section>
+
+<!-- 12 · ACP (KEPT SHORT) -->
+<section>
+  <div class="eyebrow">boundary 6 · the ide — kept short on purpose</div>
+  <h2>ACP</h2>
+  <ul>
+    <li><strong>JSON-RPC</strong> between code editor and coding agent: init, sessions,
+      prompt/progress, permissions, cancel</li>
+    <li><span class="pill ca">v1 stable</span> <span class="pill cb">v2 experimental</span></li>
+    <li>The <strong>LSP parallel</strong> — and where it stops: agents are stateful and act
+      with authority</li>
+  </ul>
+  <aside class="notes">⏱ min 28-29. Breve DI PROPOSITO, e dirlo: è il confine che si collega meno
+  agli altri, vive nel mondo IDE. Il parallelo giusto è LSP: un contratto invece di N
+  integrazioni editor-specifiche. Ma dove il parallelo si ferma: LSP risponde a domande, l'agente
+  tiene sessioni di stato e agisce con autorità sul codebase (permissions, cancel). Chi lo sta
+  integrando e vuole il dettaglio: slide in appendice, ne parliamo dopo.</aside>
+</section>
+
+<!-- 13 · X402 -->
+<section>
+  <div class="eyebrow">the newest boundary · payments</div>
+  <h2>The boundary nobody used for 30 years</h2>
+  <ul>
+    <li>HTTP <strong>402 "Payment Required"</strong>: reserved in the protocol since 1996,
+      never put to use</li>
+    <li><strong>x402</strong> revives it for agents: server answers <code>402</code>
+      → client pays → retries with proof → <code>200</code></li>
+    <li>HTTP-native, no accounts, no API keys, one line of middleware</li>
+    <li>Blockchain-agnostic settlement (stablecoins first, extensible to traditional rails)</li>
+  </ul>
+  <p>Status: <span class="pill cc">production claims, adoption to be proved</span></p>
+  <aside class="notes">⏱ min 29-31.5. La storia che chiude il cerchio: il protocollo aveva
+  riservato un posto per i pagamenti trent'anni fa, gli agenti gli hanno dato un motivo per
+  esistere. Le macchine non hanno carte di credito: il flusso request → 402 con le condizioni di
+  pagamento → pay-and-retry è il contratto, non la valuta. Settlement blockchain-agnostic,
+  stablecoin come caso primario ma estensibile a rails tradizionali (se esce la domanda crypto,
+  questa è la risposta). Status onesto: production claims e foundation, ma adozione da
+  dimostrare. Il flusso completo disegnato sta in appendice.</aside>
+</section>
+
+<!-- 14 · THE BETS -->
+<section>
+  <div class="eyebrow">what to adopt today</div>
+  <h2>The bets</h2>
+  <div class="tablewrap">
+  <table>
+    <tr><th>Contract</th><th>Boundary</th><th>Status</th><th>Bet</th></tr>
+    <tr><td>MCP</td><td>tools</td><td>de facto standard</td><td><span class="pill ca">now</span></td></tr>
+    <tr><td>A2A 1.0</td><td>agents</td><td>stable</td><td><span class="pill ca">now</span></td></tr>
+    <tr><td>ACP v1</td><td>IDE</td><td>stable</td><td><span class="pill ca">now</span> (IDE-scoped)</td></tr>
+    <tr><td>AGENTS.md</td><td>knowledge</td><td>convention, zero runtime</td><td><span class="pill ca">now</span></td></tr>
+    <tr><td>Agent Skills</td><td>knowledge</td><td>open spec, wide support</td><td><span class="pill ca">now</span></td></tr>
+    <tr><td>Open Responses</td><td>model</td><td>emerging</td><td><span class="pill cb">pin</span></td></tr>
+    <tr><td>OTel GenAI</td><td>operations</td><td>Development</td><td><span class="pill cb">pin</span></td></tr>
+    <tr><td>AG-UI</td><td>users</td><td>unratified 1.0 draft</td><td><span class="pill cb">pin</span></td></tr>
+    <tr><td>A2UI</td><td>users</td><td>0.9.1, 1.0 candidate</td><td><span class="pill cb">pin</span></td></tr>
+    <tr><td>Agent Plugins 1.0.0</td><td>knowledge</td><td>spec published</td><td><span class="pill cb">pin</span> (portability unproven)</td></tr>
+    <tr><td>x402</td><td>payments</td><td>production claims</td><td><span class="pill cb">pin</span></td></tr>
+  </table>
+  </div>
+  <p class="rule small">Adopt one boundary when you need to replace what sits on the other side
+  <strong>without rewriting your agent</strong>. Not before.</p>
+  <aside class="notes">⏱ min 31.5-33.5. La lezione storica applicata, la slide operativa: i
+  vincitori sono i protocolli più semplici che riducono più incertezza, quindi si adotta dove il
+  dolore è reale, un confine alla volta, senza riscrivere l'agente. Non leggere la tabella: fare
+  due gruppi col dito (now / pin) e dare la regola finale. La tabella è anche il motivo per cui
+  la snapshot va riverificata la settimana del talk.</aside>
+</section>
+
+<!-- 15 · TAKEAWAYS -->
+<section>
+  <div class="eyebrow">takeaways</div>
+  <h2>Three sentences to take home</h2>
+  <p class="rule">1 · Standards arrive <strong>one boundary at a time</strong>, not as a platform.</p>
+  <p class="rule">2 · Complement, don't compete: <strong>MCP and A2A side by side</strong>,
+  each doing what it does best.</p>
+  <p class="rule">3 · Adopt where the pain is — <strong>the simplest protocol that reduces the
+  most uncertainty wins</strong>.</p>
+  <p class="small dimtext">Based on Bilgin Ibryam, <i>The Emerging Standards Behind AI Agents</i>
+  (The Generative Programmer, Sept 2026) · x402.org · agentskills.io · agent-plugins.org</p>
+  <aside class="notes">⏱ min 33.5-34. Tre frasi, lente, sono quello che la gente porta a casa.
+  La terza è la regola della slide "history's rule" che torna: chiudere il cerchio ad alta voce.
+  Credit alle fonti (già sulla slide), ringraziare e aprire le domande.</aside>
+</section>
+
+<!-- 16 · Q&A -->
+<section>
+  <div class="eyebrow">discussion</div>
+  <h2>Grazie — questions?</h2>
+  <p class="lede">Ask us about: the architecture slide · x402 · what <i>we</i> would adopt tomorrow</p>
+  <p class="small">How was the talk? Rate it → <a href="https://maeste.it/speaking/agents-speak-protocol.html">maeste.it/speaking/agents-speak-protocol.html</a></p>
+  <p class="dimtext small">Stefano Maestri — maeste.it · Alessio Soldano — aladinodigitale.it</p>
+  <aside class="notes">⏱ Q&A: almeno 5 minuti garantiti, in slot da 45 ne restano ~10. Le domande
+  attese e le risposte preparate sono in appendice (freccia in basso) e nell'outline: MCP vs A2A
+  sovrapposizione, security, AG-UI vs A2UI, perché poco ACP, x402/crypto, SOAP of AI, adottare ora
+  o aspettare. Se una domanda richiede il dettaglio: appendice, non improvvisare. Se serve
+  recuperare tempo durante il talk, i takeaway (slide 15) si dicono in 20 secondi, mai tagliare
+  sotto i 5 minuti di Q&amp;A.</aside>
+</section>
+
+<!-- APPENDIX — vertical stack, ↓ from the closing slide -->
+<section>
+  <section>
+    <div class="eyebrow">appendix A1 · backup</div>
+    <h2>MCP vs A2A: the comparison</h2>
+    <div class="tablewrap">
+    <table>
+      <tr><th></th><th>MCP</th><th>A2A</th></tr>
+      <tr><td>Role</td><td>capability access</td><td>outcome delegation</td></tr>
+      <tr><td>You talk to</td><td>a tool / process</td><td>an autonomous agent</td></tr>
+      <tr><td>State</td><td>stateless calls</td><td>stateful Tasks</td></tr>
+      <tr><td>Discovery</td><td>server configuration</td><td>Agent Card</td></tr>
+      <tr><td>Remote internals</td><td>n/a</td><td>never exposed (opaque execution)</td></tr>
+      <tr><td>Together</td><td colspan="2">same system: MCP for tools, A2A for partner organizations</td></tr>
+    </table>
+    </div>
+    <aside class="notes">Da usare per la domanda "MCP e A2A si sovrappongono?": no, e in
+    produzione convivono nello stesso sistema. Rientrare nel dettaglio solo se la domanda è
+    tecnica.</aside>
+  </section>
+
+  <section>
+    <div class="eyebrow">appendix A2 · backup</div>
+    <h2>ACP, a closer look</h2>
+    <ul class="small">
+      <li>JSON-RPC 2.0 between <strong>code editor</strong> and <strong>coding agent</strong></li>
+      <li>Lifecycle: initialize → session/new → session/prompt (+ progress)
+        → session/request_permission → session/cancel</li>
+      <li>Capability negotiation at init</li>
+      <li><span class="pill ca">v1 stable</span> <span class="pill cb">v2 experimental draft</span></li>
+      <li>The LSP parallel holds for the contract shape, not the semantics: LSP answers
+        questions, the agent holds state and acts with authority on the codebase</li>
+    </ul>
+    <aside class="notes">Per la domanda "perché così poco su ACP?". Risposta breve: scelta
+    consapevole, è il confine IDE e si collega meno agli altri; poi questa slide per chi vuole il
+    dettaglio.</aside>
+  </section>
+
+  <section>
+    <div class="eyebrow">appendix A3 · backup</div>
+    <h2>x402: the payment flow</h2>
+    <pre class="tree"> Client (agent)                                  Server
+    │  GET /resource                                 │
+    ├───────────────────────────────────────────────▶│
+    │        402 PAYMENT_REQUIRED                     │
+    │◀───────────────────────────────────────────────┤   + accepts: scheme, asset,
+    │                                                 │     amount, payTo
+    │  pay (e.g. stablecoin transfer)                 │
+    ├───────────────────────────────────────────────▶│   verify settlement
+    │  GET /resource + payment proof                  │
+    │◀───────────────────────────────────────────────┤
+    │        200 OK + resource                        │</pre>
+    <ul class="small">
+      <li>Zero protocol fees · no accounts, no KYC, no API keys · server middleware: one line</li>
+      <li>Settlement: blockchain-agnostic (EVM, Solana), stablecoins first, extensible to
+        traditional rails</li>
+    </ul>
+    <aside class="notes">Per la domanda "x402 vuol dire crypto?". Il punto del talk è il
+    contratto HTTP-native, non la valuta; il settlement è agnostico. Se serve, il flusso qui
+    spiega perché è una riga di middleware.</aside>
+  </section>
+
+  <section>
+    <div class="eyebrow">appendix A4 · backup</div>
+    <h2>Security across the boundaries</h2>
+    <ul>
+      <li><strong>A2A</strong>: auth declared in the Agent Card, enterprise-ready posture,
+        transport security</li>
+      <li><strong>MCP Apps</strong>: sandboxed iframes, no arbitrary page access</li>
+      <li><strong>A2UI</strong>: client-owned component catalogue — the agent describes,
+        never ships code</li>
+      <li><strong>x402</strong>: settlement verified before the resource is served</li>
+    </ul>
+    <p class="rule small">Honest gap: <strong>cross-organization authorization models</strong>
+    are the least standardized piece.</p>
+    <aside class="notes">Per la domanda "e la security?". Chiudere sempre con la riga onesta: i
+    modelli di autorizzazione cross-org sono il pezzo meno standardizzato di tutto lo stack.</aside>
+  </section>
+
+  <section>
+    <div class="eyebrow">appendix A5 · backup</div>
+    <h2>Status of every contract (snapshot Oct 2026)</h2>
+    <div class="tablewrap">
+    <table>
+      <tr><th>Contract</th><th>Version / status</th><th>Watch for</th></tr>
+      <tr><td>MCP</td><td>de facto standard</td><td>Apps + Skills-over-MCP extensions</td></tr>
+      <tr><td>A2A</td><td>1.0 stable, SDKs available</td><td>enterprise adoption stories</td></tr>
+      <tr><td>ACP</td><td>v1 stable, v2 experimental</td><td>editor integrations</td></tr>
+      <tr><td>Open Responses</td><td>emerging</td><td>multi-provider convergence</td></tr>
+      <tr><td>AG-UI</td><td>1.0 unratified draft</td><td>ratification</td></tr>
+      <tr><td>A2UI</td><td>0.9.1, 1.0 candidate</td><td>1.0</td></tr>
+      <tr><td>Agent Skills</td><td>open spec, wide client support</td><td>server-side skills (over MCP)</td></tr>
+      <tr><td>Agent Plugins</td><td>1.0.0 spec published</td><td>proven portability across clients</td></tr>
+      <tr><td>OTel GenAI</td><td>Development</td><td>stable GenAI semantic conventions</td></tr>
+      <tr><td>x402</td><td>production claims, foundation</td><td>real-world adoption volume</td></tr>
+    </table>
+    </div>
+    <p class="small dimtext">Snapshot 5 Oct 2026 — re-check the sources the week of the talk.</p>
+    <aside class="notes">Snapshot del 5 ottobre 2026, da riverificare la settimana del talk sulle
+    fonti (articolo di Ibryam, x402.org, agentskills.io, agent-plugins.org). La tabella della
+    slide "The bets" ne è la versione semplificata.</aside>
+  </section>
+</section>
+
+</div>
+</div>
+
+<script src="reveal/reveal.js"></script>
+<script src="reveal/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    width: 1280,
+    height: 720,
+    margin: 0.06,
+    controls: true,
+    progress: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>
