@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 345" class="diagram-svg" role="img" aria-labelledby="title-trace desc-trace"><title id="title-trace">Trace</title><desc id="desc-trace">A conceptual trace groups model, tool and remote agent activity under one request. Services must be instrumented and propagate context; no duration is measured in this illustration.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-trace" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><text x="0" y="25" text-anchor="start" class="svg-mono">ONE REQUEST / CORRELATED CONTEXT</text><rect x="0" y="55" width="1095" height="54" rx="8" class="svg-node"/><text x="23" y="90" text-anchor="start" class="svg-title">Incident investigation</text><rect x="35" y="125" width="330" height="50" rx="7" class="svg-node svg-model"/><text x="53" y="158" text-anchor="start" class="svg-small">Model call</text><rect x="90" y="190" width="410" height="50" rx="7" class="svg-node svg-tool"/><text x="108" y="223" text-anchor="start" class="svg-small">Tool access</text><rect x="360" y="255" width="640" height="50" rx="7" class="svg-node svg-agent"/><text x="378" y="288" text-anchor="start" class="svg-small">Remote delegation</text><path d="M17 109 L17 280 L35 280" class="edge dashed"/><text x="1095" y="332" text-anchor="end" class="svg-mono">Conceptual trace / no measured durations</text></svg>
