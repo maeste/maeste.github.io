@@ -12,18 +12,21 @@ La tesi e la scaletta riprendono la conversazione Alessio/ChatGPT fornita da Ste
 
 | Minuti | Voce | Blocco |
 | --- | --- | --- |
-| 0–2 | Entrambi | Apertura e prospettive |
+| 0–0:30 | Alessio | Apertura |
+| 0:30–1:15 | Alessio | Esperienza con gli standard della prima ondata |
+| 1:15–2 | Stefano | Prospettiva A2A e passaggio alla storia |
 | 2–15 | Alessio | Storia, tesi, mappa, modello e MCP |
-| 15–24 | Stefano | Handoff, A2A, architettura con MCP, UI |
-| 24–28 | Alessio | Knowledge, operations, ACP |
-| 28–29:30 | Stefano | x402, epilogo tagliabile |
-| 29:30–31:30 | Entrambi | Scelte e chiusura |
+| 15–15:15 | Alessio | Domanda di handoff: dall'accesso alla delega |
+| 15:15–29:30 | Stefano | A2A, architettura, UI, knowledge, operations, ACP, x402 (tagliabile) |
+| 29:30–30:30 | Stefano | Scelte pratiche |
+| 30:30–30:45 | Alessio | Richiamo alla storia |
+| 30:45–31:30 | Stefano | Chiusura |
 | Dopo 31:30 | Entrambi | Q&A |
 
-**Prova:** segnare i checkpoint 8:00 (mappa), 15:00 (handoff), 22:00 (architettura), 28:00 (ACP). Se siete lunghi, saltare x402, ridurre il tour rapido e conservare MCP+A2A e la chiusura. Le note sono una traccia parlata; non riempire ogni intervallo leggendo testo. La Q&A non è un contenitore per contenuti essenziali rimasti fuori.
+**Ripartizione prevista:** Alessio 14:45 (circa 47%), Stefano 16:45 (circa 53%). Se saltate x402 senza allungare altro, il talk dura 30:00 e Alessio resta sotto la metà (14:45 su 30:00). **Prova:** segnare i checkpoint 8:00 (mappa), 15:00 (handoff), 22:00 (architettura), 28:00 (ACP). Se siete lunghi, saltare x402, ridurre il tour rapido e conservare MCP+A2A e la chiusura. Le note sono una traccia parlata; non riempire ogni intervallo leggendo testo. La Q&A non è un contenitore per contenuti essenziali rimasti fuori.
 
 ## Slide 1 — Agents Speak Protocol
-<!-- id: title; class: cover; chapter: Opening; time: 0:00–0:30; speaker: Entrambi; hide-title: true -->
+<!-- id: title; class: cover; chapter: Opening; time: 0:00–0:30; speaker: Alessio; hide-title: true -->
 
 <div class="cover-type"><p class="kicker">DevFest Milano / 10 October 2026</p><h1>Agents<br>Speak<br><span>Protocol</span></h1><p class="subtitle">Why standards are the<br>real infrastructure of AI</p></div>
 
@@ -31,7 +34,7 @@ La tesi e la scaletta riprendono la conversazione Alessio/ChatGPT fornita da Ste
 
 <p class="byline">Stefano Maestri <span>&amp;</span> Alessio Soldano</p>
 
-> **Speaker notes:** Entrambi · 0:00–0:30. Lasciare la slide mentre la sala si sistema. Alessio apre: «Negli ultimi due anni abbiamo discusso moltissimo di modelli, framework e reasoning. Ma quando portiamo un agente fuori da una demo, la domanda cambia: con cosa riesce a parlare?» Non anticipare il catalogo di sigle. Provare clicker, fullscreen e speaker view prima della sessione.
+> **Speaker notes:** Alessio · 0:00–0:30. Lasciare la slide mentre la sala si sistema. Alessio apre: «Negli ultimi due anni abbiamo discusso moltissimo di modelli, framework e reasoning. Ma quando portiamo un agente fuori da una demo, la domanda cambia: con cosa riesce a parlare?» Non anticipare il catalogo di sigle. Provare clicker, fullscreen e speaker view prima della sessione.
 
 ## Slide 2 — We have worked on both sides of the boundary
 <!-- id: speakers; chapter: Opening; time: 0:30–2:00; speaker: Entrambi -->
@@ -40,16 +43,16 @@ La tesi e la scaletta riprendono la conversazione Alessio/ChatGPT fornita da Ste
 
 <p class="landing">Our agents need to talk to <strong>other people's systems</strong></p>
 
-> **Speaker notes:** Entrambi · 0:30–2:00. Niente CV. Alessio: «Ho lavorato prima sugli stack SOAP e Web Services, con Apache CXF, poi nel mondo REST con RESTEasy. Quando vedo ogni framework inventarsi un proprio modo di comunicare, provo un certo déjà-vu». Stefano: «Io oggi ritrovo quel problema tra agenti indipendenti; lavoro anche nel TSC di A2A». Alessio riprende: «Guardiamo cosa succede quando un ecosistema comincia a maturare». Credenziali riprese dal deck originale, da rivedere personalmente in prova.
+> **Speaker notes:** Entrambi · 0:30–2:00. Niente CV. Alessio (fino a 1:15): «Ho lavorato prima sugli stack SOAP e Web Services, con Apache CXF, poi nel mondo REST con RESTEasy. Quando vedo ogni framework inventarsi un proprio modo di comunicare, provo un certo déjà-vu». Stefano (1:15–2:00): «Io oggi ritrovo quel problema tra agenti indipendenti; lavoro anche nel TSC di A2A. Alessio ci porta indietro di qualche anno per riconoscere cosa succede quando un ecosistema comincia a maturare». Alessio riprende sulla slide successiva. Credenziali riprese dal deck originale, da rivedere personalmente in prova.
 
 ## Slide 3 — Different decade, familiar integration problem
 <!-- id: history; chapter: History; time: 2:00–4:00; speaker: Alessio -->
 
-<div class="history-grid"><article><span class="era">Networks</span><h3>Connect<br>different systems</h3><p>TCP/IP</p></article><article class="fragment" data-fragment-index="0"><span class="era">Services</span><h3>Agree on<br>an interface</h3><p>RPC / SOAP / REST</p></article><article class="fragment" data-fragment-index="1"><span class="era">Editors</span><h3>Reuse<br>integrations</h3><p>LSP</p></article><article class="fragment" data-fragment-index="2"><span class="era">Agents</span><h3>Meet the<br>same problems</h3><p>Models / tools / peers</p></article></div>
+<div class="history-grid"><article><span class="era">Networks</span><h3>Connect<br>different systems</h3><p>TCP/IP</p></article><article class="fragment" data-fragment-index="0"><span class="era">Services</span><h3>Agree on<br>an interface</h3><p>WSDL + SOAP<br>REST APIs</p></article><article class="fragment" data-fragment-index="1"><span class="era">Editors</span><h3>Reuse<br>integrations</h3><p>LSP</p></article><article class="fragment" data-fragment-index="2"><span class="era">Agents</span><h3>Meet the<br>same problems</h3><p>Models / tools / peers</p></article></div>
 
 <p class="landing fragment" data-fragment-index="2">Move repeated decisions into a <strong>shared contract</strong></p>
 
-> **Speaker notes:** Alessio · 2:00–4:00. Tre click: servizi, editor, agenti. Raccontare il pattern, senza proclamare un vincitore per ogni epoca. «La maturità arriva quando non dobbiamo accordarci ogni volta su come comunicare». Su SOAP, se naturale: «Chi ha configurato WS-Security sa quante decisioni possono vivere fuori dall'applicazione». TCP/IP, REST e LSP affrontano problemi diversi; non costruire una successione lineare né dire che la semplicità spiega da sola la storia. In ogni esempio chiedere quale accordo diventa riutilizzabile.
+> **Speaker notes:** Alessio · 2:00–4:00. Tre click: servizi, editor, agenti. Tre esempi di confini diversi, non una successione in cui uno sostituisce l'altro. TCP/IP rende interoperabile la comunicazione di rete, non definisce le operazioni di un servizio. Nei Web Services, WSDL descrive operazioni, messaggi e binding dell'interfaccia; SOAP struttura i messaggi scambiati. Nelle API progettate secondo REST, REST è uno stile architetturale, non un contratto di interfaccia equivalente a WSDL: metodi HTTP, rappresentazioni e documentazione dell'API richiedono comunque accordi concreti tra client e server. Non introdurre WS-Security qui: il punto è il riuso del contratto, non la complessità dello stack WS-*. LSP standardizza l'interazione editor–language server (metodi, messaggi e negoziazione delle capability): l'editor può riusare l'integrazione con server per linguaggi diversi, nei limiti delle funzionalità supportate. Chiudere chiedendo quale accordo evita di riscrivere ogni coppia di integrazioni; non dire che REST o LSP siano la risposta allo stesso problema di TCP/IP.
 
 Sources: [Internet architectural principles](https://www.rfc-editor.org/rfc/rfc1958.html), [REST architectural style](https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm), [LSP](https://microsoft.github.io/language-server-protocol/)
 
@@ -143,7 +146,7 @@ Sources: [MCP server concepts](https://modelcontextprotocol.io/docs/learn/server
 <p class="request fragment">“Investigate the payment failure<br>and send me a <strong>diagnosis</strong>”</p>
 <p class="statement-caption fragment">Who owns the work on the other side?</p>
 
-> **Speaker notes:** Alessio → Stefano · 15:00–16:00. Due click: prima il risultato delegato, poi la domanda. Alessio: «Abbiamo standardizzato come accedere a una capability. Ora voglio dire all'agente di Stefano: occupati tu di questo risultato. Potrebbe scegliere i suoi tool, chiedermi qualcosa, aspettare una persona». Stefano entra: «E questo è il confine di A2A». Non dire “ora parla Stefano”. Pausa breve sulla differenza di responsabilità. È lo stesso incidente, cambia il contratto richiesto.
+> **Speaker notes:** Alessio → Stefano · 15:00–16:00. Due click: prima il risultato delegato, poi la domanda. Alessio (fino a 15:15): «Abbiamo standardizzato come accedere a una capability. E se invece chiedessi all'agente di Stefano una diagnosi?» Stefano prende il click e il ragionamento: «Allora la controparte si assume il risultato: può scegliere i suoi tool, chiedere altro input, aspettare una persona. Questo è il confine di A2A». Non dire “ora parla Stefano”. Pausa breve sulla differenza di responsabilità. È lo stesso incidente, cambia il contratto richiesto.
 
 ## Slide 13 — A2A addresses an independent counterpart
 <!-- id: a2a; class: agent-slide; chapter: Agents boundary; time: 16:00–17:30; speaker: Stefano -->
@@ -187,42 +190,42 @@ Sources: [A2A and MCP](https://a2a-protocol.org/latest/topics/a2a-and-mcp/)
 
 <div class="ui-labels"><p><strong>AG-UI</strong><br>Events &amp; shared state</p><p><strong>A2UI</strong><br>Declarative components</p><p><strong>MCP Apps</strong><br>Tool UI inside a host</p></div>
 
-> **Speaker notes:** Stefano · 22:00–24:00. Dire subito: «MCP e A2A erano il cuore. Sul resto acceleriamo per vedere il pattern». Un click aggiunge il pannello UI. AG-UI dà un vocabolario per eventi e stato tra backend e frontend. A2UI descrive componenti che un client renderizza dal catalogo supportato. MCP Apps permette a un tool di fornire una UI interattiva in un host compatibile, con isolamento. Sono contratti distinti, non un'unica pipeline obbligatoria né equivalenti a WebSocket o HTML. Il pannello illustrato è una decisione umana sulla prossima azione dell'incidente. «Anche l'esperienza utente ha un confine». Chiusura del blocco Stefano: «E alcuni accordi utili sono molto più piccoli di un protocollo di rete». Alessio entra sulla prossima slide.
+> **Speaker notes:** Stefano · 22:00–24:00. Dire subito: «MCP e A2A erano il cuore. Sul resto acceleriamo per vedere il pattern». Un click aggiunge il pannello UI. AG-UI dà un vocabolario per eventi e stato tra backend e frontend. A2UI descrive componenti che un client renderizza dal catalogo supportato. MCP Apps permette a un tool di fornire una UI interattiva in un host compatibile, con isolamento. Sono contratti distinti, non un'unica pipeline obbligatoria né equivalenti a WebSocket o HTML. Il pannello illustrato è una decisione umana sulla prossima azione dell'incidente. «Anche l'esperienza utente ha un confine. E alcuni accordi utili sono molto più piccoli di un protocollo di rete». Proseguire senza cambio di relatore sulla slide successiva.
 
 Sources: [AG-UI overview](https://docs.ag-ui.com/introduction), [A2UI](https://a2ui.org/), [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview)
 
 ## Slide 17 — A shared meaning can fit in a file
-<!-- id: knowledge; chapter: Knowledge boundary; time: 24:00–26:00; speaker: Alessio -->
+<!-- id: knowledge; chapter: Knowledge boundary; time: 24:00–26:00; speaker: Stefano -->
 
 <div class="file-grid"><article><div class="file-icon">.md</div><h3>AGENTS.md</h3><p>Project instructions</p><span class="micro">Convention</span></article><article class="fragment" data-fragment-index="0"><div class="file-icon">/</div><h3>Agent Skills</h3><p>SKILL.md + resources</p><span class="micro">Load detail when needed</span></article><article class="fragment" data-fragment-index="1"><div class="file-icon">{ }</div><h3>Agent Plugins</h3><p>Manifest + reusable parts</p><span class="micro">Package / check client support</span></article></div>
 
 <p class="landing">Interoperability starts when implementations <strong>agree on meaning</strong></p>
 
-> **Speaker notes:** Alessio · 24:00–26:00. Due click, senza scendere nel manifest. «AGENTS.md è essenzialmente un file. Una skill è una directory con SKILL.md e risorse. La semplicità tecnica non ne diminuisce il valore: più implementazioni attribuiscono lo stesso significato allo stesso oggetto». Skill: nome e descrizione per discovery, istruzioni e risorse quando servono. Plugin: un pacchetto di elementi riutilizzabili, ma supporto dei client ed estensioni da verificare. Nell'incidente una skill può descrivere il runbook: è istruzione, non capability remota e non esecuzione garantita. L'analogia con man pages riguarda caricamento su richiesta, non equivalenza tecnica. Le istruzioni non sono autenticazione o permesso.
+> **Speaker notes:** Stefano · 24:00–26:00. Due click, senza scendere nel manifest. «AGENTS.md è essenzialmente un file. Una skill è una directory con SKILL.md e risorse. La semplicità tecnica non ne diminuisce il valore: più implementazioni attribuiscono lo stesso significato allo stesso oggetto». Skill: nome e descrizione per discovery, istruzioni e risorse quando servono. Plugin: un pacchetto di elementi riutilizzabili, ma supporto dei client ed estensioni da verificare. Nell'incidente una skill può descrivere il runbook: è istruzione, non capability remota e non esecuzione garantita. L'analogia con man pages riguarda caricamento su richiesta, non equivalenza tecnica. Le istruzioni non sono autenticazione o permesso.
 
 Sources: [AGENTS.md](https://agents.md/), [Agent Skills specification](https://agentskills.io/specification), [Agent Plugins](https://agent-plugins.org/)
 
 ## Slide 18 — Follow one request across boundaries
-<!-- id: operations; chapter: Operations boundary; time: 26:00–27:00; speaker: Alessio -->
+<!-- id: operations; chapter: Operations boundary; time: 26:00–27:00; speaker: Stefano -->
 
 {{diagram:trace}}
 
 <p class="landing">OpenTelemetry GenAI <strong>semantic conventions</strong></p>
 <p class="micro">Propagate context / instrument each service / pin the convention version</p>
 
-> **Speaker notes:** Alessio · 26:00–27:00. Sessanta secondi. Una richiesta dell'incidente attraversa modello, tool e delega remota. Serve correlare questi passaggi. Lo schema è un trace concettuale, non una cattura né durate misurate. «Se usate OTel, riconoscete il problema: stiamo concordando anche il vocabolario per osservare questi sistemi». Una trace non appare automaticamente perché entrambi i lati parlano MCP o A2A: occorre strumentare e propagare il contesto dove il confine lo consente. Pinnare e verificare la versione delle convenzioni GenAI.
+> **Speaker notes:** Stefano · 26:00–27:00. Sessanta secondi. Una richiesta dell'incidente attraversa modello, tool e delega remota. Serve correlare questi passaggi. Lo schema è un trace concettuale, non una cattura né durate misurate. «Se usate OTel, riconoscete il problema: stiamo concordando anche il vocabolario per osservare questi sistemi». Una trace non appare automaticamente perché entrambi i lati parlano MCP o A2A: occorre strumentare e propagare il contesto dove il confine lo consente. Pinnare e verificare la versione delle convenzioni GenAI.
 
 Sources: [OpenTelemetry GenAI conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/)
 
 ## Slide 19 — Change the coding agent, keep the editor
-<!-- id: acp; chapter: IDE boundary; time: 27:00–28:00; speaker: Alessio -->
+<!-- id: acp; chapter: IDE boundary; time: 27:00–28:00; speaker: Stefano -->
 
 {{diagram:acp}}
 
 <p class="analogy">Agent Client Protocol <span>≈ the LSP pattern</span></p>
 <p class="micro">Sessions / progress / permissions / cancellation</p>
 
-> **Speaker notes:** Alessio · 27:00–28:00. Un click cambia il coding agent mantenendo editor e contratto. «ACP applica il pattern LSP al rapporto tra editor e coding agent». Specificare Agent Client Protocol, perché ACP è una sigla ambigua. Le sessioni e i permessi hanno semantiche diverse da un servizio linguistico; l'agente può modificare il progetto. Sostituibile nell'integrazione non significa stessa qualità o trasferimento automatico della memoria. Transizione a Stefano: «Resta un confine che fino a poco fa avremmo lasciato fuori dalla mappa: il denaro».
+> **Speaker notes:** Stefano · 27:00–28:00. Un click cambia il coding agent mantenendo editor e contratto. «ACP applica il pattern LSP al rapporto tra editor e coding agent: Alessio ci ha mostrato prima perché questa analogia è utile». Specificare Agent Client Protocol, perché ACP è una sigla ambigua. Le sessioni e i permessi hanno semantiche diverse da un servizio linguistico; l'agente può modificare il progetto. Sostituibile nell'integrazione non significa stessa qualità o trasferimento automatico della memoria. Se c'è tempo per l'epilogo: «Resta un confine che fino a poco fa avremmo lasciato fuori dalla mappa: il denaro». Se x402 si salta, passare direttamente alle scelte pratiche.
 
 Sources: [Agent Client Protocol introduction](https://agentclientprotocol.com/get-started/introduction)
 
@@ -240,11 +243,11 @@ Sources: [Agent Client Protocol introduction](https://agentclientprotocol.com/ge
 Sources: [x402 HTTP 402](https://docs.x402.org/core-concepts/http-402), [x402 client/server](https://docs.x402.org/core-concepts/client-server)
 
 ## Slide 21 — Adopt where replacement matters
-<!-- id: bets; chapter: The bets; time: 29:30–30:30; speaker: Alessio -->
+<!-- id: bets; chapter: The bets; time: 29:30–30:30; speaker: Stefano -->
 
 <div class="bets-grid"><article><span class="kicker tool-text">Start from a need</span><h3>MCP</h3><p>Reusable tool integrations</p><h3>A2A</h3><p>Independent agent delegation</p></article><article class="fragment" data-fragment-index="0"><span class="kicker model-text">Evaluate the contract</span><h3>Compatibility</h3><p>Common subset<br>Extensions<br>Independent implementations</p></article><article class="fragment" data-fragment-index="1"><span class="kicker agent-text">Keep the rest on your radar</span><h3>One boundary<br>at a time</h3><p>Introduce a standard when<br>the integration pain is real</p></article></div>
 
-> **Speaker notes:** Alessio · 29:30–30:30. Due click. «Domani implementiamo tutto? Uno standard ha un costo. MCP quando riusate integrazioni di tool; A2A quando delegate a una controparte indipendente. Per il resto valutate il bisogno, il supporto reale, le estensioni». Non leggere un elenco di versioni: questa slide esprime i criteri di scelta dei relatori. AGENTS.md e skill possono essere utili già adesso, senza adottare tutto lo stack. «Gli standard arrivano un confine alla volta». Passare a Stefano per chiudere, senza aprire un quarto giro di presentazioni.
+> **Speaker notes:** Stefano · 29:30–30:30 (28:00–29:00 se si salta x402). Due click. «Domani implementiamo tutto? Uno standard ha un costo. MCP quando riusate integrazioni di tool; A2A quando delegate a una controparte indipendente. Per il resto valutate il bisogno, il supporto reale, le estensioni». Non leggere un elenco di versioni: questa slide esprime i criteri di scelta dei relatori. AGENTS.md e skill possono essere utili già adesso, senza adottare tutto lo stack. «Gli standard arrivano un confine alla volta». Passare ad Alessio per richiamare la storia e chiudere insieme.
 
 ## Slide 22 — That is when a protocol becomes infrastructure
 <!-- id: closing; class: statement paper; chapter: Closing; time: 30:30–31:30; speaker: Entrambi; hide-title: true -->
@@ -253,7 +256,7 @@ Sources: [x402 HTTP 402](https://docs.x402.org/core-concepts/http-402), [x402 cl
 <p class="big-statement closing-text">Replace what is<br>on the other side.<br><strong>Keep your application</strong></p>
 <p class="statement-caption fragment">That is when a protocol becomes infrastructure</p>
 
-> **Speaker notes:** Entrambi · 30:30–31:30. Alessio: «La storia non ci dice quali sigle vinceranno. Ci aiuta a riconoscere il contratto abbastanza semplice da eliminare un'intera categoria di decisioni dalle applicazioni». Stefano, al click: «Quando posso sostituire ciò che sta dall'altra parte del confine senza riscrivere ciò che sta da questa parte, quel protocollo è diventato infrastruttura». Pausa. Nessun nuovo contenuto dopo questa frase. Ringraziare e avanzare alla Q&A. Target prova: 31:30, margine 3:30 per pause e handoff.
+> **Speaker notes:** Entrambi · 30:30–31:30 (29:00–30:00 se si salta x402). Alessio (15 secondi): «La storia non ci dice quali sigle vinceranno. Ci aiuta a riconoscere il contratto che elimina decisioni ripetute dalle applicazioni». Stefano, al click: «Quando posso sostituire ciò che sta dall'altra parte del confine senza riscrivere ciò che sta da questa parte, quel protocollo è diventato infrastruttura». Pausa. Nessun nuovo contenuto dopo questa frase. Ringraziare e avanzare alla Q&A. Target prova: 31:30, margine 3:30 per pause e handoff.
 
 ## Slide 23 — Grazie! Questions?
 <!-- id: questions; chapter: Discussion; time: Q&A; speaker: Entrambi -->
