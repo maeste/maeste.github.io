@@ -6,7 +6,7 @@ import re
 import markdown
 
 HERE = Path(__file__).resolve().parent
-SOURCE = HERE.parent / "agents-speak-protocol-alternative.md"
+SOURCE = HERE.parent / "agents-speak-protocol.md"
 
 
 def render(text):
@@ -51,7 +51,7 @@ def build():
         (main if number.startswith("Slide") else appendix).append(section)
     document = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agents Speak Protocol — Narrative alternative</title>
+<title>Agents Speak Protocol</title>
 <meta name="description" content="DevFest Milano 2026. A narrative deck about replaceable boundaries, MCP and A2A, by Stefano Maestri and Alessio Soldano.">
 <link rel="stylesheet" href="reveal/reset.css"><link rel="stylesheet" href="reveal/reveal.css"><link rel="stylesheet" href="theme.css">
 </head><body>
@@ -67,7 +67,7 @@ def build():
     for slide_id, title, refs in source_rows:
         links = "".join(f'<li><a href="{html.escape(url)}" target="_blank" rel="noopener">{html.escape(label)}</a></li>' for label, url in refs)
         rows.append(f'<section id="{slide_id}"><h2>{html.escape(title)}</h2><ul>{links}</ul></section>')
-    (HERE / "sources.html").write_text(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Agents Speak Protocol — Sources</title><link rel="stylesheet" href="theme.css"></head><body class="sources-page"><main><a href="index.html">← Back to the deck</a><h1>Sources &amp; further reading</h1><p>Primary documentation checked 6 October 2026. Diagrams are original conceptual illustrations. Historical analogies and adoption guidance are the speakers' interpretations.</p>{''.join(rows)}<p>Narrative and speaker notes: <a href="../agents-speak-protocol-alternative.md">Markdown source</a></p></main></body></html>''')
+    (HERE / "sources.html").write_text(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Agents Speak Protocol — Sources</title><link rel="stylesheet" href="theme.css"></head><body class="sources-page"><main><a href="index.html">← Back to the deck</a><h1>Sources &amp; further reading</h1><p>Primary documentation checked 6 October 2026. Diagrams are original conceptual illustrations. Historical analogies and adoption guidance are the speakers' interpretations.</p>{''.join(rows)}<p>Narrative and speaker notes: <a href="../agents-speak-protocol.md">Markdown source</a></p></main></body></html>''')
     print(f"Built {len(main)} main slides + {len(appendix)} appendix slides from {SOURCE.name}")
 
 

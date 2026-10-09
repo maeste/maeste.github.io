@@ -1,12 +1,12 @@
-# Agents Speak Protocol — alternativa narrativa
+# Agents Speak Protocol
 
 Versione per DevFest Milano, 10 ottobre 2026. Pubblico intermediate/advanced, già familiare con agenti e tool calling. Slide in inglese, intervento e note in italiano. Traccia da **31 minuti e 30 secondi**, con margine nello slot ufficiale di 35 minuti + Q&A.
 
-Deck: [agents-speak-protocol-alternative/index.html](agents-speak-protocol-alternative/index.html). Originale: [agents-speak-protocol/index.html](agents-speak-protocol/index.html).
+Deck: [agents-speak-protocol/index.html](agents-speak-protocol/index.html).
 
 **Uso:** spazio/freccia destra avanzano anche i frammenti; `S` apre le note; `Esc` mostra la panoramica; `F` fullscreen; `?` aiuto. Dalla Q&A, destra apre l'appendice e giù scorre le slide di backup. Le animazioni sono comandate dal relatore, senza avanzamento automatico. `?print-pdf` rende visibili tutti i frammenti per l'esportazione. Per la speaker view usare un server locale (`python3 -m http.server 8000` dalla root): la proiezione funziona anche offline da file, ma le restrizioni del browser possono bloccare la finestra note su `file://`.
 
-**Rigenerazione:** `python3 agents-speak-protocol-alternative/build.py` (richiede il pacchetto Python `markdown`). Questo Markdown guida contenuti, ordine, note e tempi; le direttive `{{diagram:...}}` includono SVG originali dalla cartella del deck. Sono schemi concettuali, non catture di sistemi reali. L'incidente pagamenti è un esempio illustrativo, senza metriche o payload inventati. Il QR rimanda alla pagina del talk. Reveal.js è locale e distribuito con la sua licenza MIT.
+**Rigenerazione:** `python3 agents-speak-protocol/build.py` (richiede il pacchetto Python `markdown`). Questo Markdown guida contenuti, ordine, note e tempi; le direttive `{{diagram:...}}` includono SVG originali dalla cartella del deck. Sono schemi concettuali, non catture di sistemi reali. L'incidente pagamenti è un esempio illustrativo, senza metriche o payload inventati. Il QR rimanda alla pagina del talk. Reveal.js è locale e distribuito con la sua licenza MIT.
 
 La tesi e la scaletta riprendono la conversazione Alessio/ChatGPT fornita da Stefano. I giudizi di adozione sono scelte dei relatori, non certificazioni di maturità. Fonti primarie verificate il 6 ottobre 2026; analogie storiche intese come letture architetturali, non successioni universali. Nessun protocollo garantisce da solo sostituibilità semantica, qualità del risultato o compatibilità delle estensioni.
 
