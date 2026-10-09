@@ -1,571 +1,485 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agents Speak Protocol</title>
-  <link rel="stylesheet" href="reveal/reset.css">
-  <link rel="stylesheet" href="reveal/reveal.css">
-  <link rel="stylesheet" href="theme.css">
-</head>
-<body>
-<div class="reveal">
-<div class="slides">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agents Speak Protocol</title>
+<meta name="description" content="DevFest Milano 2026. A narrative deck about replaceable boundaries, MCP and A2A, by Stefano Maestri and Alessio Soldano.">
+<link rel="stylesheet" href="reveal/reset.css"><link rel="stylesheet" href="reveal/reveal.css"><link rel="stylesheet" href="theme.css">
+</head><body>
+<div class="reveal"><div class="slides">
+<section id="title" class="cover" data-chapter="Opening">
+<div class="eyebrow">Opening</div>
 
-<!-- 1 · TITLE -->
-<section>
-  <div class="eyebrow">talk · 45 min · intermediate / advanced</div>
-  <h1>Agents Speak Protocol</h1>
-  <p class="thesis">Why <strong>standards</strong> are the real infrastructure of AI.</p>
-  <p class="dimtext small">Devfest Milano 2026 · 10 October 2026 · Stefano Maestri · Alessio Soldano</p>
-  <aside class="notes">⏱ min 0-0.5, slide proiettata mentre la gente si sistema. La tesi sta tutta
-  nel titolo, non anticipate nulla. Verificare proiettore/adattatore PRIMA che la sessione
-  cominci. Il talk è parlato in italiano, le slide restano in inglese: dirlo solo se qualcuno
-  chiede.</aside>
-</section>
+<div class="cover-type"><p class="kicker">DevFest Milano / 10 October 2026</p><h1>Agents<br>Speak<br><span>Protocol</span></h1><p class="subtitle">Why standards are the<br>real infrastructure of AI</p></div>
 
-<!-- 2 · WHO WE ARE -->
-<section>
-  <div class="eyebrow">who we are</div>
-  <h2>Two people who ship agents</h2>
-  <div class="cols">
-    <div class="col dbox"><b>Stefano Maestri</b><span class="dlabel">Software &amp; AI engineering manager<br>A2A technical steering committee, Linux Foundation<br>podcaster &amp; blogger about AI</span></div>
-    <div class="col dbox"><b>Alessio Soldano</b><span class="dlabel">Software engineer &amp; manager<br>RESTEasy · WildFly · Apache CXF · Quarkus<br>exploring generative AI in software development</span></div>
-  </div>
-  <p class="lede">Why this talk: our agents already need to talk to <strong>other people's agents, tools and users</strong>.</p>
-  <aside class="notes">⏱ min 0.5-2: blocco intro dei 2 minuti, una riga ciascuno, niente CV. Due
-  credenziali sono però oro per il talk e vanno dette qui: Stefano siede nel TSC di A2A alla
-  Linux Foundation (quando arriva la sezione A2A, le regole del protocollo le racconta chi le
-  scrive); Alessio ha costruito gli stack delle guerre di protocollo che la sezione 1 racconta
-  (Apache CXF è SOAP/WS, RESTEasy è REST): l'apertura storica è sua di diritto. Split da
-  confermare in prova, ma questa è la spaccatura naturale. Chiudere con la frase ponte "our
-  agents already need to talk to other people's agents, tools and users".</aside>
-</section>
-
-<!-- 3 · TOWER OF BABEL -->
-<section>
-  <div class="eyebrow">history · part 1</div>
-  <h2>Every revolution standardized how things talk</h2>
-  <pre class="j">Before TCP/IP       <span class="k">→</span> networks spoke <span class="kd">dialects</span>
-Before HTTP         <span class="k">→</span> every service invented its own <span class="kd">wire format</span>
-Before REST         <span class="k">→</span> SOAP was the only <span class="kd">"enterprise"</span> answer
-Before WebSockets   <span class="k">→</span> <span class="kd">polling</span> everywhere</pre>
-  <p class="lede">Each time, entropy was reduced not by better applications,
-  but by <strong>agreeing on how things connect</strong>.</p>
-  <aside class="notes">⏱ min 2-4. Quattro righe, quattro epoche: non leggere le righe,
-  raccontarle come un ritmo (chi era in azienda ai tempi di SOAP può confermare). Il punto non è
-  la storia: è che l'entropia NON è stata ridotta da applicazioni migliori, ma da un accordo su
-  come le cose si connettono. Land: "entropy was reduced by agreeing on how things connect".</aside>
-</section>
-
-<!-- 4 · HISTORY'S RULE -->
-<section>
-  <div class="eyebrow">history · part 2</div>
-  <h2>History's rule</h2>
-  <p class="lede">TCP/IP vs OSI · CORBA vs REST · SOAP vs JSON · WebSockets vs polling</p>
-  <p>Winners are rarely the most feature-rich.</p>
-  <p class="rule"><strong>The simplest protocol that reduces the most uncertainty wins.</strong></p>
-  <aside class="notes">⏱ min 4-5.5. Il precedente canonico da raccontare per bene: OSI era il
-  protocollo completo, a strati, disegnato dai comitati; TCP/IP era semplice, specificato in RFC
-  corte, e ship-pava. Ha vinto il più semplice, non il più completo: è lo stesso film di SOAP vs
-  JSON (vince il più semplice) e WebSockets vs polling (vince chi cambia il modello di
-  comunicazione, non chi aggiunge feature). CORBA vs REST solo nominata. QUESTA frase è la
-  regola del talk: torna nella slide delle scommesse. Se il tempo stringe: solo OSI + la regola,
-  1 minuto.</aside>
-</section>
-
-<!-- 5 · THE MAP -->
-<section>
-  <div class="eyebrow">the map · anchor slide</div>
-  <h2>Seven boundaries, plus one</h2>
-  <div class="diagram center">
-    <div class="dbox"><b>Models</b><span class="dlabel">Open Responses</span></div>
-    <div class="dbox"><b>Tools</b><span class="dlabel proto">MCP</span></div>
-    <div class="dbox"><b>Other agents</b><span class="dlabel proto">A2A</span></div>
-    <div class="dbox"><b>Users</b><span class="dlabel">AG-UI · A2UI</span></div>
-  </div>
-  <div class="diagram center"><div class="darrow">▼</div><div class="dbox hero" style="padding:0.6em 2.4em;"><b>AGENT</b></div><div class="darrow">▼</div></div>
-  <div class="diagram center">
-    <div class="dbox"><b>Knowledge</b><span class="dlabel">AGENTS.md · Skills · Plugins</span></div>
-    <div class="dbox"><b>Operations</b><span class="dlabel">OTel GenAI</span></div>
-    <div class="dbox dashed"><b>IDE</b><span class="dlabel proto">ACP</span></div>
-    <div class="dbox new"><b>Payments</b><span class="dlabel">x402</span></div>
-  </div>
-  <p class="small dimtext">One contract per boundary, composed independently ·
-  map after Bilgin Ibryam, <i>The Generative Programmer</i> (2026) · payments added
-  <span class="tag">new</span></p>
-  <aside class="notes">⏱ min 5.5-8.5. LA slide-ancora: resta proiettata mentalmente per tutto il
-  talk. Percorrerla in 40 secondi: modello, tools, altri agenti, utenti, conoscenza, telemetria,
-  IDE. Due avvertenze da dire QUI: (1) non tutto è maturo allo stesso modo, lo chiudiamo con cosa
-  adottare oggi; (2) i protocolli si completano, non competono. Poi il perimetro: ACP (il confine
-  IDE) lo teniamo breve perché vive un po' a parte; i pagamenti sono il confine nuovo, arrivato
-  dopo la mappa originale (box viola).</aside>
-</section>
-
-<!-- 6 · OPEN RESPONSES -->
-<section>
-  <div class="eyebrow">boundary 1 · the model</div>
-  <h2>Open Responses</h2>
-  <ul>
-    <li>De facto: <strong>Chat Completions</strong> semantics — the lingua franca spoken by
-      clients, gateways, providers</li>
-    <li>Next: <strong>Responses API</strong> — typed items, semantic streaming events, state
-      across turns (agent-native, not chat-shaped)</li>
-    <li><strong>Open Responses</strong>: the same contract as an open spec — initiated by OpenAI,
-      built with the OSS community (Hugging Face); an IETF draft for multi-provider inference
-      uses it as reference</li>
-    <li>Already real: Vercel AI SDK ships an Open Responses provider</li>
-  </ul>
-  <div class="slidefoot">
-    <div class="parallel">≈ <b>POSIX for model APIs</b> — one contract, many kernels, portable apps</div>
-    <span class="pill cb">emerging</span>
-  </div>
-  <aside class="notes">⏱ min 8.5-11. Il momento POSIX: quando i dialetti vendor convergono su un
-  contratto unico, le applicazioni diventano portabili (UNIX vendor → POSIX → software portabile;
-  qui API vendor → Open Responses → agenti portabili). Chat Completions ha vinto come dialetto
-  comune de facto; Responses è la generazione dopo: item tipati, eventi di streaming semantici,
-  stato tra turni: un contratto pensato per agenti, non per chat. Segnali che non è vaporware:
-  draft IETF che lo usa come riferimento, provider già dentro l'AI SDK di Vercel. Per il
-  pubblico: se scrivete gateway o app multi-provider è il contratto da tenere d'occhio; se
-  siete locked su un vendor, oggi non vi cambia la vita.</aside>
-</section>
-
-<!-- 7 · MCP -->
-<section>
-  <div class="eyebrow">boundary 2 · tools</div>
-  <h2>MCP</h2>
-  <div class="figure"><img src="assets/mcp-simple-diagram.png" alt="MCP: AI applications and data sources and tools connected through one standardized protocol"><div class="credit">diagram: modelcontextprotocol.io</div></div>
-  <div class="cols small">
-    <div class="col">
-      <ul>
-        <li>Official analogy: <strong>USB-C for AI applications</strong> — one port, any peripheral</li>
-        <li><strong>JSON-RPC 2.0</strong> over stdio or Streamable HTTP; host (owns model + user)
-          → client (1:1) → server (capabilities)</li>
-        <li>Three primitives, three controllers: <strong>tools</strong> (model decides) ·
-          <strong>resources</strong> (app decides) · <strong>prompts</strong> (user decides)</li>
-      </ul>
-    </div>
-    <div class="col">
-      <ul>
-        <li>The N×M integration problem becomes <strong>N+M</strong>: one adapter, every agent × every tool</li>
-        <li>Ecosystem is the moat: Claude, ChatGPT, VS Code, Cursor already speak it</li>
-        <li>Extensions: <strong>MCP Apps</strong> (sandboxed HTML), <strong>Skills over MCP</strong> (in development)</li>
-      </ul>
-    </div>
-  </div>
-  <div class="slidefoot">
-    <div class="parallel">≈ <b>JDBC/ODBC for the agent era</b> — one driver API, any database behind it</div>
-    <span class="pill ca">de facto standard</span>
-  </div>
-  <aside class="notes">⏱ min 11-15. Il diagramma ufficiale racconta da solo il problema N×M: a
-  sinistra le AI application (chat, IDE), a destra dati e tool, in mezzo UN protocollo: gli
-  adattatori si scrivono una volta. Per un ingegnere: è JDBC. L'app parla un driver API, dietro
-  c'è qualsiasi database. I tre ruoli: l'host possiede modello e utente, il client vive
-  nell'host (1:1 col server), il server espone capability. Il dettaglio che pochi notano e che
-  distingue le primitive: CHI le controlla. Tools: decide il modello (function calling).
-  Resources: decide l'applicazione (dati contestuali). Prompts: decide l'utente (template).
-  Estensioni (MCP Apps, Skills over MCP): fuori dal supporto base, verificarle prima di
-  dipendere. Quando usarlo: esporre i VOSTRI dati/tool a qualunque runtime agentico, o
-  consumare capability esterne nel vostro agente.</aside>
-</section>
-
-<!-- 8 · A2A -->
-<section>
-  <div class="eyebrow">boundary 3 · other agents</div>
-  <h2>A2A</h2>
-  <div class="figure"><img src="assets/a2a-actors.png" alt="A2A actors: end-user, client, client agent and the remote agent mesh"><div class="credit">diagram: a2a-protocol.org (Linux Foundation)</div></div>
-  <div class="cols small">
-    <div class="col">
-      <ul>
-        <li>The problem it kills: without a standard, every agent pair is a bespoke
-          point-to-point integration (official scenario: a travel planner delegating to flight,
-          hotel, currency agents)</li>
-        <li>Web-style discovery: <strong>Agent Card at <code>/.well-known/</code></strong> —
-          capabilities, auth, endpoints, self-described</li>
-        <li>Lifecycle: <strong>Tasks</strong> (stateful, long-running) · <strong>SSE
-          streaming</strong> + push notifications · results as <strong>Artifacts</strong></li>
-      </ul>
-    </div>
-    <div class="col">
-      <ul>
-        <li>Built on what exists: HTTP, JSON-RPC, SSE — design principle #1 is reusing the
-          web's standards</li>
-        <li><strong>Opaque execution</strong>: no model, tools or memory exposed — you negotiate
-          with a peer, not inspect a tool</li>
-      </ul>
-    </div>
-  </div>
-  <div class="slidefoot">
-    <div class="parallel">≈ <b>Agent Card = OpenAPI for agents</b> · <b>Tasks = message-queue jobs</b> (states, acks, retry)</div>
-    <span class="pill ca">1.0 stable</span>
-  </div>
-  <aside class="notes">⏱ min 15-18. Lo scenario ufficiale: un agente di viaggio che compone
-  agente voli, agente hotel, agente valuta. Senza standard: integrazioni point-to-point su
-  misura, esattamente il mondo pre-API. Discovery alla web: l'Agent Card sta su /.well-known/
-  come robots.txt e security.txt, la controparte si descrive da sola (capability, auth,
-  endpoint). Ciclo di vita: Task con stati (submitted, working, completed), streaming SSE per il
-  progresso, push per il lungo periodo, risultati come Artifact. Per un ingegnere: i Task sono
-  job da message queue, la Agent Card è l'OpenAPI della controparte. E il principio di design #1
-  del protocollo è riusare gli standard del web: HTTP, JSON-RPC, SSE, niente di esotico. Opaque
-  execution: il remoto non espone nulla del proprio interno, negotiate come pari. Anticipa la
-  slide dopo: è la differenza con MCP.</aside>
-</section>
-
-<!-- 9 · MCP + A2A SIDE BY SIDE -->
-<section>
-  <div class="eyebrow">the concrete architecture</div>
-  <h2>MCP and A2A in the same system</h2>
-  <div class="diagram">
-    <div class="dbox hero"><b>My agent</b></div>
-    <div class="darrow">── <span class="dlabel proto" style="display:inline">MCP</span> ──▶</div>
-    <div class="dbox"><b>My tools</b><span class="dlabel">MCP server · capability access</span></div>
-  </div>
-  <div class="diagram">
-    <div class="dbox hero"><b>My agent</b></div>
-    <div class="darrow">── <span class="dlabel proto" style="display:inline">A2A</span> ──▶</div>
-    <div class="dbox"><b>Partner agent</b><span class="dlabel">outcome delegation</span></div>
-    <div class="darrow">···▶</div>
-    <div class="dbox dashed"><b>own model · own tools · own context</b><span class="dlabel">opaque execution</span></div>
-  </div>
-  <p class="lede"><strong>MCP: capability access</strong> — my agent calls your tools.
-  <strong>A2A: outcome delegation</strong> — your agent keeps its stack private.</p>
-  <p class="small">Why not wrap agents as tools? <strong>Agents are not tools</strong> — wrapping
-  amputates negotiation, planning, asking back.</p>
-  <p class="small dimtext">Rule of thumb: stateless capability → MCP · autonomous counterpart
-  with its own state → A2A.</p>
-  <aside class="notes">⏱ min 18-21.5. LA slide che l'abstract promette: architettura concreta,
-  side by side. Nel diagramma: il nostro agente usa MCP per i SUOI tool, e A2A per delegare
-  lavoro cross-org a un agente partner, che gira col suo stack e non espone nulla. La regola
-  pratica da lasciare loro: capability senza stato → MCP; controparte autonoma col suo stato →
-  A2A. E il motivo per cui non si avvolge un agente in un tool (dritto dai doc A2A, "agents are
-  not tools"): un agente impacchettato come tool perde la capacità di negoziare, pianificare,
-  fare domande indietro, diventa una funzione sorda. Esempio parlato: un agente di supporto
-  interno che gestisce i tool aziendali via MCP e delega a un agente partner la parte che
-  richiede dati che non possediamo. Complementari, non competitivi: come JDBC e REST in uno
-  stesso backend.</aside>
-</section>
-
-<!-- 10 · USERS -->
-<section>
-  <div class="eyebrow">boundary 4 · users</div>
-  <h2>Three names, one boundary</h2>
-  <div class="figure"><img src="assets/ag-ui-overview.png" alt="AG-UI: agent and application connected through the event protocol, with a real STATE_SNAPSHOT payload"><div class="credit">diagram: docs.ag-ui.com (CopilotKit)</div></div>
-  <div class="cols small">
-    <div class="col">
-      <ul>
-        <li>Why request/response dies here: runs are <strong>long-running</strong> with
-          intermediate output, <strong>nondeterministic</strong> (the agent decides what to
-          render next), mix structured + unstructured IO, need human-in-the-loop</li>
-        <li><strong>AG-UI = typed event vocabulary</strong> (run lifecycle, messages, tool calls,
-          <code>STATE_SNAPSHOT</code>/<code>DELTA</code>) over plain HTTP/SSE/WebSocket —
-          transport- and framework-agnostic (LangGraph, CrewAI, ADK, Pydantic AI speak it)</li>
-      </ul>
-    </div>
-    <div class="col">
-      <ul>
-        <li><strong>Human-in-the-loop as a first-class event</strong>: pause for approval or
-          credentials, resume later</li>
-        <li><strong>A2UI = declarative UI</strong>: component descriptions from a
-          <strong>client-owned</strong> catalogue → native widgets; the client never executes
-          agent code</li>
-        <li>Composable: an A2UI payload rides over AG-UI or A2A · <strong>MCP Apps</strong> =
-          same idea (sandboxed iframe) on the MCP side</li>
-      </ul>
-    </div>
-  </div>
-  <div class="slidefoot">
-    <div class="parallel">≈ <b>A2UI re-discovers HTML's contract</b>: markup from the server, rendering owned by the client · <b>AG-UI ≈ EventSource/MQTT</b>: a standardized event stream</div>
-    <span class="pill cb">AG-UI: draft</span>
-    <span class="pill cb">A2UI: 0.9.1</span>
-  </div>
-  <aside class="notes">⏱ min 21.5-25. Il diagramma ufficiale mostra il punto: a sinistra il
-  grafo dell'agente, a destra l'applicazione, in mezzo solo eventi tipati, e guardate il
-  payload nel quadrante: STATE_SNAPSHOT con dentro lo stato sincronizzato, non testo. Perché
-  serve un protocollo qui: il request/response presuppone una risposta finita e deterministica,
-  un run agentico è lungo, produce output intermedio e nondeterministico (l'agente decide COSA
-  mostrare dopo), mescola strutturato e testo, e a volte si ferma a chiedere. AG-UI porta
-  ordine: un vocabolario di eventi standard su HTTP/SSE/WS, non un WebSocket su misura per app;
-  i framework principali lo parlano già (LangGraph, CrewAI, ADK, Pydantic AI: i loghi nel
-  diagramma). Human-in-the-loop come evento di prima classe: pausa per approvazione o
-  credenziali, resume dopo: il pattern enterprise. A2UI: l'agente DESCRIVE, il client possiede
-  il catalogo e renderizza widget nativi, mai codice arbitrario: è il contratto di HTML
-  riscoperto (markup dal server, rendering del client). MCP Apps: la stessa idea lato MCP,
-  iframe sandboxed.</aside>
-</section>
-
-<!-- 11 · KNOWLEDGE -->
-<section>
-  <div class="eyebrow">boundary 5 · knowledge &amp; instructions</div>
-  <h2>Knowledge rides the filesystem</h2>
-  <ul class="small">
-    <li><strong>AGENTS.md</strong>: repo convention, narrows as you descend — ≈ <b>robots.txt for repos</b></li>
-    <li><strong>Agent Skills</strong>: a folder with <code>SKILL.md</code> + scripts and
-      references; progressive disclosure (discover the name → load the instructions → execute)
-      — ≈ <b>man pages</b>: synopsis always loaded, full page on demand</li>
-    <li><strong>Agent Plugins</strong>: one package, <code>plugin.json</code> + <code>skills/</code>
-      + <code>mcp.json</code>; vendor-neutral interoperability floor; spec 1.0.0, TSC from
-      Amazon, Cursor, Microsoft, OpenAI, Vercel — ≈ <b>apt/homebrew packages</b></li>
-    <li><strong>OpenTelemetry GenAI</strong>: one trace across model calls, tools, agents —
-      ≈ <b>the OTel you already run</b>: new <code>gen_ai.*</code> conventions next to
-      <code>http.*</code> and <code>db.*</code> — status <span class="pill cb">Development</span></li>
-  </ul>
-  <aside class="notes">⏱ min 25-28. Ritmo da lista, ma ogni riga ha il suo cugino classico.
-  AGENTS.md: convenzione pura, zero runtime, come robots.txt: funziona perché tutti la
-  rispettano. Skills: la progressive disclosure è esattamente la filosofia delle man pages,
-  nome e synopsis sempre in memoria, pagina completa solo quando serve; nata da Anthropic,
-  ormai spec aperta con supporto ampio. Plugins: pacchetti alla apt/homebrew, manifest, skill e
-  MCP server in un bundle; il punto per questo pubblico è l'interoperability floor (core
-  portabile, il client tiene distribuzione e UX) e il TSC con cinque vendor pesanti: è il
-  segnale a cui guardare. OTel GenAI: non imparate nulla di nuovo se usate già OTel, sono le
-  semantic conventions gen_ai.* accanto a http.* e db.*; Development, pinnare la versione.</aside>
-</section>
-
-<!-- 12 · ACP (KEPT SHORT) -->
-<section>
-  <div class="eyebrow">boundary 6 · the ide — kept short on purpose</div>
-  <h2>ACP</h2>
-  <ul>
-    <li><strong>JSON-RPC</strong> between code editor and coding agent: init, sessions,
-      prompt/progress, permissions, cancel</li>
-    <li><span class="pill ca">v1 stable</span> <span class="pill cb">v2 experimental</span></li>
-    <li>The <strong>LSP parallel</strong> — and where it stops: agents are stateful and act
-      with authority</li>
-  </ul>
-  <aside class="notes">⏱ min 28-29. Breve DI PROPOSITO, e dirlo: è il confine che si collega meno
-  agli altri, vive nel mondo IDE. Il parallelo giusto è LSP: un contratto invece di N
-  integrazioni editor-specifiche. Ma dove il parallelo si ferma: LSP risponde a domande, l'agente
-  tiene sessioni di stato e agisce con autorità sul codebase (permissions, cancel). Chi lo sta
-  integrando e vuole il dettaglio: slide in appendice, ne parliamo dopo.</aside>
-</section>
-
-<!-- 13 · X402 -->
-<section>
-  <div class="eyebrow">the newest boundary · payments</div>
-  <h2>The boundary nobody used for 30 years</h2>
-  <p class="small">HTTP <strong>402 "Payment Required"</strong>: reserved in the protocol since
-  1996, never put to use.</p>
-  <div class="cols small">
-    <div class="col dbox dashed" style="text-align:left;">
-      <b>The old world — 5 frictions</b>
-      <ul style="margin:0.2em 0 0 1.1em;padding:0;">
-        <li>create account</li>
-        <li>KYC + payment method</li>
-        <li>buy credits</li>
-        <li>manage API keys</li>
-        <li>pay and reconcile</li>
-      </ul>
-    </div>
-    <div class="col dbox" style="text-align:left;border-color:var(--cat-c);border-width:2px;">
-      <b>The x402 way — 3 steps</b>
-      <ul style="margin:0.2em 0 0 1.1em;padding:0;">
-        <li>request</li>
-        <li><strong>402 + terms</strong> (scheme, asset, amount, payTo)</li>
-        <li>pay and retry with proof → <code>200</code></li>
-      </ul>
-    </div>
-  </div>
-  <p class="small">Keyless, per-call, machine-speed · zero protocol fees · blockchain-agnostic
-  (EVM + Solana) · extensible to traditional rails · Linux Foundation project, audited,
-  millions of transactions</p>
-  <div class="slidefoot">
-    <div class="parallel">≈ <b>TLS made security a transport feature; x402 makes payment one</b> — same shape as the 401 flow you know: challenge → retry, but the credential is money</div>
-    <span class="pill cc">production claims</span>
-  </div>
-  <aside class="notes">⏱ min 29-31.5. La storia che chiude il cerchio: il protocollo aveva
-  riservato un posto per i pagamenti trent'anni fa, gli agenti gli hanno dato un motivo per
-  esistere. Le macchine non hanno carte di credito: il confronto è nelle due colonne. A
-  sinistra il mondo che conoscete (account, KYC, crediti, API key, riconciliazione: cinque
-  attriti prima che una macchina consumi un'API), a destra tre passi: richiesta, 402 con i
-  termini (scheme, asset, amount, payTo), pagamento e retry con proof. La forma è quella del
-  401 che conoscete: challenge → retry con credenziali, solo che la credenziale è denaro. E
-  come TLS ha reso la sicurezza una feature del transport, x402 fa lo stesso col pagamento: non
-  è un gateway, è nel protocollo. Zero fee di protocollo, agnostico (EVM e Solana, estensibile
-  a rail tradizionali: se esce la domanda crypto, questa è la risposta). Progetto Linux
-  Foundation, audited, milioni di transazioni in produzione; status onesto: adozione da
-  dimostrare. Il flusso completo disegnato sta in appendice.</aside>
-</section>
-
-<!-- 14 · THE BETS -->
-<section>
-  <div class="eyebrow">what to adopt today</div>
-  <h2>The bets</h2>
-  <div class="tablewrap">
-  <table>
-    <tr><th>Contract</th><th>Boundary</th><th>Status</th><th>Bet</th></tr>
-    <tr><td>MCP</td><td>tools</td><td>de facto standard</td><td><span class="pill ca">now</span></td></tr>
-    <tr><td>A2A 1.0</td><td>agents</td><td>stable</td><td><span class="pill ca">now</span></td></tr>
-    <tr><td>ACP v1</td><td>IDE</td><td>stable</td><td><span class="pill ca">now</span> (IDE-scoped)</td></tr>
-    <tr><td>AGENTS.md</td><td>knowledge</td><td>convention, zero runtime</td><td><span class="pill ca">now</span></td></tr>
-    <tr><td>Agent Skills</td><td>knowledge</td><td>open spec, wide support</td><td><span class="pill ca">now</span></td></tr>
-    <tr><td>Open Responses</td><td>model</td><td>emerging</td><td><span class="pill cb">pin</span></td></tr>
-    <tr><td>OTel GenAI</td><td>operations</td><td>Development</td><td><span class="pill cb">pin</span></td></tr>
-    <tr><td>AG-UI</td><td>users</td><td>unratified 1.0 draft</td><td><span class="pill cb">pin</span></td></tr>
-    <tr><td>A2UI</td><td>users</td><td>0.9.1, 1.0 candidate</td><td><span class="pill cb">pin</span></td></tr>
-    <tr><td>Agent Plugins 1.0.0</td><td>knowledge</td><td>spec published</td><td><span class="pill cb">pin</span> (portability unproven)</td></tr>
-    <tr><td>x402</td><td>payments</td><td>production claims</td><td><span class="pill cb">pin</span></td></tr>
-  </table>
-  </div>
-  <p class="rule small">Adopt one boundary when you need to replace what sits on the other side
-  <strong>without rewriting your agent</strong>. Not before.</p>
-  <aside class="notes">⏱ min 31.5-33.5. La lezione storica applicata, la slide operativa: i
-  vincitori sono i protocolli più semplici che riducono più incertezza, quindi si adotta dove il
-  dolore è reale, un confine alla volta, senza riscrivere l'agente. Non leggere la tabella: fare
-  due gruppi col dito (now / pin) e dare la regola finale. La tabella è anche il motivo per cui
-  la snapshot va riverificata la settimana del talk.</aside>
-</section>
-
-<!-- 15 · TAKEAWAYS -->
-<section>
-  <div class="eyebrow">takeaways</div>
-  <h2>Three sentences to take home</h2>
-  <p class="rule">1 · Standards arrive <strong>one boundary at a time</strong>, not as a platform.</p>
-  <p class="rule">2 · Complement, don't compete: <strong>MCP and A2A side by side</strong>,
-  each doing what it does best.</p>
-  <p class="rule">3 · Adopt where the pain is — <strong>the simplest protocol that reduces the
-  most uncertainty wins</strong>.</p>
-  <p class="small dimtext">Based on Bilgin Ibryam, <i>The Emerging Standards Behind AI Agents</i>
-  (The Generative Programmer, Sept 2026) · x402.org · agentskills.io · agent-plugins.org</p>
-  <aside class="notes">⏱ min 33.5-34. Tre frasi, lente, sono quello che la gente porta a casa.
-  La terza è la regola della slide "history's rule" che torna: chiudere il cerchio ad alta voce.
-  Credit alle fonti (già sulla slide), ringraziare e aprire le domande.</aside>
-</section>
-
-<!-- 16 · Q&A -->
-<section>
-  <div class="eyebrow">discussion</div>
-  <h2>Grazie — questions?</h2>
-  <p class="lede">Ask us about: the architecture slide · x402 · what <i>we</i> would adopt tomorrow</p>
-  <p class="small">How was the talk? Rate it → <a href="https://maeste.it/speaking/agents-speak-protocol.html">maeste.it/speaking/agents-speak-protocol.html</a></p>
-  <p class="dimtext small">Stefano Maestri — maeste.it · Alessio Soldano — aladinodigitale.it</p>
-  <aside class="notes">⏱ Q&A: almeno 5 minuti garantiti, in slot da 45 ne restano ~10. Le domande
-  attese e le risposte preparate sono in appendice (freccia in basso) e nell'outline: MCP vs A2A
-  sovrapposizione, security, AG-UI vs A2UI, perché poco ACP, x402/crypto, SOAP of AI, adottare ora
-  o aspettare. Se una domanda richiede il dettaglio: appendice, non improvvisare. Se serve
-  recuperare tempo durante il talk, i takeaway (slide 15) si dicono in 20 secondi, mai tagliare
-  sotto i 5 minuti di Q&amp;A.</aside>
-</section>
-
-<!-- APPENDIX — vertical stack, ↓ from the closing slide -->
-<section>
-  <section>
-    <div class="eyebrow">appendix A1 · backup</div>
-    <h2>MCP vs A2A: the comparison</h2>
-    <div class="tablewrap">
-    <table>
-      <tr><th></th><th>MCP</th><th>A2A</th></tr>
-      <tr><td>Role</td><td>capability access</td><td>outcome delegation</td></tr>
-      <tr><td>You talk to</td><td>a tool / process</td><td>an autonomous agent</td></tr>
-      <tr><td>State</td><td>stateless calls</td><td>stateful Tasks</td></tr>
-      <tr><td>Discovery</td><td>server configuration</td><td>Agent Card</td></tr>
-      <tr><td>Remote internals</td><td>n/a</td><td>never exposed (opaque execution)</td></tr>
-      <tr><td>Together</td><td colspan="2">same system: MCP for tools, A2A for partner organizations</td></tr>
-    </table>
-    </div>
-    <aside class="notes">Da usare per la domanda "MCP e A2A si sovrappongono?": no, e in
-    produzione convivono nello stesso sistema. Rientrare nel dettaglio solo se la domanda è
-    tecnica.</aside>
-  </section>
-
-  <section>
-    <div class="eyebrow">appendix A2 · backup</div>
-    <h2>ACP, a closer look</h2>
-    <ul class="small">
-      <li>JSON-RPC 2.0 between <strong>code editor</strong> and <strong>coding agent</strong></li>
-      <li>Lifecycle: initialize → session/new → session/prompt (+ progress)
-        → session/request_permission → session/cancel</li>
-      <li>Capability negotiation at init</li>
-      <li><span class="pill ca">v1 stable</span> <span class="pill cb">v2 experimental draft</span></li>
-      <li>The LSP parallel holds for the contract shape, not the semantics: LSP answers
-        questions, the agent holds state and acts with authority on the codebase</li>
-    </ul>
-    <aside class="notes">Per la domanda "perché così poco su ACP?". Risposta breve: scelta
-    consapevole, è il confine IDE e si collega meno agli altri; poi questa slide per chi vuole il
-    dettaglio.</aside>
-  </section>
-
-  <section>
-    <div class="eyebrow">appendix A3 · backup</div>
-    <h2>x402: the payment flow</h2>
-    <pre class="tree"> Client (agent)                                  Server
-    │  GET /resource                                 │
-    ├───────────────────────────────────────────────▶│
-    │        402 PAYMENT_REQUIRED                     │
-    │◀───────────────────────────────────────────────┤   + accepts: scheme, asset,
-    │                                                 │     amount, payTo
-    │  pay (e.g. stablecoin transfer)                 │
-    ├───────────────────────────────────────────────▶│   verify settlement
-    │  GET /resource + payment proof                  │
-    │◀───────────────────────────────────────────────┤
-    │        200 OK + resource                        │</pre>
-    <ul class="small">
-      <li>Zero protocol fees · no accounts, no KYC, no API keys · server middleware: one line</li>
-      <li>Settlement: blockchain-agnostic (EVM, Solana), stablecoins first, extensible to
-        traditional rails</li>
-    </ul>
-    <aside class="notes">Per la domanda "x402 vuol dire crypto?". Il punto del talk è il
-    contratto HTTP-native, non la valuta; il settlement è agnostico. Se serve, il flusso qui
-    spiega perché è una riga di middleware.</aside>
-  </section>
-
-  <section>
-    <div class="eyebrow">appendix A4 · backup</div>
-    <h2>Security across the boundaries</h2>
-    <ul>
-      <li><strong>A2A</strong>: auth declared in the Agent Card, enterprise-ready posture,
-        transport security</li>
-      <li><strong>MCP Apps</strong>: sandboxed iframes, no arbitrary page access</li>
-      <li><strong>A2UI</strong>: client-owned component catalogue — the agent describes,
-        never ships code</li>
-      <li><strong>x402</strong>: settlement verified before the resource is served</li>
-    </ul>
-    <p class="rule small">Honest gap: <strong>cross-organization authorization models</strong>
-    are the least standardized piece.</p>
-    <aside class="notes">Per la domanda "e la security?". Chiudere sempre con la riga onesta: i
-    modelli di autorizzazione cross-org sono il pezzo meno standardizzato di tutto lo stack.</aside>
-  </section>
-
-  <section>
-    <div class="eyebrow">appendix A5 · backup</div>
-    <h2>Status of every contract (snapshot Oct 2026)</h2>
-    <div class="tablewrap">
-    <table>
-      <tr><th>Contract</th><th>Version / status</th><th>Watch for</th></tr>
-      <tr><td>MCP</td><td>de facto standard</td><td>Apps + Skills-over-MCP extensions</td></tr>
-      <tr><td>A2A</td><td>1.0 stable, SDKs available</td><td>enterprise adoption stories</td></tr>
-      <tr><td>ACP</td><td>v1 stable, v2 experimental</td><td>editor integrations</td></tr>
-      <tr><td>Open Responses</td><td>emerging</td><td>multi-provider convergence</td></tr>
-      <tr><td>AG-UI</td><td>1.0 unratified draft</td><td>ratification</td></tr>
-      <tr><td>A2UI</td><td>0.9.1, 1.0 candidate</td><td>1.0</td></tr>
-      <tr><td>Agent Skills</td><td>open spec, wide client support</td><td>server-side skills (over MCP)</td></tr>
-      <tr><td>Agent Plugins</td><td>1.0.0 spec published</td><td>proven portability across clients</td></tr>
-      <tr><td>OTel GenAI</td><td>Development</td><td>stable GenAI semantic conventions</td></tr>
-      <tr><td>x402</td><td>production claims, foundation</td><td>real-world adoption volume</td></tr>
-    </table>
-    </div>
-    <p class="small dimtext">Snapshot 5 Oct 2026 — re-check the sources the week of the talk.</p>
-    <aside class="notes">Snapshot del 5 ottobre 2026, da riverificare la settimana del talk sulle
-    fonti (articolo di Ibryam, x402.org, agentskills.io, agent-plugins.org). La tabella della
-    slide "The bets" ne è la versione semplificata.</aside>
-  </section>
-</section>
-
-</div>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 570 500" class="diagram-svg" role="img" aria-labelledby="title-cover desc-cover"><title id="title-cover">Cover</title><desc id="desc-cover">An agent connects to models, tools, other agents, users, an IDE and context through separate boundaries.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-cover" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><circle cx="285" cy="245" r="100" class="edge soft"/><circle cx="285" cy="245" r="175" class="edge soft"/><circle cx="285" cy="245" r="235" class="edge soft"/><path d="M285 245 L285 25" class="edge  dashed"/><path d="M285 245 L485 130" class="edge  dashed"/><path d="M285 245 L485 355" class="edge  dashed"/><path d="M285 245 L285 465" class="edge  dashed"/><path d="M285 245 L85 355" class="edge  dashed"/><path d="M285 245 L85 130" class="edge  dashed"/><rect x="200" y="208" width="170" height="74" rx="12" class="svg-node svg-tool"/><text x="285.0" y="253.0" text-anchor="middle" class="svg-title">AGENT</text><rect x="205" y="8" width="154" height="65" rx="12" class="svg-node svg-model"/><text x="282.0" y="48.5" text-anchor="middle" class="svg-title">Models</text><rect x="410" y="96" width="154" height="65" rx="12" class="svg-node svg-tool"/><text x="487.0" y="136.5" text-anchor="middle" class="svg-title">Tools</text><rect x="403" y="332" width="154" height="65" rx="12" class="svg-node svg-agent"/><text x="480.0" y="372.5" text-anchor="middle" class="svg-title">Agents</text><rect x="210" y="430" width="154" height="65" rx="12" class="svg-node "/><text x="287.0" y="470.5" text-anchor="middle" class="svg-title">Users</text><rect x="6" y="332" width="154" height="65" rx="12" class="svg-node "/><text x="83.0" y="372.5" text-anchor="middle" class="svg-title">IDE</text><rect x="0" y="96" width="154" height="65" rx="12" class="svg-node "/><text x="77.0" y="136.5" text-anchor="middle" class="svg-title">Context</text></svg>
 </div>
 
-<script src="reveal/reveal.js"></script>
-<script src="reveal/notes.js"></script>
-<script>
-  Reveal.initialize({
-    hash: true,
-    width: 1280,
-    height: 720,
-    margin: 0.06,
-    controls: true,
-    progress: true,
-    slideNumber: 'c/t',
-    transition: 'fade',
-    plugins: [ RevealNotes ]
-  });
-</script>
-</body>
-</html>
+<p class="byline">Stefano Maestri <span>&amp;</span> Alessio Soldano</p>
+<aside class="notes"><p>Alessio · 0:00–0:30. Lasciare la slide mentre la sala si sistema. Alessio apre: «Negli ultimi due anni abbiamo discusso moltissimo di modelli, framework e reasoning. Ma quando portiamo un agente fuori da una demo, la domanda cambia: con cosa riesce a parlare?» Non anticipare il catalogo di sigle. Provare clicker, fullscreen e speaker view prima della sessione.</p></aside>
+</section>
+<section id="speakers" class="" data-chapter="Opening">
+<div class="eyebrow">Opening</div>
+<h2>We have worked on both sides of the boundary</h2>
+<div class="speaker-grid"><article><p class="kicker">The previous wave</p><h3>Alessio<br>Soldano</h3><p>Apache CXF / WS-*<br>RESTEasy / REST</p><span class="stamp model">Shared contracts</span></article><article><p class="kicker">The current wave</p><h3>Stefano<br>Maestri</h3><p>A2A Technical Steering Committee<br>Linux Foundation</p><span class="stamp agent">Independent agents</span></article></div>
+
+<p class="landing">Our agents need to talk to <strong>other people's systems</strong></p>
+<aside class="notes"><p>Entrambi · 0:30–2:00. Niente CV. Alessio (fino a 1:15): «Ho lavorato prima sugli stack SOAP e Web Services, con Apache CXF, poi nel mondo REST con RESTEasy. Quando vedo ogni framework inventarsi un proprio modo di comunicare, provo un certo déjà-vu». Stefano (1:15–2:00): «Io oggi ritrovo quel problema tra agenti indipendenti; lavoro anche nel TSC di A2A. Alessio ci porta indietro di qualche anno per riconoscere cosa succede quando un ecosistema comincia a maturare». Alessio riprende sulla slide successiva. Credenziali riprese dal deck originale, da rivedere personalmente in prova.</p></aside>
+</section>
+<section id="history" class="" data-chapter="History">
+<div class="eyebrow">History</div>
+<h2>Different decade, familiar integration problem</h2>
+<div class="history-grid"><article><span class="era">Networks</span><h3>Connect<br>different systems</h3><p>TCP/IP</p></article><article class="fragment" data-fragment-index="0"><span class="era">Services</span><h3>Agree on<br>an interface</h3><p>WSDL + SOAP<br>REST APIs</p></article><article class="fragment" data-fragment-index="1"><span class="era">Editors</span><h3>Reuse<br>integrations</h3><p>LSP</p></article><article class="fragment" data-fragment-index="2"><span class="era">Agents</span><h3>Meet the<br>same problems</h3><p>Models / tools / peers</p></article></div>
+
+<p class="landing fragment" data-fragment-index="2">Move repeated decisions into a <strong>shared contract</strong></p>
+<aside class="notes"><p>Alessio · 2:00–4:00. Tre click: servizi, editor, agenti. Tre esempi di confini diversi, non una successione in cui uno sostituisce l'altro. TCP/IP rende interoperabile la comunicazione di rete, non definisce le operazioni di un servizio. Nei Web Services, WSDL descrive operazioni, messaggi e binding dell'interfaccia; SOAP struttura i messaggi scambiati. Nelle API progettate secondo REST, REST è uno stile architetturale, non un contratto di interfaccia equivalente a WSDL: metodi HTTP, rappresentazioni e documentazione dell'API richiedono comunque accordi concreti tra client e server. Non introdurre WS-Security qui: il punto è il riuso del contratto, non la complessità dello stack WS-*. LSP standardizza l'interazione editor–language server (metodi, messaggi e negoziazione delle capability): l'editor può riusare l'integrazione con server per linguaggi diversi, nei limiti delle funzionalità supportate. Chiudere chiedendo quale accordo evita di riscrivere ogni coppia di integrazioni; non dire che REST o LSP siano la risposta allo stesso problema di TCP/IP.</p><p>Fonti: <a href="sources.html#history" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="history-rule" class="statement paper" data-chapter="History">
+<div class="eyebrow">History</div>
+
+<p class="kicker">A lens for this talk</p>
+<p class="big-statement">The simplest protocol<br>that reduces the most<br><strong>uncertainty</strong> wins</p>
+<p class="statement-caption fragment">How many decisions disappear from the application?</p>
+<aside class="notes"><p>Alessio · 4:00–5:00. Dire lentamente la frase della conversazione. Un click fa comparire la domanda. «Quello che fa sparire più decisioni dall'applicazione: formati, lifecycle, discovery, errori». Presentarla come regola di lettura dei relatori, non legge storica. Adozione, distribuzione, incentivi e compatibilità contano quanto la semplicità. Non aprire una lezione OSI contro TCP/IP.</p></aside>
+</section>
+<section id="replace" class="" data-chapter="The thesis">
+<div class="eyebrow">The thesis</div>
+<h2>What can we replace without rewriting the agent?</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 310" class="diagram-svg" role="img" aria-labelledby="title-replace desc-replace"><title id="title-replace">Replace</title><desc id="desc-replace">The application and shared interface stay fixed while implementation A changes to implementation B.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-replace" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="25" y="120" width="270" height="110" rx="12" class="svg-node "/><text x="160.0" y="171.0" text-anchor="middle" class="svg-title">Your application</text><text x="160.0" y="201.0" text-anchor="middle" class="svg-small">Integration stays</text><rect x="435" y="120" width="240" height="110" rx="12" class="svg-node "/><text x="555.0" y="171.0" text-anchor="middle" class="svg-title">Shared contract</text><text x="555.0" y="201.0" text-anchor="middle" class="svg-small">Boundary</text><path d="M295 175 L435 175" class="edge  " marker-end="url(#arrow-replace)"/><path d="M675 175 L805 175" class="edge  " marker-end="url(#arrow-replace)"/><g class="fragment fade-out" data-fragment-index="0"><rect x="805" y="120" width="270" height="110" rx="12" class="svg-node svg-model"/><text x="940.0" y="171.0" text-anchor="middle" class="svg-title">Implementation A</text><text x="940.0" y="201.0" text-anchor="middle" class="svg-small">Replaceable side</text></g><g class="fragment " data-fragment-index="0"><rect x="805" y="120" width="270" height="110" rx="12" class="svg-node svg-tool"/><text x="940.0" y="171.0" text-anchor="middle" class="svg-title">Implementation B</text><text x="940.0" y="201.0" text-anchor="middle" class="svg-small">Same interface</text></g><text x="160" y="90" text-anchor="middle" class="svg-mono">KEEP</text><text x="555" y="90" text-anchor="middle" class="svg-mono">KEEP</text><text x="940" y="90" text-anchor="middle" class="svg-mono">SWAP</text></svg>
+</div>
+
+<p class="landing">Keep the contract. <strong>Change the implementation</strong></p>
+<aside class="notes"><p>Alessio · 5:00–6:00. Il diagramma parte con implementation A. Un click la sostituisce con B, lasciando ferme applicazione e interfaccia. «Un protocollo diventa infrastruttura quando posso sostituire ciò che sta dall'altra parte del confine senza riscrivere ciò che sta da questa parte». È la tesi del talk. Il contratto rende riutilizzabile l'integrazione; non garantisce identici comportamenti, qualità o feature. Questa domanda deve tornare su modello, tool e agente remoto.</p></aside>
+</section>
+<section id="map" class="" data-chapter="The map">
+<div class="eyebrow">The map</div>
+<h2>Standards emerge at different boundaries</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 355" class="diagram-svg" role="img" aria-labelledby="title-map desc-map"><title id="title-map">Map</title><desc id="desc-map">Three primary boundaries: models through Open Responses, capabilities through MCP, counterparts through A2A. Five additional boundaries: users, knowledge, operations, IDE, payments.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-map" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="10" y="0" width="300" height="92" rx="12" class="svg-node svg-model"/><text x="160.0" y="42.0" text-anchor="middle" class="svg-title">Models</text><text x="160.0" y="72.0" text-anchor="middle" class="svg-small">Open Responses</text><path d="M160 92 L160 115 L550 115 L550 148" class="edge svg-model"/><rect x="400" y="0" width="300" height="92" rx="12" class="svg-node svg-tool"/><text x="550.0" y="42.0" text-anchor="middle" class="svg-title">Capabilities</text><text x="550.0" y="72.0" text-anchor="middle" class="svg-small">MCP</text><path d="M550 92 L550 115 L550 115 L550 148" class="edge svg-tool"/><rect x="790" y="0" width="300" height="92" rx="12" class="svg-node svg-agent"/><text x="940.0" y="42.0" text-anchor="middle" class="svg-title">Counterparts</text><text x="940.0" y="72.0" text-anchor="middle" class="svg-small">A2A</text><path d="M940 92 L940 115 L550 115 L550 148" class="edge svg-agent"/><rect x="425" y="150" width="250" height="62" rx="12" class="svg-node svg-tool"/><text x="550.0" y="189.0" text-anchor="middle" class="svg-title">AGENT</text><g class="fragment " data-fragment-index="0"><path d="M550 212 L550 240 L110 240 L110 267" class="edge "/><rect x="10" y="268" width="200" height="84" rx="12" class="svg-node "/><text x="110.0" y="306.0" text-anchor="middle" class="svg-title">Users</text><text x="110.0" y="336.0" text-anchor="middle" class="svg-small">AG-UI / A2UI</text><path d="M550 212 L550 240 L330 240 L330 267" class="edge "/><rect x="230" y="268" width="200" height="84" rx="12" class="svg-node "/><text x="330.0" y="306.0" text-anchor="middle" class="svg-title">Knowledge</text><text x="330.0" y="336.0" text-anchor="middle" class="svg-small">Files / Skills / Plugins</text><path d="M550 212 L550 240 L550 240 L550 267" class="edge "/><rect x="450" y="268" width="200" height="84" rx="12" class="svg-node "/><text x="550.0" y="306.0" text-anchor="middle" class="svg-title">Operations</text><text x="550.0" y="336.0" text-anchor="middle" class="svg-small">OTel GenAI</text><path d="M550 212 L550 240 L770 240 L770 267" class="edge "/><rect x="670" y="268" width="200" height="84" rx="12" class="svg-node "/><text x="770.0" y="306.0" text-anchor="middle" class="svg-title">IDE</text><text x="770.0" y="336.0" text-anchor="middle" class="svg-small">ACP</text><path d="M550 212 L550 240 L990 240 L990 267" class="edge "/><rect x="890" y="268" width="200" height="84" rx="12" class="svg-node "/><text x="990.0" y="306.0" text-anchor="middle" class="svg-title">Payments</text><text x="990.0" y="336.0" text-anchor="middle" class="svg-small">x402</text></g></svg>
+</div>
+
+<p class="landing">What do you want to make <strong>replaceable</strong>?</p>
+<aside class="notes"><p>Alessio · 6:00–8:00. Mappa ancora. I tre contratti principali sono già visibili: modello, capability, controparte autonoma. Un click aggiunge gli altri cinque confini. «Non sta emergendo un unico standard per gli agenti: vediamo accordi in corrispondenza di confini diversi». Percorrere il resto in 30 secondi, senza spiegare le sigle. Dire che file, convenzioni, API e protocolli non sono tutti la stessa categoria né allo stesso stadio di adozione. I tre box principali costruiscono il ragionamento, il resto completa il panorama. Torneremo alla stessa domanda, non a otto capitoli della stessa durata.</p></aside>
+</section>
+<section id="models" class="model-slide" data-chapter="Model boundary">
+<div class="eyebrow">Model boundary</div>
+<h2>One model contract, several providers</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 345" class="diagram-svg" role="img" aria-labelledby="title-models desc-models"><title id="title-models">Models</title><desc id="desc-models">A shared model interface allows one agent integration to reach compatible providers and local models. Provider support must be checked.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-models" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="10" y="90" width="230" height="140" rx="12" class="svg-node "/><text x="125.0" y="156.0" text-anchor="middle" class="svg-title">Your agent</text><text x="125.0" y="186.0" text-anchor="middle" class="svg-small">Model adapter</text><rect x="345" y="100" width="330" height="120" rx="12" class="svg-node svg-model"/><text x="510.0" y="156.0" text-anchor="middle" class="svg-title">Open Responses</text><text x="510.0" y="186.0" text-anchor="middle" class="svg-small">Shared interface</text><path d="M240 160 L345 160" class="edge svg-model " marker-end="url(#arrow-models)"/><path d="M675 160 L740 160 L740 45 L800 45" class="edge svg-model" marker-end="url(#arrow-models)"/><rect x="800" y="0" width="280" height="90" rx="12" class="svg-node svg-model"/><text x="940.0" y="41.0" text-anchor="middle" class="svg-title">Provider A</text><text x="940.0" y="71.0" text-anchor="middle" class="svg-small">Compatible subset</text><path d="M675 160 L740 160 L740 170 L800 170" class="edge svg-model" marker-end="url(#arrow-models)"/><rect x="800" y="125" width="280" height="90" rx="12" class="svg-node svg-model"/><text x="940.0" y="166.0" text-anchor="middle" class="svg-title">Provider B</text><text x="940.0" y="196.0" text-anchor="middle" class="svg-small">Compatible subset</text><path d="M675 160 L740 160 L740 295 L800 295" class="edge svg-model" marker-end="url(#arrow-models)"/><rect x="800" y="250" width="280" height="90" rx="12" class="svg-node svg-model"/><text x="940.0" y="291.0" text-anchor="middle" class="svg-title">Local model</text><text x="940.0" y="321.0" text-anchor="middle" class="svg-small">Compatible subset</text></svg>
+</div>
+
+<div class="three-labels"><span>Typed items</span><span>Semantic streaming</span><span>Tool invocation</span></div>
+<p class="analogy">Open Responses <span>≈ POSIX for model APIs</span></p>
+<aside class="notes"><p>Alessio · 8:00–9:30. Massimo 90 secondi. «Chat Completions ha funzionato da lingua comune de facto. Il lavoro agentico ha bisogno anche di tool call e output intermedi. Open Responses propone uno schema multi-provider basato su Responses». Il diagramma è l'obiettivo architetturale, non una prova che ogni provider supporti tutto. «Come POSIX: un accordo sul confine consente di cambiare implementazione». Controllare il sottoinsieme comune e le estensioni prima di dichiarare portabilità.</p><p>Fonti: <a href="sources.html#models" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="wiring" class="" data-chapter="Tools boundary">
+<div class="eyebrow">Tools boundary</div>
+<h2>Every new tool multiplies the wiring</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 375" class="diagram-svg" role="img" aria-labelledby="title-wiring desc-wiring"><title id="title-wiring">Wiring</title><desc id="desc-wiring">Three applications and four capabilities: twelve pairwise integration surfaces compared with seven endpoints around a shared interface. This is an idealized count, not development cost.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-wiring" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><text x="250" y="28" text-anchor="middle" class="svg-large">N × M</text><text x="850" y="28" text-anchor="middle" class="svg-large label-tool">N + M</text><path d="M130 90 L370 60" class="edge  "/><path d="M130 90 L370 140" class="edge  "/><path d="M130 90 L370 220" class="edge  "/><path d="M130 90 L370 300" class="edge  "/><path d="M130 180 L370 60" class="edge  "/><path d="M130 180 L370 140" class="edge  "/><path d="M130 180 L370 220" class="edge  "/><path d="M130 180 L370 300" class="edge  "/><path d="M130 270 L370 60" class="edge  "/><path d="M130 270 L370 140" class="edge  "/><path d="M130 270 L370 220" class="edge  "/><path d="M130 270 L370 300" class="edge  "/><rect x="0" y="65" width="130" height="48" rx="12" class="svg-node "/><text x="65.0" y="97.0" text-anchor="middle" class="svg-small">App 1</text><rect x="0" y="155" width="130" height="48" rx="12" class="svg-node "/><text x="65.0" y="187.0" text-anchor="middle" class="svg-small">App 2</text><rect x="0" y="245" width="130" height="48" rx="12" class="svg-node "/><text x="65.0" y="277.0" text-anchor="middle" class="svg-small">App 3</text><rect x="370" y="35" width="130" height="48" rx="12" class="svg-node "/><text x="435.0" y="67.0" text-anchor="middle" class="svg-small">Tool 1</text><rect x="370" y="115" width="130" height="48" rx="12" class="svg-node "/><text x="435.0" y="147.0" text-anchor="middle" class="svg-small">Tool 2</text><rect x="370" y="195" width="130" height="48" rx="12" class="svg-node "/><text x="435.0" y="227.0" text-anchor="middle" class="svg-small">Tool 3</text><rect x="370" y="275" width="130" height="48" rx="12" class="svg-node "/><text x="435.0" y="307.0" text-anchor="middle" class="svg-small">Tool 4</text><text x="250" y="350" text-anchor="middle" class="svg-small">3 × 4 = 12 integration surfaces</text><g class="fragment " data-fragment-index="0"><path d="M725 90 L810 180" class="edge svg-tool "/><path d="M725 180 L810 180" class="edge svg-tool "/><path d="M725 270 L810 180" class="edge svg-tool "/><path d="M885 180 L965 60" class="edge svg-tool "/><path d="M885 180 L965 140" class="edge svg-tool "/><path d="M885 180 L965 220" class="edge svg-tool "/><path d="M885 180 L965 300" class="edge svg-tool "/><rect x="805" y="139" width="90" height="80" rx="12" class="svg-node svg-tool"/><text x="850.0" y="187.0" text-anchor="middle" class="svg-small">MCP</text><rect x="595" y="65" width="130" height="48" rx="12" class="svg-node "/><text x="660.0" y="97.0" text-anchor="middle" class="svg-small">App 1</text><rect x="595" y="155" width="130" height="48" rx="12" class="svg-node "/><text x="660.0" y="187.0" text-anchor="middle" class="svg-small">App 2</text><rect x="595" y="245" width="130" height="48" rx="12" class="svg-node "/><text x="660.0" y="277.0" text-anchor="middle" class="svg-small">App 3</text><rect x="965" y="35" width="130" height="48" rx="12" class="svg-node "/><text x="1030.0" y="67.0" text-anchor="middle" class="svg-small">Tool 1</text><rect x="965" y="115" width="130" height="48" rx="12" class="svg-node "/><text x="1030.0" y="147.0" text-anchor="middle" class="svg-small">Tool 2</text><rect x="965" y="195" width="130" height="48" rx="12" class="svg-node "/><text x="1030.0" y="227.0" text-anchor="middle" class="svg-small">Tool 3</text><rect x="965" y="275" width="130" height="48" rx="12" class="svg-node "/><text x="1030.0" y="307.0" text-anchor="middle" class="svg-small">Tool 4</text><text x="845" y="350" text-anchor="middle" class="svg-small label-tool">3 + 4 = 7 protocol endpoints</text></g></svg>
+</div>
+
+<p class="landing">A shared interface changes the <strong>shape of integration</strong></p>
+<aside class="notes"><p>Alessio · 9:30–11:00. A sinistra tre applicazioni e quattro servizi, dodici linee. A destra, al click, tre più quattro connessioni al contratto. «Come JDBC: N applicazioni e M database. Ogni coppia può avere un'integrazione propria, oppure ci accordiamo su un'interfaccia». La formula conta superfici d'integrazione in uno scenario ideale, non ore di sviluppo. Gli adapter e la semantica dei tool rimangono. Il valore iniziale di MCP è questo, prima di parlare di JSON-RPC.</p><p>Fonti: <a href="sources.html#wiring" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="mcp" class="tool-slide" data-chapter="Tools boundary">
+<div class="eyebrow">Tools boundary</div>
+<h2>MCP gives capabilities a common interface</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 345" class="diagram-svg" role="img" aria-labelledby="title-mcp desc-mcp"><title id="title-mcp">Mcp</title><desc id="desc-mcp">An AI host owns model, policy and user experience. Its MCP client connects to a server that exposes primitives and adapts an existing domain API.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-mcp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="10" y="20" width="420" height="310" rx="16" class="svg-node svg-tool"/><text x="38" y="55" text-anchor="start" class="svg-mono">HOST / AI APPLICATION</text><rect x="40" y="80" width="155" height="70" rx="12" class="svg-node "/><text x="117.5" y="123.0" text-anchor="middle" class="svg-small">User / policy</text><rect x="230" y="80" width="170" height="70" rx="12" class="svg-node svg-model"/><text x="315.0" y="123.0" text-anchor="middle" class="svg-small">Model</text><rect x="85" y="218" width="270" height="70" rx="12" class="svg-node svg-tool"/><text x="220.0" y="261.0" text-anchor="middle" class="svg-title">MCP client</text><path d="M315 150 L250 218" class="edge svg-tool " marker-end="url(#arrow-mcp)"/><path d="M355 253 L550 253" class="edge svg-tool " marker-end="url(#arrow-mcp)"/><text x="452" y="228" text-anchor="middle" class="svg-mono label-tool">MCP</text><rect x="550" y="190" width="260" height="120" rx="12" class="svg-node svg-tool"/><text x="680.0" y="246.0" text-anchor="middle" class="svg-title">MCP server</text><text x="680.0" y="276.0" text-anchor="middle" class="svg-small">Tools / resources / prompts</text><g class="fragment " data-fragment-index="0"><path d="M810 253 L890 253" class="edge  " marker-end="url(#arrow-mcp)"/><rect x="890" y="200" width="200" height="100" rx="12" class="svg-node "/><text x="990.0" y="246.0" text-anchor="middle" class="svg-title">Domain API</text><text x="990.0" y="276.0" text-anchor="middle" class="svg-small">Logs / deploys</text></g></svg>
+</div>
+
+<p class="landing">Expose the capability once. <strong>Reuse the integration</strong></p>
+<p class="micro">JSON-RPC 2.0 / stdio or Streamable HTTP</p>
+<aside class="notes"><p>Alessio · 11:00–12:30. «L'host possiede esperienza utente, modello e policy. Un client MCP collega l'host al server che espone capability». Il click aggiunge l'API di dominio dietro al server: il backend mantiene il proprio contratto interno. Per l'esempio: un assistente che investiga un incidente consulta log e deploy. Il protocollo rende comune accesso e discovery, non rende una query corretta né concede automaticamente autorizzazioni. Non impantanarsi nel trasporto.</p><p>Fonti: <a href="sources.html#mcp" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="control" class="tool-slide" data-chapter="Tools boundary">
+<div class="eyebrow">Tools boundary</div>
+<h2>Three primitives, three control patterns</h2>
+<div class="primitive-grid"><article><span class="stamp tool">Tools</span><h3>Act</h3><p>Model typically selects</p><div class="example">Read service errors</div></article><article class="fragment" data-fragment-index="0"><span class="stamp tool">Resources</span><h3>Know</h3><p>Application supplies context</p><div class="example">Service topology</div></article><article class="fragment" data-fragment-index="1"><span class="stamp tool">Prompts</span><h3>Start</h3><p>User selects a template</p><div class="example">Investigate an incident</div></article></div>
+
+<p class="landing">The host retains <strong>policy and consent</strong></p>
+<aside class="notes"><p>Alessio · 12:30–14:00. Due click, una primitiva alla volta. Nel nostro incidente il tool recupera errori, la resource porta topologia, il prompt propone una procedura iniziale. Sono esempi concettuali. «Mi piace che le primitive abbiano modalità di controllo diverse». Dire “tipicamente”, non “soltanto”: il modello può scegliere un tool, l'applicazione decide cosa esporre e cosa eseguire. Il controllo dell'utente non scompare dietro al protocollo. Queste modalità sono un modello di interazione, non una legge assoluta né tre livelli di permesso.</p><p>Fonti: <a href="sources.html#control" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="network-effect" class="tool-slide" data-chapter="Tools boundary">
+<div class="eyebrow">Tools boundary</div>
+<h2>Each endpoint adds more possible connections</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 345" class="diagram-svg" role="img" aria-labelledby="title-network desc-network"><title id="title-network">Network</title><desc id="desc-network">Compatible hosts share an MCP integration point. Adding another capability provider creates more possible connections without a bespoke adapter for each host.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-network" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><text x="130" y="25" text-anchor="middle" class="svg-mono">COMPATIBLE HOSTS</text><text x="960" y="25" text-anchor="middle" class="svg-mono">CAPABILITY PROVIDERS</text><rect x="430" y="95" width="240" height="155" rx="12" class="svg-node svg-tool"/><text x="550.0" y="168.5" text-anchor="middle" class="svg-title">MCP</text><text x="550.0" y="198.5" text-anchor="middle" class="svg-small">Shared interface</text><rect x="10" y="50" width="240" height="70" rx="12" class="svg-node "/><text x="130.0" y="93.0" text-anchor="middle" class="svg-title">Chat app</text><path d="M250 85 L430 172" class="edge svg-tool "/><rect x="10" y="150" width="240" height="70" rx="12" class="svg-node "/><text x="130.0" y="193.0" text-anchor="middle" class="svg-title">IDE host</text><path d="M250 185 L430 172" class="edge svg-tool "/><rect x="10" y="250" width="240" height="70" rx="12" class="svg-node "/><text x="130.0" y="293.0" text-anchor="middle" class="svg-title">Agent runtime</text><path d="M250 285 L430 172" class="edge svg-tool "/><path d="M670 172 L830 105" class="edge svg-tool "/><rect x="830" y="70" width="260" height="70" rx="12" class="svg-node svg-tool"/><text x="960.0" y="113.0" text-anchor="middle" class="svg-title">Repository</text><path d="M670 172 L830 265" class="edge svg-tool "/><rect x="830" y="230" width="260" height="70" rx="12" class="svg-node svg-tool"/><text x="960.0" y="273.0" text-anchor="middle" class="svg-title">Observability</text><g class="fragment " data-fragment-index="0"><path d="M670 172 L830 185" class="edge svg-tool "/><rect x="830" y="150" width="260" height="70" rx="12" class="svg-node svg-tool"/><text x="960.0" y="193.0" text-anchor="middle" class="svg-title">One more server</text></g></svg>
+</div>
+
+<p class="landing">Ecosystem creates the <strong>network effect</strong></p>
+<aside class="notes"><p>Alessio · 14:00–15:00. Un click aggiunge un server al medesimo contratto: le applicazioni riusano il punto di integrazione. «La ragione per cui uno standard aperto prende valore è che ogni endpoint compatibile aumenta le connessioni possibili». È la nostra lettura dell'effetto di rete. Non promettere che ogni host gestisca tutte le estensioni. USB-C è la metafora rapida, JDBC quella per questo pubblico. Arrivare entro 15 minuti: il prossimo passaggio è la prima delega, oltre la capability.</p></aside>
+</section>
+<section id="handoff" class="statement handoff" data-chapter="From access to delegation">
+<div class="eyebrow">From access to delegation</div>
+
+<p class="kicker">Same incident. A different request</p>
+<p class="request small-request">“Read the latest<br>payment errors”</p>
+<p class="request fragment">“Investigate the payment failure<br>and send me a <strong>diagnosis</strong>”</p>
+<p class="statement-caption fragment">Who owns the work on the other side?</p>
+<aside class="notes"><p>Alessio → Stefano · 15:00–16:00. Due click: prima il risultato delegato, poi la domanda. Alessio (fino a 15:15): «Abbiamo standardizzato come accedere a una capability. E se invece chiedessi all'agente di Stefano una diagnosi?» Stefano prende il click e il ragionamento: «Allora la controparte si assume il risultato: può scegliere i suoi tool, chiedere altro input, aspettare una persona. Questo è il confine di A2A». Non dire “ora parla Stefano”. Pausa breve sulla differenza di responsabilità. È lo stesso incidente, cambia il contratto richiesto.</p></aside>
+</section>
+<section id="a2a" class="agent-slide" data-chapter="Agents boundary">
+<div class="eyebrow">Agents boundary</div>
+<h2>A2A addresses an independent counterpart</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 345" class="diagram-svg" role="img" aria-labelledby="title-a2a desc-a2a"><title id="title-a2a">A2A</title><desc id="desc-a2a">The incident coordinator addresses a remote payments agent. An Agent Card describes the endpoint. Model, tools and memory remain internal to the payments team.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-a2a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="15" y="100" width="270" height="135" rx="12" class="svg-node "/><text x="150.0" y="163.5" text-anchor="middle" class="svg-title">Client agent</text><text x="150.0" y="193.5" text-anchor="middle" class="svg-small">Incident coordinator</text><path d="M285 168 L550 168" class="edge svg-agent " marker-end="url(#arrow-a2a)"/><text x="410" y="144" text-anchor="middle" class="svg-mono label-agent">A2A</text><rect x="550" y="15" width="535" height="315" rx="18" class="svg-node svg-agent"/><text x="578" y="50" text-anchor="start" class="svg-mono label-agent">PAYMENTS TEAM / OWN BOUNDARY</text><rect x="675" y="110" width="285" height="105" rx="12" class="svg-node svg-agent"/><text x="817.5" y="158.5" text-anchor="middle" class="svg-title">Remote agent</text><text x="817.5" y="188.5" text-anchor="middle" class="svg-small">Owns the diagnosis</text><g class="fragment " data-fragment-index="0"><rect x="345" y="20" width="170" height="75" rx="12" class="svg-node "/><text x="430.0" y="53.5" text-anchor="middle" class="svg-small">Agent Card</text><text x="430.0" y="83.5" text-anchor="middle" class="svg-small">Discovery</text><path d="M515 58 L640 105" class="edge svg-agent "/></g><g class="fragment " data-fragment-index="1"><text x="818" y="252" text-anchor="middle" class="svg-small">Internal implementation</text><text x="818" y="293" text-anchor="middle" class="svg-mono">Model / tools / memory</text></g></svg>
+</div>
+
+<div class="three-labels"><span>Agent Card</span><span>Messages / Tasks</span><span>Artifacts</span></div>
+<p class="landing">Agree on the work. <strong>Keep internals private</strong></p>
+<aside class="notes"><p>Stefano · 16:00–17:30. «Qui il team pagamenti è una controparte con responsabilità propria». Il primo click mostra l'Agent Card: descrive capability, endpoint e requisiti di autenticazione, non dimostra affidabilità. Il secondo rivela internals dentro il perimetro remoto, deliberatamente fuori dal contratto. Riassumere messaggi, task quando serve un lavoro tracciabile, artifact come risultati. Un remote agent può rispondere immediatamente; non obbligare ogni interazione a una lunga procedura. Opaque execution riguarda ciò che la controparte deve esporre, non vieta accordi applicativi aggiuntivi.</p><p>Fonti: <a href="sources.html#a2a" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="task" class="agent-slide" data-chapter="Agents boundary">
+<div class="eyebrow">Agents boundary</div>
+<h2>A task can outlive a single response</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 335" class="diagram-svg" role="img" aria-labelledby="title-task desc-task"><title id="title-task">Task</title><desc id="desc-task">Illustrative A2A task: submitted, working, input-required. The client supplies more input, the task resumes working and completes with a diagnosis artifact.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-task" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="0" y="140" width="190" height="75" rx="12" class="svg-node svg-agent"/><text x="95.0" y="185.5" text-anchor="middle" class="svg-title">submitted</text><g class="fragment " data-fragment-index="0"><path d="M190 178 L270 178" class="edge svg-agent " marker-end="url(#arrow-task)"/><rect x="270" y="140" width="190" height="75" rx="12" class="svg-node svg-agent"/><text x="365.0" y="185.5" text-anchor="middle" class="svg-title">working</text></g><g class="fragment " data-fragment-index="1"><path d="M460 178 L560 178" class="edge svg-agent " marker-end="url(#arrow-task)"/><rect x="560" y="140" width="240" height="75" rx="12" class="svg-node svg-agent"/><text x="680.0" y="185.5" text-anchor="middle" class="svg-title">input-required</text><text x="680" y="100" text-anchor="middle" class="svg-small label-agent">“Correlation ID?”</text><rect x="565" y="258" width="230" height="60" rx="12" class="svg-node "/><text x="680.0" y="296.0" text-anchor="middle" class="svg-small">Client supplies input</text><path d="M680 215 L680 258" class="edge svg-agent "/></g><g class="fragment " data-fragment-index="2"><path d="M565 289 L370 289 L370 215" class="edge svg-agent" marker-end="url(#arrow-task)"/><path d="M460 155 L510 155 L510 50 L960 50 L960 140" class="edge svg-agent" marker-end="url(#arrow-task)"/><rect x="865" y="140" width="230" height="75" rx="12" class="svg-node svg-agent"/><text x="980.0" y="185.5" text-anchor="middle" class="svg-title">completed</text><text x="980" y="264" text-anchor="middle" class="svg-small label-agent">Diagnosis + evidence</text><text x="980" y="297" text-anchor="middle" class="svg-mono label-agent">Artifact</text></g></svg>
+</div>
+
+<p class="landing">Track work, exchange input, receive <strong>artifacts</strong></p>
+<p class="micro">Illustrative path / input-required is a pause, not completion</p>
+<aside class="notes"><p>Stefano · 17:30–19:30. Tre click: working, richiesta di input, ripresa e risultato. Nel nostro esempio il team remoto chiede un correlation ID. Il chiamante lo fornisce, il lavoro riprende e arriva una diagnosi con evidenze. Sono stati reali della spec, con un percorso illustrativo non esaustivo. Non inferire retry automatici, exactly-once, workflow engine o ripresa automatica di un task terminale. Per questa rappresentazione usiamo un task; A2A consente anche risposte dirette come messaggi. Streaming e notifiche asincrone sono modalità possibili secondo il supporto negoziato, non la distinzione fondamentale da MCP.</p><p>Fonti: <a href="sources.html#task" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="together" class="" data-chapter="The architecture">
+<div class="eyebrow">The architecture</div>
+<h2>Capability access + outcome delegation</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 370" class="diagram-svg" role="img" aria-labelledby="title-together desc-together"><title id="title-together">Together</title><desc id="desc-together">The incident coordinator accesses logs through MCP and delegates a diagnosis to a payments agent through A2A. The remote agent can use MCP for its own tools. Each integration crosses a different boundary.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-together" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="0" y="150" width="270" height="115" rx="12" class="svg-node "/><text x="135.0" y="203.5" text-anchor="middle" class="svg-title">Incident agent</text><text x="135.0" y="233.5" text-anchor="middle" class="svg-small">Your application</text><g class="fragment " data-fragment-index="0"><path d="M135 150 L135 85" class="edge svg-tool " marker-end="url(#arrow-together)"/><rect x="0" y="0" width="270" height="85" rx="12" class="svg-node svg-tool"/><text x="135.0" y="38.5" text-anchor="middle" class="svg-title">Logs / deploys</text><text x="135.0" y="68.5" text-anchor="middle" class="svg-small">MCP server</text><text x="195" y="125" text-anchor="middle" class="svg-mono label-tool">MCP</text></g><g class="fragment " data-fragment-index="1"><path d="M270 207 L560 207" class="edge svg-agent " marker-end="url(#arrow-together)"/><text x="415" y="180" text-anchor="middle" class="svg-mono label-agent">A2A</text><rect x="560" y="0" width="535" height="360" rx="18" class="svg-node svg-agent"/><text x="590" y="38" text-anchor="start" class="svg-mono label-agent">PAYMENTS TEAM</text><rect x="660" y="150" width="335" height="110" rx="12" class="svg-node svg-agent"/><text x="827.5" y="201.0" text-anchor="middle" class="svg-title">Payments agent</text><text x="827.5" y="231.0" text-anchor="middle" class="svg-small">Outcome: diagnosis</text><text x="825" y="305" text-anchor="middle" class="svg-small">Private model / context / strategy</text></g><g class="fragment " data-fragment-index="2"><rect x="680" y="62" width="295" height="65" rx="12" class="svg-node svg-tool"/><text x="827.5" y="102.5" text-anchor="middle" class="svg-title">Payments tools</text><path d="M825 150 L825 127" class="edge svg-tool " marker-end="url(#arrow-together)"/><text x="905" y="144" text-anchor="middle" class="svg-mono label-tool">MCP</text></g></svg>
+</div>
+
+<div class="duo-caption"><p><span class="stamp tool">MCP</span> Invoke a capability</p><p><span class="stamp agent">A2A</span> Delegate an outcome</p></div>
+<aside class="notes"><p>Stefano · 19:30–22:00. È la slide da fotografare. Tre click costruiscono l'architettura: nostro accesso MCP a log/deploy, delega A2A al team pagamenti, tool MCP della controparte dentro il suo perimetro. «La domanda utile è: sto invocando una capability o delegando un outcome a una controparte autonoma?» Lo stato non è il discriminante: un server MCP può avere stato e un agente A2A può rispondere subito. Si può esporre un agente dietro un tool MCP se quello è il contratto desiderato. Alessio può aggiungere una sola frase senza prendere il palco: «Come JDBC e HTTP nello stesso backend: due confini diversi». Specificare che obiettivo, evidenze e limiti di tempo sono accordi del dominio. Il protocollo non certifica la diagnosi. Checkpoint: 22 minuti.</p><p>Fonti: <a href="sources.html#together" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="ui" class="" data-chapter="Users boundary">
+<div class="eyebrow">Users boundary</div>
+<h2>Let the user follow and guide the work</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 325" class="diagram-svg" role="img" aria-labelledby="title-ui desc-ui"><title id="title-ui">Ui</title><desc id="desc-ui">AG-UI carries event and state exchange between agent backend and frontend. A conceptual incident panel gives the human a choice. A2UI describes components; MCP Apps supplies tool UI within a host. These are separate optional contracts.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-ui" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="0" y="115" width="230" height="110" rx="12" class="svg-node "/><text x="115.0" y="166.0" text-anchor="middle" class="svg-title">Agent runtime</text><text x="115.0" y="196.0" text-anchor="middle" class="svg-small">Work in progress</text><path d="M230 170 L440 170" class="edge  " marker-end="url(#arrow-ui)"/><text x="335" y="144" text-anchor="middle" class="svg-mono label-tool">AG-UI</text><rect x="440" y="115" width="215" height="110" rx="12" class="svg-node "/><text x="547.5" y="166.0" text-anchor="middle" class="svg-title">Frontend</text><text x="547.5" y="196.0" text-anchor="middle" class="svg-small">Events + state</text><path d="M655 170 L790 170" class="edge  " marker-end="url(#arrow-ui)"/><g class="fragment " data-fragment-index="0"><rect x="790" y="0" width="300" height="315" rx="16" class="svg-node"/><text x="820" y="38" text-anchor="start" class="svg-mono">INCIDENT PANEL</text><path d="M810 58 L1070 58" class="edge  "/><text x="820" y="96" text-anchor="start" class="svg-small label-tool">Evidence collected</text><text x="820" y="141" text-anchor="start" class="svg-title">Next action?</text><rect x="817" y="179" width="246" height="55" rx="12" class="svg-node svg-tool"/><text x="940.0" y="214.5" text-anchor="middle" class="svg-small">Inspect recent deploy</text><rect x="817" y="247" width="246" height="45" rx="12" class="svg-node "/><text x="940.0" y="277.5" text-anchor="middle" class="svg-small">Ask for more evidence</text></g></svg>
+</div>
+
+<div class="ui-labels"><p><strong>AG-UI</strong><br>Events &amp; shared state</p><p><strong>A2UI</strong><br>Declarative components</p><p><strong>MCP Apps</strong><br>Tool UI inside a host</p></div>
+<aside class="notes"><p>Stefano · 22:00–24:00. Dire subito: «MCP e A2A erano il cuore. Sul resto acceleriamo per vedere il pattern». Un click aggiunge il pannello UI. AG-UI dà un vocabolario per eventi e stato tra backend e frontend. A2UI descrive componenti che un client renderizza dal catalogo supportato. MCP Apps permette a un tool di fornire una UI interattiva in un host compatibile, con isolamento. Sono contratti distinti, non un'unica pipeline obbligatoria né equivalenti a WebSocket o HTML. Il pannello illustrato è una decisione umana sulla prossima azione dell'incidente. «Anche l'esperienza utente ha un confine. E alcuni accordi utili sono molto più piccoli di un protocollo di rete». Proseguire senza cambio di relatore sulla slide successiva.</p><p>Fonti: <a href="sources.html#ui" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="knowledge" class="" data-chapter="Knowledge boundary">
+<div class="eyebrow">Knowledge boundary</div>
+<h2>A shared meaning can fit in a file</h2>
+<div class="file-grid"><article><div class="file-icon">.md</div><h3>AGENTS.md</h3><p>Project instructions</p><span class="micro">Convention</span></article><article class="fragment" data-fragment-index="0"><div class="file-icon">/</div><h3>Agent Skills</h3><p>SKILL.md + resources</p><span class="micro">Load detail when needed</span></article><article class="fragment" data-fragment-index="1"><div class="file-icon">{ }</div><h3>Agent Plugins</h3><p>Manifest + reusable parts</p><span class="micro">Package / check client support</span></article></div>
+
+<p class="landing">Interoperability starts when implementations <strong>agree on meaning</strong></p>
+<aside class="notes"><p>Stefano · 24:00–26:00. Due click, senza scendere nel manifest. «AGENTS.md è essenzialmente un file. Una skill è una directory con SKILL.md e risorse. La semplicità tecnica non ne diminuisce il valore: più implementazioni attribuiscono lo stesso significato allo stesso oggetto». Skill: nome e descrizione per discovery, istruzioni e risorse quando servono. Plugin: un pacchetto di elementi riutilizzabili, ma supporto dei client ed estensioni da verificare. Nell'incidente una skill può descrivere il runbook: è istruzione, non capability remota e non esecuzione garantita. L'analogia con man pages riguarda caricamento su richiesta, non equivalenza tecnica. Le istruzioni non sono autenticazione o permesso.</p><p>Fonti: <a href="sources.html#knowledge" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="operations" class="" data-chapter="Operations boundary">
+<div class="eyebrow">Operations boundary</div>
+<h2>Follow one request across boundaries</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 345" class="diagram-svg" role="img" aria-labelledby="title-trace desc-trace"><title id="title-trace">Trace</title><desc id="desc-trace">A conceptual trace groups model, tool and remote agent activity under one request. Services must be instrumented and propagate context; no duration is measured in this illustration.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-trace" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><text x="0" y="25" text-anchor="start" class="svg-mono">ONE REQUEST / CORRELATED CONTEXT</text><rect x="0" y="55" width="1095" height="54" rx="8" class="svg-node"/><text x="23" y="90" text-anchor="start" class="svg-title">Incident investigation</text><rect x="35" y="125" width="330" height="50" rx="7" class="svg-node svg-model"/><text x="53" y="158" text-anchor="start" class="svg-small">Model call</text><rect x="90" y="190" width="410" height="50" rx="7" class="svg-node svg-tool"/><text x="108" y="223" text-anchor="start" class="svg-small">Tool access</text><rect x="360" y="255" width="640" height="50" rx="7" class="svg-node svg-agent"/><text x="378" y="288" text-anchor="start" class="svg-small">Remote delegation</text><path d="M17 109 L17 280 L35 280" class="edge dashed"/><text x="1095" y="332" text-anchor="end" class="svg-mono">Conceptual trace / no measured durations</text></svg>
+</div>
+
+<p class="landing">OpenTelemetry GenAI <strong>semantic conventions</strong></p>
+<p class="micro">Propagate context / instrument each service / pin the convention version</p>
+<aside class="notes"><p>Stefano · 26:00–27:00. Sessanta secondi. Una richiesta dell'incidente attraversa modello, tool e delega remota. Serve correlare questi passaggi. Lo schema è un trace concettuale, non una cattura né durate misurate. «Se usate OTel, riconoscete il problema: stiamo concordando anche il vocabolario per osservare questi sistemi». Una trace non appare automaticamente perché entrambi i lati parlano MCP o A2A: occorre strumentare e propagare il contesto dove il confine lo consente. Pinnare e verificare la versione delle convenzioni GenAI.</p><p>Fonti: <a href="sources.html#operations" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="acp" class="" data-chapter="IDE boundary">
+<div class="eyebrow">IDE boundary</div>
+<h2>Change the coding agent, keep the editor</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 320" class="diagram-svg" role="img" aria-labelledby="title-acp desc-acp"><title id="title-acp">Acp</title><desc id="desc-acp">Agent Client Protocol separates editor integration from coding agent implementation. Compatible agent A can change to agent B while the editor keeps the shared interface.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-acp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="0" y="100" width="270" height="120" rx="12" class="svg-node "/><text x="135.0" y="156.0" text-anchor="middle" class="svg-title">Your editor</text><text x="135.0" y="186.0" text-anchor="middle" class="svg-small">Development experience</text><rect x="405" y="100" width="285" height="120" rx="12" class="svg-node svg-tool"/><text x="547.5" y="156.0" text-anchor="middle" class="svg-title">ACP</text><text x="547.5" y="186.0" text-anchor="middle" class="svg-small">Agent Client Protocol</text><path d="M270 160 L405 160" class="edge svg-tool " marker-end="url(#arrow-acp)"/><path d="M690 160 L825 160" class="edge svg-tool " marker-end="url(#arrow-acp)"/><g class="fragment fade-out" data-fragment-index="0"><rect x="825" y="100" width="270" height="120" rx="12" class="svg-node "/><text x="960.0" y="156.0" text-anchor="middle" class="svg-title">Coding agent A</text><text x="960.0" y="186.0" text-anchor="middle" class="svg-small">Compatible implementation</text></g><g class="fragment " data-fragment-index="0"><rect x="825" y="100" width="270" height="120" rx="12" class="svg-node svg-tool"/><text x="960.0" y="156.0" text-anchor="middle" class="svg-title">Coding agent B</text><text x="960.0" y="186.0" text-anchor="middle" class="svg-small">Compatible implementation</text></g><text x="135" y="280" text-anchor="middle" class="svg-mono">KEEP THE CLIENT</text><text x="960" y="280" text-anchor="middle" class="svg-mono label-tool">SWAP THE AGENT</text></svg>
+</div>
+
+<p class="analogy">Agent Client Protocol <span>≈ the LSP pattern</span></p>
+<p class="micro">Sessions / progress / permissions / cancellation</p>
+<aside class="notes"><p>Stefano · 27:00–28:00. Un click cambia il coding agent mantenendo editor e contratto. «ACP applica il pattern LSP al rapporto tra editor e coding agent: Alessio ci ha mostrato prima perché questa analogia è utile». Specificare Agent Client Protocol, perché ACP è una sigla ambigua. Le sessioni e i permessi hanno semantiche diverse da un servizio linguistico; l'agente può modificare il progetto. Sostituibile nell'integrazione non significa stessa qualità o trasferimento automatico della memoria. Se c'è tempo per l'epilogo: «Resta un confine che fino a poco fa avremmo lasciato fuori dalla mappa: il denaro». Se x402 si salta, passare direttamente alle scelte pratiche.</p><p>Fonti: <a href="sources.html#acp" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="payments" class="payment-slide" data-chapter="Epilogue">
+<div class="eyebrow">Epilogue</div>
+<h2>The next boundary: money</h2>
+<div class="payment-heading"><span class="http-code">402</span><div><h3>Payment Required</h3><p>A long-reserved HTTP status<br>gets a machine-readable payment contract</p></div></div>
+
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 280" class="diagram-svg" role="img" aria-labelledby="title-payment desc-payment"><title id="title-payment">Payment</title><desc id="desc-payment">x402 conceptual sequence: client requests a resource, server returns 402 with terms, client authorizes and retries, server verifies and settles before delivery.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-payment" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><rect x="0" y="25" width="245" height="100" rx="12" class="svg-node "/><text x="122.5" y="71.0" text-anchor="middle" class="svg-title">Agent / client</text><text x="122.5" y="101.0" text-anchor="middle" class="svg-small">Request resource</text><g class="fragment " data-fragment-index="0"><path d="M245 75 L420 75" class="edge svg-model " marker-end="url(#arrow-payment)"/><rect x="420" y="25" width="260" height="100" rx="12" class="svg-node svg-model"/><text x="550.0" y="71.0" text-anchor="middle" class="svg-title">402 + terms</text><text x="550.0" y="101.0" text-anchor="middle" class="svg-small">Payment requirements</text></g><g class="fragment " data-fragment-index="1"><path d="M680 75 L845 75" class="edge svg-model " marker-end="url(#arrow-payment)"/><rect x="845" y="25" width="250" height="100" rx="12" class="svg-node svg-model"/><text x="970.0" y="71.0" text-anchor="middle" class="svg-title">Authorize + retry</text><text x="970.0" y="101.0" text-anchor="middle" class="svg-small">Signed payment payload</text><path d="M970 125 L970 165 L125 165 L125 198" class="edge svg-model" marker-end="url(#arrow-payment)"/><rect x="0" y="200" width="1095" height="65" rx="12" class="svg-node svg-model"/><text x="547.5" y="240.5" text-anchor="middle" class="svg-small">Server verifies &amp; settles, then delivers the resource</text></g></svg>
+</div>
+
+<p class="micro">x402 / request, terms, authorize, verify &amp; settle, deliver</p>
+<aside class="notes"><p>Stefano · 28:00–29:30. Epilogo opzionale: primo pezzo da saltare se siete lunghi. Due click: requisiti di pagamento e retry autorizzato con verifica/settlement. «HTTP aveva un posto riservato per Payment Required. x402 concorda come comunicare i termini e autorizzare un pagamento per una risorsa». Nel flusso exact comunemente illustrato il client firma un payload di autorizzazione; il server, eventualmente tramite facilitator, verifica e fa settlement prima di consegnare. Non rappresentare un trasferimento già completato prima del retry come unico modello. Non dire che 402 non sia mai stato usato, che spariscano vincoli del fornitore o che non esistano fee della rete. Qui interessa il nuovo confine, non un consiglio finanziario o un pitch crypto.</p><p>Fonti: <a href="sources.html#payments" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="bets" class="" data-chapter="The bets">
+<div class="eyebrow">The bets</div>
+<h2>Adopt where replacement matters</h2>
+<div class="bets-grid"><article><span class="kicker tool-text">Start from a need</span><h3>MCP</h3><p>Reusable tool integrations</p><h3>A2A</h3><p>Independent agent delegation</p></article><article class="fragment" data-fragment-index="0"><span class="kicker model-text">Evaluate the contract</span><h3>Compatibility</h3><p>Common subset<br>Extensions<br>Independent implementations</p></article><article class="fragment" data-fragment-index="1"><span class="kicker agent-text">Keep the rest on your radar</span><h3>One boundary<br>at a time</h3><p>Introduce a standard when<br>the integration pain is real</p></article></div>
+<aside class="notes"><p>Stefano · 29:30–30:30 (28:00–29:00 se si salta x402). Due click. «Domani implementiamo tutto? Uno standard ha un costo. MCP quando riusate integrazioni di tool; A2A quando delegate a una controparte indipendente. Per il resto valutate il bisogno, il supporto reale, le estensioni». Non leggere un elenco di versioni: questa slide esprime i criteri di scelta dei relatori. AGENTS.md e skill possono essere utili già adesso, senza adottare tutto lo stack. «Gli standard arrivano un confine alla volta». Passare ad Alessio per richiamare la storia e chiudere insieme.</p></aside>
+</section>
+<section id="closing" class="statement paper" data-chapter="Closing">
+<div class="eyebrow">Closing</div>
+
+<p class="kicker">We have seen this before</p>
+<p class="big-statement closing-text">Replace what is<br>on the other side.<br><strong>Keep your application</strong></p>
+<p class="statement-caption fragment">That is when a protocol becomes infrastructure</p>
+<aside class="notes"><p>Entrambi · 30:30–31:30 (29:00–30:00 se si salta x402). Alessio (15 secondi): «La storia non ci dice quali sigle vinceranno. Ci aiuta a riconoscere il contratto che elimina decisioni ripetute dalle applicazioni». Stefano, al click: «Quando posso sostituire ciò che sta dall'altra parte del confine senza riscrivere ciò che sta da questa parte, quel protocollo è diventato infrastruttura». Pausa. Nessun nuovo contenuto dopo questa frase. Ringraziare e avanzare alla Q&amp;A. Target prova: 31:30, margine 3:30 per pause e handoff.</p></aside>
+</section>
+<section id="questions" class="" data-chapter="Discussion">
+<div class="eyebrow">Discussion</div>
+<h2>Grazie! Questions?</h2>
+<div class="qa-layout"><div><p class="qa-prompt">Which boundary<br>hurts in <strong>your system</strong>?</p><p>Stefano Maestri<br><span class="muted">maeste.it</span></p><p>Alessio Soldano<br><span class="muted">aladinodigitale.it</span></p><p class="small"><a href="sources.html">Sources &amp; further reading</a></p></div><figure class="qr-card"><img src="assets/talk-qr.svg" alt="QR to maeste.it/speaking/agents-speak-protocol.html"><figcaption>Slides &amp; feedback<br><a href="../speaking/agents-speak-protocol.html">maeste.it/speaking/<br>agents-speak-protocol.html</a></figcaption></figure></div>
+<aside class="notes"><p>Entrambi · Q&amp;A. Lasciare proiettata questa slide: il QR usa la pagina già esistente del talk e lo stesso feedback. Per i backup: destra entra nell'appendice, giù passa tra le slide; tornare poi alla Q&amp;A. Domande attese: MCP/A2A, stato, security, AG-UI/A2UI, perché ACP breve, x402, sostituibilità effettiva. Non usare le domande per recuperare un catalogo di protocolli. Se non sappiamo una risposta di versione, verificare la spec invece di improvvisare.</p></aside>
+</section>
+<section id="appendix"><section id="comparison" class="" data-chapter="Appendix">
+<div class="eyebrow">Appendix</div>
+<h2>Choose the interaction contract</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>MCP</th>
+<th>A2A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What does the caller need?</td>
+<td>Access to a capability</td>
+<td>Work from an independent counterpart</td>
+</tr>
+<tr>
+<td>Main building blocks</td>
+<td>Tools, resources, prompts</td>
+<td>Agent Card, messages, tasks, artifacts</td>
+</tr>
+<tr>
+<td>Does state decide the choice?</td>
+<td>No: implementations can keep state</td>
+<td>No: direct responses are possible</td>
+</tr>
+<tr>
+<td>Can an agent sit behind it?</td>
+<td>Yes, exposed as a capability</td>
+<td>Yes, addressed as a remote agent</td>
+</tr>
+<tr>
+<td>What must still be designed?</td>
+<td>Domain semantics, policy, errors</td>
+<td>Outcome, evidence, limits, trust</td>
+</tr>
+</tbody>
+</table>
+<p class="landing">Choose by the <strong>contract needed by the caller</strong></p>
+<aside class="notes"><p>Non dire che le possibilità non si sovrappongano mai. Si può incapsulare un agente in un tool. Chiedere quale parte dell'interazione deve diventare interoperabile: accesso a capability oppure delega con lifecycle, messaggi e risultato. Lo stato e la durata non sono test sufficienti. È la precisazione alla regola pratica della slide 15.</p><p>Fonti: <a href="sources.html#comparison" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="trust" class="" data-chapter="Appendix">
+<div class="eyebrow">Appendix</div>
+<h2>A shared protocol still needs a trust model</h2>
+<div class="primitive-grid"><article><span class="kicker">Identity</span><h3>Who is calling?</h3><p>Authentication<br>Delegated identity</p></article><article><span class="kicker">Authority</span><h3>What is allowed?</h3><p>Least privilege<br>Host policy / consent</p></article><article><span class="kicker">Evidence</span><h3>What can we trust?</h3><p>Validate inputs and outputs<br>Assess the result</p></article></div>
+
+<p class="landing">Discovery describes a peer. <strong>It does not establish trust</strong></p>
+<aside class="notes"><p>Risposta alla domanda security: connettività e discovery non creano da sole fiducia. L'autenticazione non equivale ad autorizzare ogni tool o outcome. I contenuti esterni possono essere non affidabili. Concordare policy, limitare privilegi e validare l'adeguatezza del risultato. Un artifact conforme può contenere una diagnosi sbagliata. Evitare una checklist che divorerebbe il talk principale: usare solo se chiesto.</p><p>Fonti: <a href="sources.html#trust" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="ui-comparison" class="" data-chapter="Appendix">
+<div class="eyebrow">Appendix</div>
+<h2>Three UI contracts, different responsibilities</h2>
+<table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>What it standardizes</th>
+<th>What the client owns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AG-UI</td>
+<td>Agent/frontend event and state exchange</td>
+<td>Application experience and event handling</td>
+</tr>
+<tr>
+<td>A2UI</td>
+<td>Declarative component and data descriptions</td>
+<td>Supported catalog and rendering</td>
+</tr>
+<tr>
+<td>MCP Apps</td>
+<td>Interactive UI supplied by MCP tools</td>
+<td>UI hosting, isolation and permissions</td>
+</tr>
+</tbody>
+</table>
+<p class="landing">Compose what you need. <strong>No mandatory full stack</strong></p>
+<aside class="notes"><p>A2UI può viaggiare su diversi canali, anche insieme ad AG-UI. MCP Apps è un'estensione lato tool/host; non è la stessa cosa di una descrizione dichiarativa A2UI. Il fatto che tutti possano mostrare UI non significa che siano intercambiabili. La slide 16 li colloca nello stesso confine umano, ma mantiene ruoli diversi.</p><p>Fonti: <a href="sources.html#ui-comparison" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="payment-detail" class="" data-chapter="Appendix">
+<div class="eyebrow">Appendix</div>
+<h2>x402: authorization before settlement</h2>
+<div class="diagram-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400" class="diagram-svg" role="img" aria-labelledby="title-payment-detail desc-payment-detail"><title id="title-payment-detail">Payment Detail</title><desc id="desc-payment-detail">Illustrative x402 V2 exact payment: request; 402 Payment-Required; authorize; retry with Payment-Signature; server verifies and settles, optionally using a facilitator; resource and Payment-Response.</desc><style>
+.svg-node{fill:var(--surface,#16212c);stroke:var(--line,#3c4d5f);stroke-width:1.6}
+.svg-title{fill:var(--ink,#f2efe7);font:600 24px system-ui,sans-serif;letter-spacing:-.4px}
+.svg-small{fill:var(--dim,#adb9c6);font:18px system-ui,sans-serif}
+.svg-mono{fill:var(--dim,#adb9c6);font:16px ui-monospace,monospace}
+.svg-large{fill:var(--ink,#f2efe7);font:600 42px system-ui,sans-serif;letter-spacing:-1px}
+.edge{fill:none;stroke:var(--line,#3c4d5f);stroke-width:2}
+.svg-model{stroke:var(--model,#ffbb71)}.svg-tool{stroke:var(--tool,#79dfc4)}.svg-agent{stroke:var(--agent,#c3adff)}
+.label-model{fill:var(--model,#ffbb71)}.label-tool{fill:var(--tool,#79dfc4)}.label-agent{fill:var(--agent,#c3adff)}
+.dashed{stroke-dasharray:7 7}.soft{opacity:.6}
+</style><defs><marker id="arrow-payment-detail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--dim,#adb9c6)"/></marker></defs><text x="110" y="28" text-anchor="middle" class="svg-mono">CLIENT</text><text x="630" y="28" text-anchor="middle" class="svg-mono">SERVER</text><text x="985" y="28" text-anchor="middle" class="svg-mono">FACILITATOR</text><text x="985" y="48" text-anchor="middle" class="svg-mono">(optional)</text><path d="M110 50 L110 380" class="edge  dashed"/><path d="M630 50 L630 380" class="edge  dashed"/><path d="M985 50 L985 380" class="edge  dashed"/><path d="M110 90 L630 90" class="edge svg-model " marker-end="url(#arrow-payment-detail)"/><text x="370.0" y="80" text-anchor="middle" class="svg-small">Request resource</text><path d="M630 145 L110 145" class="edge svg-model " marker-end="url(#arrow-payment-detail)"/><text x="370.0" y="135" text-anchor="middle" class="svg-small">402 + PAYMENT-REQUIRED</text><path d="M110 225 L630 225" class="edge svg-model " marker-end="url(#arrow-payment-detail)"/><text x="370.0" y="215" text-anchor="middle" class="svg-small">Retry + PAYMENT-SIGNATURE</text><path d="M630 275 L985 275" class="edge svg-model " marker-end="url(#arrow-payment-detail)"/><text x="807.5" y="265" text-anchor="middle" class="svg-small">Verify / settle</text><path d="M985 310 L630 310" class="edge svg-model " marker-end="url(#arrow-payment-detail)"/><text x="807.5" y="300" text-anchor="middle" class="svg-small">Settlement result</text><path d="M630 370 L110 370" class="edge svg-model " marker-end="url(#arrow-payment-detail)"/><text x="370.0" y="360" text-anchor="middle" class="svg-small">Resource + PAYMENT-RESPONSE</text><text x="110" y="193" text-anchor="middle" class="svg-small label-model">Sign authorization</text></svg>
+</div>
+
+<p class="micro">V2 headers: PAYMENT-REQUIRED / PAYMENT-SIGNATURE / PAYMENT-RESPONSE</p>
+<aside class="notes"><p>Flusso illustrativo exact, non tutte le modalità x402. Prima il server comunica i termini, poi il client autorizza con un payload firmato e ripete la richiesta. Il server verifica e fa settlement, anche tramite un facilitator, e restituisce la risorsa se il pagamento riesce. Non confondere firma con settlement già avvenuto. Wallet, asset, network, policy di spesa e fee della rete restano scelte concrete. Il protocollo non garantisce assenza universale di account, KYC o requisiti di business.</p><p>Fonti: <a href="sources.html#payment-detail" target="_blank" rel="noopener">documentazione di questa slide</a>.</p></aside>
+</section>
+<section id="replacement-test" class="" data-chapter="Appendix">
+<div class="eyebrow">Appendix</div>
+<h2>Test replacement, not just protocol support</h2>
+<ol>
+<li>Connect two independent implementations</li>
+<li>Exercise the common capability subset</li>
+<li>Check errors, permissions and lifecycle</li>
+<li>Identify private extensions and semantics</li>
+<li>Replace one side and measure what changes</li>
+</ol>
+<p class="landing">Compatibility is something you <strong>demonstrate</strong></p>
+<aside class="notes"><p>Risposta alla domanda “rischiamo un nuovo SOAP?”: la complessità può tornare nelle estensioni e negli accordi privati. Il test utile è sostituire una parte, misurare cosa riusiamo e quali adapter restano. Il protocollo comune riduce una classe di integrazioni, non ogni costo. È un criterio proposto dai relatori per applicare la tesi della slide 5.</p></aside>
+</section></section>
+</div></div>
+<div class="deck-footer" aria-hidden="true"><span>DEVFEST MILANO 2026</span><span id="chapter-label">OPENING</span></div>
+<script src="reveal/reveal.js"></script><script src="reveal/notes.js"></script><script src="deck.js"></script>
+</body></html>
