@@ -253,8 +253,8 @@ Sources: [x402 HTTP 402](https://docs.x402.org/core-concepts/http-402), [x402 cl
 <!-- id: closing; class: statement paper; chapter: Closing; time: 30:30–31:30; speaker: Entrambi; hide-title: true -->
 
 <p class="kicker">We have seen this before</p>
-<p class="big-statement closing-text">Replace what is<br>on the other side.<br><strong>Keep your application</strong></p>
-<p class="statement-caption fragment">That is when a protocol becomes infrastructure</p>
+<p class="big-statement closing-text">Replace what is<br>on the other side.<br><strong>Keep your <span class="correction"><span class="correction-word">application</span><span class="correction-strike fragment" data-fragment-index="0"></span><span class="correction-fix fragment" data-fragment-index="0">Agent</span></span></strong></p>
+<p class="statement-caption fragment" data-fragment-index="0">That is when a protocol becomes infrastructure</p>
 
 > **Speaker notes:** Entrambi · 30:30–31:30 (29:00–30:00 se si salta x402). Alessio (15 secondi): «La storia non ci dice quali sigle vinceranno. Ci aiuta a riconoscere il contratto che elimina decisioni ripetute dalle applicazioni». Stefano, al click: «Quando posso sostituire ciò che sta dall'altra parte del confine senza riscrivere ciò che sta da questa parte, quel protocollo è diventato infrastruttura». Pausa. Nessun nuovo contenuto dopo questa frase. Ringraziare e avanzare alla Q&A. Target prova: 31:30, margine 3:30 per pause e handoff.
 
