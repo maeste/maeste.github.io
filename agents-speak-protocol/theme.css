@@ -75,11 +75,11 @@ body { margin: 0; background: var(--ground); color: var(--ink); }
 .reveal .statement-caption { font-size: 28px; margin-top: 45px; }
 .reveal .closing-text { font-size: 74px; }
 /* Closing correction: the teacher's red pen strikes "application" and writes "Agent" above it. */
-.reveal .correction { position: relative; display: inline-block; }
+.reveal .correction { position: relative; display: inline-block; padding-top: .34em; }
 .reveal .correction-strike { position: absolute; left: -3%; right: -3%; top: 55%; height: .06em; background: #c1272d; border-radius: 99px; transform-origin: 8% center; transform: rotate(-1.8deg) scaleX(0); transition: opacity .2s ease, transform .26s ease-in .04s; }
 .reveal .correction-strike.visible { transform: rotate(-1.8deg) scaleX(1); }
-.reveal .correction-fix { position: absolute; left: 50%; bottom: 97%; font-size: .4em; font-weight: 600; font-style: italic; color: #c1272d; white-space: nowrap; transform-origin: 50% 100%; transform: translateX(-58%) rotate(-5deg) translateY(.22em); transition: opacity .3s ease .18s, transform .32s cubic-bezier(.2,.85,.3,1.15) .18s; }
-.reveal .correction-fix.visible { transform: translateX(-58%) rotate(-5deg) translateY(0); }
+.reveal .correction-fix { position: absolute; left: 50%; bottom: 88%; font-size: .58em; font-weight: 700; font-style: italic; color: #c1272d; white-space: nowrap; transform-origin: 50% 100%; transform: translateX(-45%) rotate(-5deg) translateY(.22em); transition: opacity .3s ease .18s, transform .32s cubic-bezier(.2,.85,.3,1.15) .18s; }
+.reveal .correction-fix.visible { transform: translateX(-45%) rotate(-5deg) translateY(0); }
 .three-labels { display: flex; gap: 14px; margin: 15px 0 20px; }
 .three-labels span { padding: 10px 18px; border: 1px solid var(--line); border-radius: 7px; color: var(--accent); font-size: 22px; }
 #a2a .three-labels { margin: 8px 0 12px; }
@@ -141,7 +141,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); }
   .deck-footer { display: none; }
   .reveal .fragment, .reveal .fragment.visible { opacity: 1 !important; visibility: visible !important; }
   .reveal .correction-strike { transform: rotate(-1.8deg) scaleX(1) !important; }
-  .reveal .correction-fix { transform: translateX(-58%) rotate(-5deg) translateY(0) !important; }
+  .reveal .correction-fix { transform: translateX(-45%) rotate(-5deg) translateY(0) !important; }
   .reveal .fragment.fade-out { opacity: 0 !important; visibility: hidden !important; }
   .reveal .slides section.paper { background: #f2eee5 !important; }
 }
