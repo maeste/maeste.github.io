@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Render the AED narrative Markdown into a static, offline Reveal.js deck."""
+"""Render the AED narrative Markdown into a static, offline Reveal.js deck.
+
+Default build: SVG diagrams -> index.html (the rehearsed deck).
+`--3d` build: diagram slides swap their SVG for a three.js scene mount with
+the same box (aspect ratio taken from the SVG viewBox) and the same click
+choreography -> deck-3d.html (experimental alternative, same notes/timings).
+"""
+import sys
 from pathlib import Path
 import html
 import re
@@ -8,10 +15,39 @@ import markdown
 HERE = Path(__file__).resolve().parent
 SOURCE = HERE.parent / "agents-speak-protocol-aed.md"
 
+# Slides whose {{diagram:...}} becomes a three.js scene in the --3d build.
+SCENES = {"cover", "replace", "map", "wiring", "mcp", "a2a", "task", "together", "acp"}
 
-def render(text):
+
+def svg_aspect(name):
+    """Width/height ratio of the diagram SVG, for the scene mount box."""
+    svg = (HERE / "assets" / f"{name}.svg").read_text()
+    match = re.search(r'viewBox="([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)"', svg)
+    if not match:
+        return None
+    width, height = float(match.group(3)), float(match.group(4))
+    return width / height if height else None
+
+
+def svg_fragment_indices(name):
+    """Fragment indices baked into the diagram SVG — the scene slide must expose
+    the same click choreography via invisible beat triggers."""
+    svg = (HERE / "assets" / f"{name}.svg").read_text()
+    return sorted({int(m) for m in re.findall(r'class="fragment[^"]*" data-fragment-index="(\d+)"', svg)})
+
+
+def render(text, scenes=False):
     def diagram(match):
         name = match.group(1)
+        if scenes and name in SCENES:
+            aspect = svg_aspect(name)
+            style = f' style="aspect-ratio:{aspect:.4f}"' if aspect else ""
+            triggers = "".join(
+                f'<div class="beat-trigger fragment" data-fragment-index="{i}"></div>'
+                for i in svg_fragment_indices(name)
+            )
+            return (f'<div class="diagram-wrap scene3d" data-scene="{name}"{style}>\n{triggers}\n'
+                    f'<noscript><p class="micro">Scene unavailable — use the flat deck (index.html).</p></noscript>\n</div>')
         path = HERE / "assets" / f"{name}.svg"
         svg = path.read_text().strip()
         return f'<div class="diagram-wrap">\n{svg}\n</div>'
@@ -19,7 +55,7 @@ def render(text):
     return markdown.markdown(text, extensions=["tables", "fenced_code"])
 
 
-def build():
+def build(scenes=False):
     source = SOURCE.read_text()
     blocks = re.split(r"(?m)^## (Slide \d+|A\d+) — (.+)\n", source)
     main, appendix, source_rows = [], [], []
@@ -45,32 +81,40 @@ def build():
         section = f'''<section id="{slide_id}" class="{classes}" data-chapter="{chapter}">
 <div class="eyebrow">{chapter}</div>
 {heading}
-{render(content.strip())}
+{render(content.strip(), scenes)}
 <aside class="notes">{notes_html}</aside>
 </section>'''
         (main if number.startswith("Slide") else appendix).append(section)
     appendix_html = f'<section id="appendix">{"".join(appendix)}</section>' if appendix else ""
+    extra_scripts = '<script src="three/three.min.js"></script><script src="three/scenes.js"></script>' if scenes else ""
+    scripts_line = '<script src="reveal/reveal.js"></script><script src="reveal/notes.js"></script><script src="deck.js"></script>' + extra_scripts
+    flat_redirect = """<script>if (new URLSearchParams(location.search).has('flat')) location.replace('index.html' + location.hash);</script>""" if scenes else ""
+    scene_css = ("<style>div.scene3d{position:relative}div.scene3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}"
+                 "div.scene3d noscript{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}"
+                 ".beat-trigger{position:absolute;left:0;top:0;width:0;height:0;opacity:0!important;visibility:hidden!important;pointer-events:none}</style>") if scenes else ""
     document = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agents Speak Protocol</title>
 <meta name="description" content="Agentic Engineering Days Zurich 2026. A narrative deck about replaceable boundaries, MCP and A2A, by Stefano Maestri and Alessio Soldano.">
-<link rel="stylesheet" href="reveal/reset.css"><link rel="stylesheet" href="reveal/reveal.css"><link rel="stylesheet" href="theme.css">
+{flat_redirect}{scene_css}<link rel="stylesheet" href="reveal/reset.css"><link rel="stylesheet" href="reveal/reveal.css"><link rel="stylesheet" href="theme.css">
 </head><body>
 <div class="reveal"><div class="slides">
 {chr(10).join(main)}
 {appendix_html}
 </div></div>
 <div class="deck-footer" aria-hidden="true"><span>AED ZURICH 2026</span><span id="chapter-label">OPENING</span></div>
-<script src="reveal/reveal.js"></script><script src="reveal/notes.js"></script><script src="deck.js"></script>
+{scripts_line}
 </body></html>'''
-    (HERE / "index.html").write_text(document)
+    output = HERE / ("deck-3d.html" if scenes else "index.html")
+    output.write_text(document)
     rows = []
     for slide_id, title, refs in source_rows:
         links = "".join(f'<li><a href="{html.escape(url)}" target="_blank" rel="noopener">{html.escape(label)}</a></li>' for label, url in refs)
         rows.append(f'<section id="{slide_id}"><h2>{html.escape(title)}</h2><ul>{links}</ul></section>')
     (HERE / "sources.html").write_text(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Agents Speak Protocol — Sources</title><link rel="stylesheet" href="theme.css"></head><body class="sources-page"><main><a href="index.html">← Back to the deck</a><h1>Sources &amp; further reading</h1><p>Primary documentation checked 6 October 2026. Diagrams are original conceptual illustrations. Historical analogies and adoption guidance are the speakers' interpretations. The extended 35-minute version of this talk lives at <a href="https://maeste.it/agents-speak-protocol/" target="_blank" rel="noopener">maeste.it/agents-speak-protocol/</a>.</p>{''.join(rows)}<p>Narrative and speaker notes: <a href="../agents-speak-protocol-aed.md">Markdown source</a></p></main></body></html>''')
-    print(f"Built {len(main)} main slides + {len(appendix)} appendix slides from {SOURCE.name}")
+    mode = "3D scenes" if scenes else "SVG diagrams"
+    print(f"Built {len(main)} main slides + {len(appendix)} appendix slides [{mode}] -> {output.name}")
 
 
 if __name__ == "__main__":
-    build()
+    build(scenes="--3d" in sys.argv)
