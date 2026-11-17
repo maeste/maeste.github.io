@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Agent Harness Should Be Tailor-Made</title>
+  <link rel="stylesheet" href="reveal/reset.css">
+  <link rel="stylesheet" href="reveal/reveal.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- 1 · TITLE -->
+<section>
+  <div class="eyebrow">Festival AI Ticino 2° edizione</div>
+  <h1>Your Agent Harness Should Be Tailor-Made</h1>
+  <p class="thesis">The problem isn't the model. <strong>It's the off-the-rack harness.</strong></p>
+  <p class="dimtext small">Stefano Maestri · maeste.it · Risorse Artificiali</p>
+  <aside class="notes">Apertura. Una riga su di me: scrivo Risorse Artificiali, costruisco agenti
+  e harness da oltre un anno. La tesi in una frase: il problema quasi non è mai il modello, è
+  il guscio generico che gli abbiamo messo intorno. Anticipo il percorso: i fallimenti che
+  tutti riconoscete, cosa è davvero un harness (con il diagramma del giro), tre sartorie
+  concrete con i loro diagrammi, gli strumenti del loop, i numeri che danno ragione alla
+  sartoria. La metafora è Q: la missione di Bond non si affida a un abito comprato già fatto.</aside>
+</section>
+
+<!-- 2 · THE FAILURES -->
+<section>
+  <div class="eyebrow">the problem · the failures</div>
+  <h2>The demo works. Until it doesn't.</h2>
+  <div class="grid2">
+    <div class="dbox fail"><b>Loops forever</b>on a tricky task, burning tokens<div class="dlabel">same turn, same mistake, all night</div></div>
+    <div class="dbox fail"><b>Edits the wrong files</b>in the wrong place<div class="dlabel">the conventions live in heads, not in the repo</div></div>
+    <div class="dbox fail"><b>Invents tools</b>that don't exist<div class="dlabel">calls an API nobody wrote</div></div>
+    <div class="dbox fail"><b>Drifts off mission</b>politely, mid-task<div class="dlabel">busy, plausible, no longer yours</div></div>
+    <div class="dbox fail span2"><b>Declares victory too early:</b> "the code looks fine" becomes "the feature is complete"<div class="dlabel">the verification gap: the most common failure of all</div></div>
+  </div>
+  <p class="rule">You installed a framework, dropped in a system prompt, wired a few tools, and shipped. The demo was fine.</p>
+  <aside class="notes">Raccontateli come scene, non come lista. Il loop infinito: il modello
+  riprova la stessa strada per venti turni. Il file sbagliato: le convenzioni del progetto
+  esistono solo in teste e in messaggi Slack di tre mesi fa, l'agente non le ha mai viste. Il
+  tool inventato: chiamata a una funzione che esiste solo nella sua immaginazione. Il drift:
+  la missione era una, a metà lavoro ne sta inseguendo un'altra. E il più frequente di tutti:
+  si autodichiara vincente, i test unitari verdi diventano "fatto", mentre il flusso reale
+  non è mai stato eseguito. Dettaglio interessante da aggiungere a voce: quando sentono che il
+  contesto sta finendo, gli agenti si affrettano a chiudere, saltano la verifica e scelgono
+  la soluzione semplice: l'ansia da contesto. Il punto da martellare: lo stesso modello,
+  altrove, centra risultati eccellenti.</aside>
+</section>
+
+<!-- 3 · THE EVIDENCE -->
+<section>
+  <div class="eyebrow">the evidence · same horse, different fates</div>
+  <h2>The problem isn't the model</h2>
+  <div class="cols">
+    <div class="col">
+      <p><strong>Same model, same prompt.</strong> Only the harness changes.</p>
+      <table>
+        <tr><th>bare harness</th><th>tailored (3 roles)</th></tr>
+        <tr><td>20 min · $9</td><td>6 h · $200</td></tr>
+        <tr><td>app opens, <strong>input dead</strong></td><td><strong>core gameplay works</strong></td></tr>
+      </table>
+      <p class="small dimtext"><em>(documented case, Anthropic engineering, 2026)</em></p>
+    </div>
+    <div class="col">
+      <p><strong>The papers agree</strong> <em>(arXiv 2607.06906 · 2605.23950)</em></p>
+      <table>
+        <tr><th></th><th></th></tr>
+        <tr><td>same six models, orchestration only</td><td>cost <strong>−41%</strong> · time <strong>−44%</strong> · tokens <strong>−38%</strong></td></tr>
+        <tr><td>harness vs model variance, long horizon</td><td><strong>×7</strong></td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="rule">Swap the model, little changes. <strong>Reshape the scaffolding, everything changes.</strong></p>
+  <aside class="notes">Il caso documentato più pulito: stesso modello, stesso prompt, costruisci
+  un editor di giochi retrò. Nudo: venti minuti, nove dollari, l'app si apre ma le entità non
+  rispondono agli input. Con un harness su misura in tre ruoli, chi pianifica, chi genera,
+  chi verifica cliccando davvero: sei ore, duecento dollari, e il gameplay centrale
+  funziona. Non è che uno sia "meglio": sono costi diversi per qualità diverse, e la
+  variabile non è il modello. I due paper dicono la stessa cosa in forma statistica:
+  cambiando solo l'orchestrazione con sei modelli fissi, costi, tempi e token crollano, e sui
+  task lunghi la varianza indotta dal guscio è sette volte quella del modello. Tradotto:
+  confrontare due modelli senza dire in quale guscio hanno girato è come confrontare due
+  piloti senza dire in che macchina erano.</aside>
+</section>
+
+<!-- 4 · THE METAPHOR -->
+<section>
+  <div class="eyebrow">the metaphor · q branch</div>
+  <h2>James Bond doesn't buy off the rack</h2>
+  <div class="diagram center">
+    <div class="dbox hero">Q</div>
+    <div class="darrow">──▶</div>
+    <div class="dstack">
+      <div class="dbox ok"><b>Hidden compartment</b><span class="dlabel">for the mission: what "done" means, what never to touch</span></div>
+      <div class="dbox ok"><b>Right fit</b><span class="dlabel">for the wearer: how you work, your rules, your taste</span></div>
+      <div class="dbox ok"><b>Built to move</b><span class="dlabel">for the terrain: builds, tests, repo layout, CI</span></div>
+    </div>
+  </div>
+  <p class="rule">Developer, project, mission: <strong>three bodies, zero shared measurements.</strong></p>
+  <aside class="notes">La metafora dell'abstract, da usare con leggerezza e poi molleggiare.
+  Bond non si adatta all'abito: è l'abito che viene costruito su di lui, per quella missione,
+  con lo scomparto giusto nascosto dove serve. Nel nostro mondo i tre corpi sono lo
+  sviluppatore (come lavora tu, le tue regole, il tuo gusto), il progetto (la fisica reale:
+  build, test, layout, CI) e la missione (cosa significa "fatto", cosa non si tocca mai).
+  Tre misure che nessun framework può indovinare in fabbrica. Off-the-rack significa: cucito
+  su nessuno. Da qui la domanda: allora cosa cuciamo? E per cuciare serve sapere di cosa è
+  fatto l'abito: l'anatomia, nella prossima slide.</aside>
+</section>
+
+<!-- 5 · ANATOMY -->
+<section>
+  <div class="eyebrow">anatomy · five subsystems, one loop</div>
+  <h2>What a harness actually is</h2>
+  <div class="diagram center tight">
+    <div class="dstack">
+      <div class="dbox ctrl"><b>Project rules</b><span class="dlabel">briefing · red lines</span></div>
+      <div class="dbox ctrl"><b>State</b><span class="dlabel">progress · memory on disk</span></div>
+    </div>
+    <div class="darrow">──▶</div>
+    <div class="dbox hero">agent</div>
+    <div class="darrow">──▶</div>
+    <div class="dstack">
+      <div class="dbox exec"><b>Tools</b><span class="dlabel">shell · files · tests</span></div>
+      <div class="dbox exec"><b>Runtime</b><span class="dlabel">deps · services · versions</span></div>
+    </div>
+    <div class="darrow">──▶</div>
+    <div class="dbox ctrl"><b>Checks</b><span class="dlabel">test · lint · build</span></div>
+  </div>
+  <p class="dlabel">checks feed back into the agent, every turn: the loop closes</p>
+  <div class="cols small">
+    <div class="col">
+      <ul>
+        <li><strong>Instructions</strong>: system prompt (the briefing), guardrails (the red lines)</li>
+        <li><strong>Tools</strong>: boundaries, least privilege</li>
+        <li><strong>Environment</strong>: reproducible, self-describing</li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul>
+        <li><strong>State</strong>: context and memory that survive the session</li>
+        <li><strong>Feedback</strong>: stop conditions, evals, budget, loop control</li>
+      </ul>
+    </div>
+  </div>
+  <p class="rule">A prompt file is not a harness. <strong>The loop is.</strong></p>
+  <aside class="notes">L'anatomia, adesso in forma di giro. Cinque sottosistemi: le istruzioni,
+  il briefing e le linee rosse; gli strumenti, col principio del minimo privilegio;
+  l'ambiente, che deve autoscriversi, versioni e dipendenze dichiarate; lo stato, la memoria
+  che sopravvive alla sessione; e il feedback, i comandi di verifica, gli eval, il budget. Il
+  diagramma mostra perché si chiama harness: le regole e lo stato entrano nell'agente,
+  l'agente usa i tool nell'ambiente runtime, e i risultati dei controlli tornano indietro
+  come nuovo input, a ogni giro. Il cerchio si chiude. Il system prompt da solo non è un
+  harness: è un pezzo del sottosistema istruzioni. Se vi manca uno dei cinque, il giro non
+  si chiude, e i fallimenti della seconda slide sono esattamente i punti dove si apre.</aside>
+</section>
+
+<!-- 6 · WHERE DEFAULTS FAIL -->
+<section>
+  <div class="eyebrow">the map · each failure has an owner among the five</div>
+  <h2>Where generic defaults fail</h2>
+  <div class="tablewrap">
+    <table>
+      <tr><th>The failure</th><th>The missing piece</th></tr>
+      <tr><td>Loops forever</td><td><strong>stop conditions</strong> + <strong>budget</strong></td></tr>
+      <tr><td>Edits the wrong files</td><td><strong>instructions</strong> that know the real inventory</td></tr>
+      <tr><td>Invents tools</td><td><strong>tool boundaries</strong> + project constraints</td></tr>
+      <tr><td>Drifts off mission</td><td>definition of done + <strong>loop control</strong></td></tr>
+      <tr><td>Declares victory too early</td><td><strong>externalized verification</strong> (worker ≠ checker)</td></tr>
+    </table>
+  </div>
+  <p class="rule">Autonomy is exactly where <strong>nobody's defaults stop working.</strong></p>
+  <aside class="notes">La tabella incrocia i fallimenti di apertura con l'anatomia: ogni sintomo
+  ha un responsabile preciso tra i cinque sottosistemi. Il loop non finisce perché mancano
+  stop condition e budget. Il file sbagliato si modifica perché le istruzioni non conoscono
+  l'inventario reale del progetto. Il tool inventato nasce da perimetri mai disegnati. Il
+  drift arriva quando il fatto non è scritto da nessuna parte e il loop corre libero. E la
+  vittoria dichiarata troppo presto è il buco del feedback: nessuno esterno verifica. Nei
+  task corti i default reggono, perché un umano corregge a ogni giro. È esattamente dove
+  inizia l'autonomia che cedono: l'agente gira solo, a lungo, con soldi veri. Da qui le tre
+  sartorie.</aside>
+</section>
+
+<!-- 7 · TAILORING 1: THE ROUTER -->
+<section>
+  <div class="eyebrow">tailoring one of three · the instructions subsystem</div>
+  <h2>Tailoring #1: encode the project's constraints</h2>
+  <div class="cols">
+    <div class="col">
+      <p class="kicker rack">Off the rack: the giant file</p>
+<pre class="tree">AGENTS.md, 600 lines
+├─ top      → recalled
+├─ line 300 → the security rule,
+│             diluted, ignored
+└─ bottom   → recalled</pre>
+      <p class="small">Every failure adds a rule. The file only grows: context budget eaten, priorities blur, contradictions pile up.</p>
+    </div>
+    <div class="col">
+      <p class="kicker tailor">Tailored: an entry file that routes</p>
+<pre class="tree">AGENTS.md, 50–200 lines
+├─ overview + quick start
+├─ hard constraints (≤15, real)
+│   - Python: never relative imports.
+│   - git: one plain command per call.
+│   - never two builds in one tree.
+└─ links → docs/api · docs/db · docs/testing
+             (read only when the task needs them)</pre>
+    </div>
+  </div>
+  <p class="rule">Every rule on the right is a scar. <strong>Off-the-rack doesn't know your scars. And an encyclopedia is not a map.</strong></p>
+  <aside class="notes">Due difetti qui, uno del default e uno nostro. Il default: nessuna
+  istruzione scritta, quindi le convenzioni restano in testa alle persone, e l'agente non ci
+  può arrivare. La reazione naturale quando si comincia: un file unico dove buttare tutto. È
+  una trappola documentata: il file cresce a ogni fallimento, il ciclo vizioso
+  dell'aggiungi-una-regola, e con esso il budget di contesto mangiato, le priorità che si
+  confondono, le contraddizioni che si accumulano. E c'è l'effetto lost in the middle,
+  dimostrato su modelli già nel 2023: l'informazione a metà di un testo lungo viene usata
+  molto meno che agli estremi. La regola di sicurezza a riga trecento di un file da seicento
+  viene quasi sempre ignorata. La sartoria: il file d'ingresso è un router, non
+  un'enciclopedia. Panoramica, comandi di primo avvio, massimo quindici vincoli non
+  negoziabili, e link ai documenti per tema, da leggere solo quando il task li richiede. E le
+  regole vere, le cicatrici: quelle della colonna destra sono reali, dal mio setup. Ogni
+  regola portabile dovrebbe anche dichiarare origine, quando si applica e quando scade: si
+  manutenzione come il codice, si audità, e le regole vecchie si buttano.</aside>
+</section>
+
+<!-- 8 · TAILORING 2: THREE-LAYER DONE -->
+<section>
+  <div class="eyebrow">tailoring two of three · the feedback subsystem</div>
+  <h2>Tailoring #2: define "done"</h2>
+  <div class="diagram center tight">
+    <div class="dbox fail"><b>"agent says done"</b><span class="dlabel">a feeling, not a fact</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dstack">
+      <div class="dbox"><b>Layer 1 · static</b><span class="dlabel">lint · typecheck</span></div>
+      <div class="darrow">▼</div>
+      <div class="dbox"><b>Layer 2 · runtime</b><span class="dlabel">tests · the app actually starts</span></div>
+      <div class="darrow">▼</div>
+      <div class="dbox"><b>Layer 3 · end-to-end</b><span class="dlabel">the full user flow, really executed</span></div>
+      <div class="darrow">▼</div>
+      <div class="dbox ok"><b>done</b><span class="dlabel">only after all three</span></div>
+    </div>
+  </div>
+  <div class="cols small">
+    <div class="col">
+      <ul>
+        <li>Done is a <strong>stop condition</strong>, stated before the work starts: criteria, perf budget, perimeter</li>
+        <li>The judgment is <strong>externalized</strong>: the one who writes the code doesn't grade their own homework</li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul>
+        <li>Error messages carry <strong>repair instructions</strong>: what failed, where, how to fix</li>
+        <li><strong>No refactoring until core functionality is verified</strong></li>
+      </ul>
+    </div>
+  </div>
+  <p class="rule">If the judgment stays inside the agent, <strong>"done" is a mood, not a fact.</strong></p>
+  <aside class="notes">Il fallimento più comune, la vittoria dichiarata troppo presto, ha una
+  causa misurata: le reti neurali sono sistematicamente sovraconfidenti, e un modello che
+  valuta il proprio lavoro è strutturalmente generoso con se stesso. La cura non è renderlo
+  più obiettivo: è separare chi fa da chi controlla. La definizione di fatto si scrive prima
+  che il lavoro cominci, come insieme di criteri verificabili da macchina: cosa restituisce,
+  con che prestazione su dati fissati, con che perimetro inviolato. E il giudizio si
+  esternalizza in tre livelli, statico, runtime, end-to-end: la sintassi giusta è il minimo,
+  i test che passano e l'applicazione che parte davvero sono la prova centrale, e il flusso
+  utente completo eseguito davvero è l'ultima difesa. Si passa al livello successivo solo se
+  il precedente è verde. Due dettagli che valgono oro: i messaggi di errore devono portare
+  istruzioni di riparazione, cosa è fallito, dove, come si sistema, così l'agente si
+  autocorregge senza di noi. E niente refactoring finché il funzionale non è verificato: il
+  refactoring sposta il confine tra codice verificato e non verificato.</aside>
+</section>
+
+<!-- 9 · TAILORING 3: THE LOOP -->
+<section>
+  <div class="eyebrow">tailoring three of three · loop control</div>
+  <h2>Tailoring #3: guard the loop</h2>
+  <p class="small">The simplest loop is one command: a <b>goal</b>, a <b>verification method</b>, a <b>stopping condition</b>. Four kinds, chosen by one test: <b>does this thing have an end?</b></p>
+  <div class="diagram center tight">
+    <div class="dbox ctrl"><b>Trigger</b><span class="dlabel">schedule · event · previous task done</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox"><b>Discover</b><span class="dlabel">progress file · issue tracker</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox"><b>Dispatch</b><span class="dlabel">spawn an isolated worker</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox"><b>Verify</b><span class="dlabel">tests · an independent judge</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox"><b>Persist</b><span class="dlabel">progress · commit · PR</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox ok"><b>Your inbox</b><span class="dlabel">work remains: it loops. done or blocked: you decide</span></div>
+  </div>
+  <p class="rule">The loop must not be guarded only by the thing <strong>inside the loop.</strong></p>
+  <aside class="notes">Terza sartoria, il loop. Il passaggio chiave è uscire dal loop: oggi il
+  loop più semplice in assoluto è un comando che dice lo stato finale voluto, il metodo di
+  verifica e la condizione di stop, e poi si chiude il portatile. La differenza rispetto a un
+  prompt è una sola, ma cambia tutto: a chi affidare il giudizio sul fatto. Non all'agente
+  che ha fatto il lavoro: a un giudice indipendente, un modello diverso, uno script, o un
+  comando di test. E i loop sono famiglie, non un tipo solo: a turni, per obiettivo, a
+  tempo, per eventi. La prova dei nove per sceglierne uno è una domanda: questa cosa ha una
+  fine? Se ha una fine è un obiettivo, una maratona con traguardo. Se non ce l'ha è una
+  sorveglianza, una sveglia che suona a intervalli. Confondere i due produce il classico
+  errore di metterci dentro un lavoro infinito che ogni giro riparte da capo. Il diagramma è
+  il loop a regime: un innesco scopre il lavoro, lo smista a un worker isolato, un giudice
+  indipendente verifica, lo stato viene persistito, e a voi arriva solo la coda delle
+  decisioni. Il lavoro rimasto rimonta, il fatto o il blocco arrivano da voi. E qui il mio
+  motto da un anno: niente dentro il loop custodisce il loop.</aside>
+</section>
+
+<!-- 10 · SIX PRIMITIVES -->
+<section>
+  <div class="eyebrow">what to reach for · the parts a real loop is made of</div>
+  <h2>The loop's toolkit: six primitives</h2>
+  <div class="diagram center tight">
+    <div class="dbox ctrl"><b>Automations</b><span class="dlabel">the heartbeat: scheduled and event triggers</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox exec"><b>Worktrees</b><span class="dlabel">parallel isolation, no collisions</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox ctrl"><b>Skills</b><span class="dlabel">project knowledge, written once</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox exec"><b>Connectors</b><span class="dlabel">issue tracker · db · staging · chat</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox"><b>Sub-agents</b><span class="dlabel">maker / checker split</span></div>
+    <div class="darrow">──▶</div>
+    <div class="dbox ok"><b>External state</b><span class="dlabel">the spine: memory on disk, not in the window</span></div>
+  </div>
+  <p class="dlabel">the state feeds back into every heartbeat: everything reads and writes it</p>
+  <p class="rule">The agent forgets. <strong>The repository doesn't.</strong></p>
+  <aside class="notes">Le sei primitive con cui si costruisce qualsiasi loop. Le automazioni
+  sono il battito: senza, il loop è un progetto che non si sveglia mai. I worktree danno
+  isolamento fisico tra agenti paralleli, ognuno nel suo checkout, ma attenzione: il tetto
+  reale è la vostra banda di review. Le skill sono la conoscenza del progetto scritta una
+  volta e letta a ogni giro: il debito d'intento pagato in anticipo. I connettori, via MCP,
+  portano il loop nei tool veri: issue, database, staging, chat, la differenza tra "ecco la
+  fix" e una pull request aperta, ticket linkato e canale avvisato da solo. I sub-agent
+  realizzano la divisione chi fa e chi controlla. E lo stato esterno è la spina: memoria su
+  disco, un file di progressi, non nella finestra di contesto. Non serve tutto per ogni
+  loop, ma serve sapere quando prendere quale.</aside>
+</section>
+
+<!-- 11 · THE RECEIPTS -->
+<section>
+  <div class="eyebrow">the receipts · same models, tailored scaffolding</div>
+  <h2>The numbers agree</h2>
+  <div class="grid2">
+    <div class="dbox num"><b>20% → ~100%</b>same model, four harness additions over four iterations<div class="dlabel">rules, verification commands, progress state</div></div>
+    <div class="dbox num"><b>−41% / −44% / −38%</b>cost / time / tokens, six fixed models<div class="dlabel">only the orchestration changed</div></div>
+    <div class="dbox num"><b>×7</b>harness variance vs model variance<div class="dlabel">long-horizon tasks</div></div>
+    <div class="dbox num"><b>~1M lines</b>three engineers who wrote no code themselves<div class="dlabel">~1,500 PRs in five months, agent-generated</div></div>
+  </div>
+  <p class="rule">None of these numbers were moved by a bigger model.</p>
+  <aside class="notes">Il riepilogo in quattro tessere, tutte da casi documentati pubblici.
+  La prima è la mia preferita: uno stesso modello, stesso progetto, quattro iterazioni in
+  cui si è aggiunto solo harness, prima le regole del progetto, poi i comandi di verifica,
+  poi lo stato dei progressi: il tasso di successo è passato dal venti per cento a quota
+  quasi cento, e il modello non è mai cambiato. La seconda e la terza sono i paper di
+  apertura. La quarta: l'esperimento del milione di righe, tre ingegneri che scrivevano solo
+  obiettivi e verifica, circa millecinquecento pull request in cinque mesi, e la lezione che
+  ne sono usciti: ogni fallimento non era "il modello non se la sente", era "che pezzo di
+  guscio manca ancora". Frase da chiudere con calma: nessuno di questi numeri è stato mosso
+  da un modello più grande.</aside>
+</section>
+
+<!-- 12 · THE REFRAME -->
+<section>
+  <div class="eyebrow">closing idea · software, not configuration</div>
+  <h2>The reframe: harness as runtime</h2>
+  <ul>
+    <li>The harness is the <b>runtime</b>. Agents are the <b>software</b> that runs on it.</li>
+    <li><b>The repo is the spec:</b> everything the agent needs lives in the repository, structured, verifiable.</li>
+    <li><b>Harness rots like code.</b> Audit it. Pay down harness debt like technical debt.</li>
+  </ul>
+  <p class="rule">Whoever owns the harness <strong>owns the agent.</strong></p>
+  <aside class="notes">Il ribaltamento finale. Finché trattate l'harness come configurazione,
+  vi aspettate che i default bastino. Quando lo trattate come runtime, capite che gli agenti
+  sono strutture software nuove, che vanno progettate con la stessa cura di un servizio: il
+  principio operativo è che il repository è la specifica, tutto ciò che l'agente non vede,
+  di fatto non esiste, quindi vive lì, strutturato e verificabile. E dato che è software,
+  marcisce come il software: le regole vecchie si accumulano, i vincoli scaduti restano, e il
+  rapporto segnale-rumore scende. Audit periodico, debito di harness si paga come il debito
+  tecnico. La riga finale è la mia, dalla newsletter: chi possiede il guscio possiede
+  l'agente, quindi meglio che il guscio lo possediate voi.</aside>
+</section>
+
+<!-- 13 · TAKEAWAYS -->
+<section>
+  <div class="eyebrow">takeaways · three moves, monday morning</div>
+  <h2>Takeaways</h2>
+  <ol class="small">
+    <li><strong>When things fail, fix the harness first.</strong> A good instructions file can beat a more expensive model.</li>
+    <li><strong>Tailor it:</strong> a router, not an encyclopedia; "done" verified in three layers by someone other than the writer; loops with their own stopping judgment.</li>
+    <li><strong>Start where it hurts:</strong> one rule per scar, one spec per task, one loop with an independent judge.</li>
+  </ol>
+  <p class="rule">A good prompt helps for one turn. <strong>A good harness helps permanently.</strong></p>
+  <aside class="notes">I tre takeaway in ordine di importanza decrescente e di facilità
+  crescente. Primo: quando qualcosa fallisce, il primo sospetto è il guscio, non il modello,
+  e cambiare modello è quasi sempre l'opzione più costosa; un buon file di istruzioni può
+  rendere più di un modello più caro, non è una battuta. Secondo: le tre sartorie, il router
+  invece dell'enciclopedia, il fatto verificato su tre livelli da qualcuno che non è chi ha
+  scritto, il loop con giudizio di stop proprio. Terzo: non è un progetto, è un'abitudine:
+  una regola per cicatrice, una specifica per task, un loop con un giudice indipendente.
+  Domani mattina: prendete l'ultimo task in cui l'agente ha dichiarato vittoria troppo
+  presto, e scrivete la definizione di fatto che non c'era. Chiudo con la frase di sempre:
+  un buon prompt aiuta per un turno, un buon harness aiuta per sempre.</aside>
+</section>
+
+<!-- 14 · CLOSE -->
+<section>
+  <div class="eyebrow">thank you</div>
+  <h1>Tailor the harness. Keep the agent.</h1>
+  <p class="dimtext">Stefano Maestri · maeste.it</p>
+  <p class="dimtext small">Risorse Artificiali: podcast &amp; newsletter · slides: maeste.it/speaking</p>
+  <aside class="notes">Chiusura in trenta secondi. La riga da lasciare sullo schermo: sartoria
+  l'harness, tenetevi l'agente. Dove trovarmi: maeste.it per bio e progetti, il podcast
+  Risorse Artificiali e la newsletter per il materiale di ogni settimana, gli slide sul
+  sito. Domande, e in appendice ho l'audit dei sottosistemi, i tipi di loop, i costi
+  nascosti e le risposte pronte per le obiezioni più comuni.</aside>
+</section>
+
+<!-- APPENDIX — vertical stack, ↓ from the close -->
+<section>
+  <section>
+    <div class="eyebrow">appendix · arxiv 2607.06906</div>
+    <h2>The Harness Effect, in detail</h2>
+    <ul class="small">
+      <li>Design: <strong>six frontier models</strong>, same task suite; <strong>orchestration is the only</strong> independent variable</li>
+      <li>Result: cost per task <strong>−41%</strong>, time <strong>−44%</strong>, tokens <strong>−38%</strong></li>
+      <li>Implication: benchmark scores without harness disclosure <strong>do not transfer</strong> to your stack</li>
+    </ul>
+    <aside class="notes">Serve se qualcuno chiede dettagli sperimentali: stessi modelli, stessi
+    task, l'unica variabile manipolata è come il modello viene orchestrato. Un terzo delle
+    risorse per lo stesso lavoro. La conseguenza metodologica: qualsiasi confronto tra modelli
+    è incompleto senza dichiarare l'harness.</aside>
+  </section>
+  <section>
+    <div class="eyebrow">appendix · arxiv 2605.23950</div>
+    <h2>Binding Constraint Thesis, in detail</h2>
+    <ul class="small">
+      <li>Claim: on long-horizon tasks, <strong>harness-induced variance exceeds model-induced variance</strong> (×7 in their experiment)</li>
+      <li>"Stop comparing LLM agents <strong>without disclosing the harness</strong>"</li>
+      <li>Model choice is a one-bit decision. <strong>Harness design is the whole rest of the search space.</strong></li>
+    </ul>
+    <aside class="notes">Il titolo è già la tesi: smettete di confrontare agenti senza dichiarare
+    l'harness. La lettura pratica per un team: il dibattito "modello A o modello B" è una
+    decisione a un bit, la progettazione del guscio è tutto il resto dello spazio di ricerca.</aside>
+  </section>
+  <section>
+    <div class="eyebrow">appendix · where is my harness broken?</div>
+    <h2>The five-subsystem audit</h2>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Subsystem</th><th>Ask yourself</th><th>Score 1–5</th></tr>
+        <tr><td>Instructions</td><td>do the rules exist in the repo, or only in heads?</td><td></td></tr>
+        <tr><td>Tools</td><td>least privilege granted, or everything/nothing?</td><td></td></tr>
+        <tr><td>Environment</td><td>self-describing? locked versions? reproducible?</td><td></td></tr>
+        <tr><td>State</td><td>does memory survive the session?</td><td></td></tr>
+        <tr><td>Feedback</td><td>can the agent verify itself with commands?</td><td></td></tr>
+      </table>
+    </div>
+    <ul class="small">
+      <li>Fix the <strong>lowest score first</strong>: usually feedback (highest ROI)</li>
+      <li>Then ablate: remove one subsystem at a time, measure the drop; as models improve, some components stop being critical, <b>new critical ones emerge</b></li>
+    </ul>
+    <aside class="notes">L'audit da fare lunedì: cinque sottosistemi, un punteggio da uno a
+    cinque ciascuno, e si corregge prima il più basso, che di solito è il feedback, il comando
+    di verifica, che è anche il miglior rapporto tra sforzo e ritorno. Poi l'ablazione: togli
+    un sottosistema alla volta e misura il crollo, ti dice cosa vale adesso per il tuo task.
+    E il finding interessante: man mano che i modelli migliorano, alcuni componenti smettono di
+    essere critici, ma ne emergono sempre di nuovi critici: la lista della spesa cambia, la
+    lista della spesa non sparisce.</aside>
+  </section>
+  <section>
+    <div class="eyebrow">appendix · four families, one test</div>
+    <h2>Loop types, in detail</h2>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Type</th><th>Trigger</th><th>Stop condition</th><th>Best for</th></tr>
+        <tr><td>turn-based</td><td>you type each prompt</td><td>agent thinks done, or you interrupt</td><td>small, exploratory</td></tr>
+        <tr><td>goal</td><td>you give a goal</td><td><strong>independent judge</strong> confirms, or max turns</td><td>complex tasks with a finish line</td></tr>
+        <tr><td>time-based</td><td>interval (every N minutes)</td><td>manual stop, or exits</td><td>polling, recurring checks</td></tr>
+        <tr><td>event-driven</td><td>PR opened, CI failed, new issue</td><td>handled, or retry limit</td><td>reactive workflows, CI/CD</td></tr>
+      </table>
+    </div>
+    <ul class="small">
+      <li>The goal loop vs the clock: a <b>marathon</b> (one long run toward a finish line) vs an <b>alarm clock</b> (short independent bursts, no cumulative progress)</li>
+      <li>The recurring mistake: putting a <b>goal-shaped job</b> inside a <b>time-based loop</b>, restarting from scratch every interval</li>
+    </ul>
+    <aside class="notes">La tabella completa delle quattro famiglie, con il test decisivo: questa
+    cosa ha una fine? La confusione più costosa è metterci un lavoro a obiettivo dentro un loop
+    a tempo: ogni giro riparte da zero, perché il loop a tempo non ricorda dove era rimasto.
+    La maratona contro la sveglia: la maratona ha il traguardo, la sveglia suona a intervalli.
+    E per il goal-based, la parte non negoziabile è il giudice indipendente, non il modello
+    che ha fatto il lavoro.</aside>
+  </section>
+  <section>
+    <div class="eyebrow">appendix · what grows while you sleep</div>
+    <h2>The four silent costs of loops</h2>
+    <ul class="small">
+      <li><strong>Verification debt:</strong> green checks that stopped meaning "works"</li>
+      <li><strong>Comprehension rot:</strong> code nobody on the team can explain anymore</li>
+      <li><strong>Cognitive surrender:</strong> "the agent says it's fine" becomes the review</li>
+      <li><strong>Token blowout:</strong> the bill grows faster than the value</li>
+    </ul>
+    <p class="rule">Loops accelerate <strong>output and risk at the same time.</strong></p>
+    <aside class="notes">Il controcredit della slide dei loop: le quattro spese silenziose che
+    crescono mentre dormite. Il debito di verifica: verdi che hanno smesso di significare
+    funziona. Il marciume di comprensione: codice che in team non sa più spiegare. La resa
+    cognitiva: "l'agente dice che va bene" diventa la review. E il blowout di token, la
+    bolletta che corre più veloce del valore. Il messaggio onesto: i loop accelerano l'output
+    e il rischio insieme, quindi le tre sartorie non sono opzionali: sono il freno.</aside>
+  </section>
+  <section>
+    <div class="eyebrow">appendix · evals in production</div>
+    <h2>Judgment as data: the battery file</h2>
+<pre># a battery, checked into the repo like code
+- pr_risk_high:        yes/no + calibrated probability
+- docs_stale:          choice: current | drifted | missing
+- review_priority:     score 0-10 against the rubric
+- unsure:              "I don't know" is a legal answer (0.5)</pre>
+    <ul class="small">
+      <li>Policy <strong>in code</strong> transforms the answers; divergence becomes a <strong>doubt</strong> for a human</li>
+      <li>Every judgment stays <strong>human-owned, versioned, negotiable</strong></li>
+    </ul>
+    <aside class="notes">L'esempio concreto del sottosistema feedback portato all'estremo, dalla
+    mia skill di review: una batteria è un file di domande tipizzate che va in repository e in
+    code review. Le risposte arrivano con valori tipizzati e probabilità calibrate, e il non
+    lo so è una risposta legittima. La policy in codice trasforma le risposte in dubbi per un
+    umano. Gli eval smettono di essere un prompt volatile e diventano artefatto del progetto.</aside>
+  </section>
+  <section>
+    <div class="eyebrow">appendix · answers ready</div>
+    <h2>Q&amp;A: the questions to expect</h2>
+    <ul class="small">
+      <li><strong>"Isn't this just prompt engineering?"</strong> Prompt: one turn, in your head. Harness: five subsystems, in the repo. The 20%→100% case came from system pieces, not better wording.</li>
+      <li><strong>"Won't the next model make this obsolete?"</strong> The papers and the same-model case moved the metrics with fixed models. Ablation findings: as models improve some components stop being critical, new ones emerge. The harness evolves with the model; it doesn't vanish.</li>
+      <li><strong>"I've read studies saying instruction files don't help."</strong> Honest answer: evidence is mixed. One study found no general task-success gain and +20% inference cost; a paired study found −28.6% runtime on small tasks. Keep requirements minimal, and test the instructions on the tasks they must support.</li>
+      <li><strong>"Where do I start?"</strong> Audit the five subsystems, fix the lowest (usually feedback: verification commands). Then write "done" for the next task, with three layers.</li>
+      <li><strong>"Security?"</strong> Tool boundaries and budget are blast-radius control: least privilege, minimal spend, loud failure.</li>
+    </ul>
+    <aside class="notes">Le cinque obiezioni canoniche. Sul prompt engineering: la differenza è
+    dove vive la conoscenza, in testa o nel repository, e il caso da venti a cento viene da
+    pezzi di sistema. Sul prossimo modello: i numeri sono stati mossi a modelli fermi, e
+    l'ablazione dice che l'harness coevolve col modello invece di sparire. Sui studi
+    contrari: risposta onesta, la letteratura è divisa, un studio non trova benefici generali
+    e trova un aumento del costo di inferenza oltre il venti per cento, uno paired trova
+    runtime ridotto di quasi il ventinove per cento: requisiti minimi e test sui vostri task.
+    Su dove cominciare: l'audit, e il fatto scritto con i tre livelli. Sulla sicurezza:
+    perimetri e budget sono controllo del raggio d'azione.</aside>
+  </section>
+  <section>
+    <div class="eyebrow">appendix · sources</div>
+    <h2>References</h2>
+    <ul class="small">
+      <li><em>The Harness Effect</em> (arXiv 2607.06906) · <em>Stop Comparing LLM Agents Without Disclosing the Harness</em> (arXiv 2605.23950) · <em>StreamVibe</em> (arXiv 2610.34662) · <em>Lost in the Middle</em> (arXiv 2307.03172)</li>
+      <li>Anthropic engineering: harness design for long-running application development; effective harnesses for long-running agents</li>
+      <li>OpenAI: harness engineering, leveraging Codex in an agent-first world</li>
+      <li>Newsletter CY26W37 ("the war is over the harness") and CY26W45 ("agents as software, the harness as runtime"): maeste.it / risorseartificiali.com</li>
+    </ul>
+    <aside class="notes">Tutte le fonti sono pubbliche e citate; i numeri dei casi a slide sono
+    riportati da queste fonti. Le due edizioni della newsletter contengono il mio contesto
+    completo.</aside>
+  </section>
+</section>
+
+</div>
+</div>
+
+<script src="reveal/reveal.js"></script>
+<script src="reveal/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    width: 1280,
+    height: 720,
+    margin: 0.06,
+    controls: true,
+    progress: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>

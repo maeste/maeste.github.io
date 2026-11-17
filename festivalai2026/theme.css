@@ -1,0 +1,159 @@
+/* Theme for "Your Agent Harness Should Be Tailor-Made" — Festival AI Ticino edition.
+ * Palette derived from festival-ai.com: deep indigo #0D166D as primary, cyan #03D1E8
+ * as accent, magenta #D52F67 as secondary accent, strong blue #062AFC family as the
+ * fourth hue. Semantic coding kept consistent on every slide:
+ *   .cat-a / ctrl / ok   = tailored, control plane (cyan family)
+ *   .cat-b / fail / rack = off-the-rack, the failure state (magenta family)
+ *   .cat-c / num         = evidence, papers and numbers (indigo family)
+ *   .cat-x / exec        = execution plane (strong blue family)
+ * Display face serif (technical-report voice); code exhibits in mono.
+ * Tokens only on :root; components styled through tokens. */
+
+:root {
+  --ground: #F4F5FA; --surface: #FFFFFF; --ink: #171D45; --dim: #5A607F;
+  --line: #D5D8E8; --code-bg: #EDEFF6;
+  --heading: #0D166D; --accent: #03D1E8;
+  --cat-a: #077E96; --cat-a-bg: #D9F4F8;
+  --cat-b: #C2245C; --cat-b-bg: #FAE0EA;
+  --cat-c: #3D458A; --cat-c-bg: #E3E5F5;
+  --cat-x: #0547C2; --cat-x-bg: #DDE6FD;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0A0E2E; --surface: #121843; --ink: #E8ECFA; --dim: #9AA3CF;
+    --line: #2B3163; --code-bg: #0A0F33;
+    --heading: #EDF0FF; --accent: #03D1E8;
+    --cat-a: #27C8E0; --cat-a-bg: #0E2E38;
+    --cat-b: #E94D84; --cat-b-bg: #3A1026;
+    --cat-c: #8A93E8; --cat-c-bg: #1A2150;
+    --cat-x: #5B78FF; --cat-x-bg: #152050;
+  }
+}
+
+.reveal-viewport { background: var(--ground); }
+.reveal {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 26px; color: var(--ink);
+}
+.reveal .slides section { text-align: left; line-height: 1.5; }
+.reveal h1, .reveal h2 {
+  font-family: Charter, "Iowan Old Style", Georgia, "Times New Roman", serif;
+  color: var(--heading); text-transform: none; letter-spacing: normal;
+  line-height: 1.15; font-weight: 600; margin-bottom: 0.5em; text-wrap: balance;
+}
+.reveal h1 { font-size: 2.4em; }
+.reveal h2 { font-size: 1.55em; }
+.reveal h3 { font-size: 1.1em; font-weight: 600; }
+.reveal p { margin: 0.5em 0; }
+.reveal a { color: var(--cat-a); }
+.reveal strong { color: var(--ink); }
+.reveal em { color: var(--dim); }
+.reveal ul { margin: 0.4em 0; }
+.reveal li { margin: 0.35em 0; }
+
+.eyebrow {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.62em; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 0.6em;
+}
+.thesis {
+  font-family: Charter, "Iowan Old Style", Georgia, serif;
+  font-size: 1.35em; line-height: 1.35; margin: 1em 0;
+}
+.thesis strong { border-bottom: 3px solid var(--accent); }
+.dimtext { color: var(--dim); }
+.small { font-size: 0.78em; }
+
+/* Code blocks */
+.reveal pre, .col pre, .cols pre {
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 0.55em 0.75em; font-size: 0.52em; line-height: 1.5; overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+  white-space: pre; margin: 0.5em 0; box-shadow: none; width: 100%;
+}
+.reveal code {
+  font-family: ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+  font-size: 0.82em; background: var(--code-bg); border-radius: 4px; padding: 0.05em 0.3em;
+  color: var(--ink);
+}
+
+/* Status chips */
+.pill {
+  display: inline-block; border-radius: 3px; padding: 0.02em 0.45em; font-size: 0.72em;
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 600; white-space: nowrap;
+}
+.pill.ca { background: var(--cat-a-bg); color: var(--cat-a); }
+.pill.cb { background: var(--cat-b-bg); color: var(--cat-b); }
+.pill.cc { background: var(--cat-c-bg); color: var(--cat-c); }
+.pill.cx { background: var(--cat-x-bg); color: var(--cat-x); }
+
+/* Tables */
+.reveal table { border-collapse: collapse; margin: 0.6em 0; font-size: 0.72em; }
+.reveal th, .reveal td {
+  text-align: left; padding: 0.3em 0.9em 0.3em 0;
+  border-bottom: 1px solid var(--line); vertical-align: top; border-top: none;
+}
+.reveal th {
+  font-size: 0.8em; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--dim); font-weight: 600;
+}
+.tablewrap { overflow-x: auto; width: 100%; }
+
+/* Hand-built box-and-arrow diagrams */
+.diagram { display: flex; align-items: center; gap: 0.7em; flex-wrap: wrap; margin: 0.9em 0; font-size: 0.8em; }
+.diagram.center { justify-content: center; }
+.dbox {
+  border: 1.5px solid var(--line); background: var(--surface); border-radius: 6px;
+  padding: 0.45em 0.8em; text-align: center; line-height: 1.3;
+}
+.dbox b { display: block; }
+.dbox.hero { border-color: var(--heading); border-width: 2.5px; font-weight: 600; font-family: Charter, "Iowan Old Style", Georgia, serif; font-size: 1.4em; padding: 0.7em 1em; }
+.dbox.ok { border-color: var(--cat-a); text-align: left; }
+.dbox.fail { border-color: var(--cat-b); }
+.dbox.num { border-color: var(--cat-c); }
+.dbox.ctrl { border-color: var(--cat-a); text-align: center; }
+.dbox.exec { border-color: var(--cat-x); text-align: center; }
+.darrow { color: var(--dim); white-space: nowrap; font-size: 0.9em; }
+.dlabel { font-size: 0.68em; color: var(--dim); display: block; text-align: center; }
+.dbox.ok .dlabel, .dbox.fail .dlabel, .dbox.num .dlabel,
+.dbox.ctrl .dlabel, .dbox.exec .dlabel { margin-top: 0.25em; }
+.dstack { display: flex; flex-direction: column; gap: 0.4em; }
+
+/* Card grids: the failures, the receipts */
+.grid2, .grid3 {
+  display: grid; gap: 0.7em; margin: 0.8em 0; font-size: 0.82em;
+}
+.grid2 { grid-template-columns: 1fr 1fr; }
+.grid3 { grid-template-columns: 1fr 1fr; }
+.grid2 .dbox, .grid3 .dbox { padding: 0.55em 0.85em; line-height: 1.35; }
+.grid2 .dbox b, .grid3 .dbox b { margin-bottom: 0.15em; }
+.grid2 .dbox.span2, .grid3 .dbox.span2 { grid-column: 1 / -1; }
+
+/* Compact diagrams: the loop, the gate, the ring */
+.diagram.tight { font-size: 0.66em; margin: 0.6em 0; }
+.diagram.tight .dbox { padding: 0.4em 0.7em; }
+.diagram.tight .dbox.hero { font-size: 1.3em; padding: 0.5em 0.8em; }
+
+.cols { display: flex; gap: 1.5em; align-items: flex-start; }
+.col { flex: 1 1 0; min-width: 0; }
+.kicker { font-weight: 700; margin-bottom: 0.2em; }
+.kicker.rack { color: var(--cat-b); }
+.kicker.tailor { color: var(--cat-a); }
+
+/* Monospace tree/figure block */
+.tree {
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.62em;
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 0.7em 1em; overflow-x: auto; white-space: pre; line-height: 1.7; margin: 0.6em 0;
+}
+
+/* Rule line: the takeaway sentence of each slide */
+.rule {
+  border-left: 4px solid var(--accent); padding: 0.2em 0 0.2em 0.8em; margin: 0.8em 0 0.1em;
+  font-family: Charter, "Iowan Old Style", Georgia, serif; font-size: 1.05em; line-height: 1.4;
+}
+
+/* Reveal chrome on the token palette */
+.reveal .controls { color: var(--dim); }
+.reveal .progress { background: var(--line); color: var(--accent); height: 4px; }
+.reveal .slide-number { background: transparent; color: var(--dim); font-size: 16px; }
