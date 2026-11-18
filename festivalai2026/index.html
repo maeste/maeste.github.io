@@ -18,12 +18,16 @@
   <h1>Your Agent Harness Should Be Tailor-Made</h1>
   <p class="thesis">The problem isn't the model. <strong>It's the off-the-rack harness.</strong></p>
   <p class="dimtext small">Stefano Maestri · maeste.it · Risorse Artificiali</p>
-  <aside class="notes">Apertura. Una riga su di me: scrivo Risorse Artificiali, costruisco agenti
-  e harness da oltre un anno. La tesi in una frase: il problema quasi non è mai il modello, è
-  il guscio generico che gli abbiamo messo intorno. Anticipo il percorso: i fallimenti che
-  tutti riconoscete, cosa è davvero un harness (con il diagramma del giro), tre sartorie
-  concrete con i loro diagrammi, gli strumenti del loop, i numeri che danno ragione alla
-  sartoria. La metafora è Q: la missione di Bond non si affida a un abito comprato già fatto.</aside>
+  <aside class="notes">
+    <p><small>⏱ 0:00 → 0:40 · 40s</small></p>
+    <p>Buongiorno a tutti. Sono Stefano Maestri. Da più di un anno costruisco agenti, e soprattutto
+    quello che ci sta intorno. Ne parlo ogni settimana in Risorse Artificiali, podcast e newsletter.</p>
+    <p>Una domanda veloce: alzi la mano chi ha visto un agente dire <strong>"fatto, funziona"</strong>…
+    e poi non funzionava niente. <em>[pausa, guarda la sala]</em> Ecco.</p>
+    <p>La tesi di oggi in una frase: quasi sempre <strong>il problema non è il modello</strong>. È il guscio
+    che gli abbiamo messo intorno, l'<strong>harness</strong>. E di solito è un abito preso dallo
+    scaffale: taglia unica, cucito su nessuno.</p>
+  </aside>
 </section>
 
 <!-- 2 · THE FAILURES -->
@@ -38,16 +42,22 @@
     <div class="dbox fail span2"><b>Declares victory too early:</b> "the code looks fine" becomes "the feature is complete"<div class="dlabel">the verification gap: the most common failure of all</div></div>
   </div>
   <p class="rule">You installed a framework, dropped in a system prompt, wired a few tools, and shipped. The demo was fine.</p>
-  <aside class="notes">Raccontateli come scene, non come lista. Il loop infinito: il modello
-  riprova la stessa strada per venti turni. Il file sbagliato: le convenzioni del progetto
-  esistono solo in teste e in messaggi Slack di tre mesi fa, l'agente non le ha mai viste. Il
-  tool inventato: chiamata a una funzione che esiste solo nella sua immaginazione. Il drift:
-  la missione era una, a metà lavoro ne sta inseguendo un'altra. E il più frequente di tutti:
-  si autodichiara vincente, i test unitari verdi diventano "fatto", mentre il flusso reale
-  non è mai stato eseguito. Dettaglio interessante da aggiungere a voce: quando sentono che il
-  contesto sta finendo, gli agenti si affrettano a chiudere, saltano la verifica e scelgono
-  la soluzione semplice: l'ansia da contesto. Il punto da martellare: lo stesso modello,
-  altrove, centra risultati eccellenti.</aside>
+  <aside class="notes">
+    <p><small>⏱ 0:40 → 1:55 · 75s</small></p>
+    <p>Lo scenario lo conoscete. Installi un framework, scrivi un system prompt, colleghi tre tool.
+    La demo va benissimo. Poi lo lasci lavorare da solo.</p>
+    <p>Si incastra in un <strong>loop</strong>: stessa strada, stesso errore, venti turni, token che bruciano
+    tutta la notte. Modifica il <strong>file sbagliato</strong>, perché le convenzioni stanno nella testa del
+    team o in un thread Slack di tre mesi fa: lui non le ha mai viste. <strong>Chiama un'API</strong> che
+    nessuno ha mai scritto. Parte con una missione e, molto educatamente, a metà lavoro ne sta
+    <strong>inseguendo un'altra</strong>.</p>
+    <p>E il più frequente di tutti: <strong>dichiara vittoria troppo presto</strong>. "Il codice sembra a
+    posto" diventa "la feature è completa". Unit test verdi, il flusso vero non l'ha mai eseguito
+    nessuno.</p>
+    <p>Un dettaglio che adoro: quando sentono che il contesto sta finendo, gli agenti
+    <strong>accelerano per chiudere</strong>. Saltano la verifica, scelgono la via facile. Ansia da contesto.</p>
+    <p>Però tenete a mente una cosa: <strong>lo stesso identico modello, altrove, fa cose eccellenti.</strong></p>
+  </aside>
 </section>
 
 <!-- 3 · THE EVIDENCE -->
@@ -74,16 +84,21 @@
     </div>
   </div>
   <p class="rule">Swap the model, little changes. <strong>Reshape the scaffolding, everything changes.</strong></p>
-  <aside class="notes">Il caso documentato più pulito: stesso modello, stesso prompt, costruisci
-  un editor di giochi retrò. Nudo: venti minuti, nove dollari, l'app si apre ma le entità non
-  rispondono agli input. Con un harness su misura in tre ruoli, chi pianifica, chi genera,
-  chi verifica cliccando davvero: sei ore, duecento dollari, e il gameplay centrale
-  funziona. Non è che uno sia "meglio": sono costi diversi per qualità diverse, e la
-  variabile non è il modello. I due paper dicono la stessa cosa in forma statistica:
-  cambiando solo l'orchestrazione con sei modelli fissi, costi, tempi e token crollano, e sui
-  task lunghi la varianza indotta dal guscio è sette volte quella del modello. Tradotto:
-  confrontare due modelli senza dire in quale guscio hanno girato è come confrontare due
-  piloti senza dire in che macchina erano.</aside>
+  <aside class="notes">
+    <p><small>⏱ 1:55 → 3:10 · 75s</small></p>
+    <p>E non è un'opinione mia. Il caso più pulito che conosco l'ha documentato Anthropic. Stesso
+    modello, stesso prompt: "costruisci un editor di giochi retrò".</p>
+    <p>Harness nudo: <strong>venti minuti, nove dollari</strong>. L'app si apre… ma non risponde agli input.</p>
+    <p>Harness su misura, con tre ruoli: uno pianifica, uno genera, uno <strong>verifica cliccando
+    davvero</strong> sull'app. <strong>Sei ore, duecento dollari</strong>, e il gameplay funziona.</p>
+    <p>Non vi sto dicendo "spendete di più". Vi sto dicendo che la variabile che ha cambiato il
+    risultato <strong>non è il modello</strong>.</p>
+    <p>I paper dicono la stessa cosa con la statistica. Sei modelli fissi, cambia solo
+    l'orchestrazione: costi <strong>meno 41%</strong>, tempi meno 44, token meno 38. E sui task lunghi la
+    varianza dovuta all'harness è <strong>sette volte</strong> quella dovuta al modello. <em>[pausa]</em></p>
+    <p>Confrontare due modelli senza dire in che harness girano è come confrontare due piloti senza
+    dire che macchina guidavano.</p>
+  </aside>
 </section>
 
 <!-- 4 · THE METAPHOR -->
@@ -100,14 +115,16 @@
     </div>
   </div>
   <p class="rule">Developer, project, mission: <strong>three bodies, zero shared measurements.</strong></p>
-  <aside class="notes">La metafora dell'abstract, da usare con leggerezza e poi molleggiare.
-  Bond non si adatta all'abito: è l'abito che viene costruito su di lui, per quella missione,
-  con lo scomparto giusto nascosto dove serve. Nel nostro mondo i tre corpi sono lo
-  sviluppatore (come lavora tu, le tue regole, il tuo gusto), il progetto (la fisica reale:
-  build, test, layout, CI) e la missione (cosa significa "fatto", cosa non si tocca mai).
-  Tre misure che nessun framework può indovinare in fabbrica. Off-the-rack significa: cucito
-  su nessuno. Da qui la domanda: allora cosa cuciamo? E per cuciare serve sapere di cosa è
-  fatto l'abito: l'anatomia, nella prossima slide.</aside>
+  <aside class="notes">
+    <p><small>⏱ 3:10 → 3:55 · 45s</small></p>
+    <p>James Bond non compra l'abito già fatto. C'è <strong>Q</strong>, che glielo costruisce addosso, per
+    quella missione, con lo scomparto nascosto esattamente dove serve.</p>
+    <p>Noi abbiamo tre corpi da misurare. <strong>La missione</strong>: cosa vuol dire "fatto", cosa non si
+    tocca mai. <strong>Chi lo indossa</strong>, cioè voi: come lavorate, le vostre regole, il vostro gusto. E
+    <strong>il terreno</strong>, il progetto: build, test, struttura del repo, CI.</p>
+    <p>Tre misure che nessun framework può conoscere in fabbrica. Ma prima di cucire bisogna sapere
+    di cosa è fatto l'abito.</p>
+  </aside>
 </section>
 
 <!-- 5 · ANATOMY -->
@@ -146,15 +163,21 @@
     </div>
   </div>
   <p class="rule">A prompt file is not a harness. <strong>The loop is.</strong></p>
-  <aside class="notes">L'anatomia, adesso in forma di giro. Cinque sottosistemi: le istruzioni,
-  il briefing e le linee rosse; gli strumenti, col principio del minimo privilegio;
-  l'ambiente, che deve autoscriversi, versioni e dipendenze dichiarate; lo stato, la memoria
-  che sopravvive alla sessione; e il feedback, i comandi di verifica, gli eval, il budget. Il
-  diagramma mostra perché si chiama harness: le regole e lo stato entrano nell'agente,
-  l'agente usa i tool nell'ambiente runtime, e i risultati dei controlli tornano indietro
-  come nuovo input, a ogni giro. Il cerchio si chiude. Il system prompt da solo non è un
-  harness: è un pezzo del sottosistema istruzioni. Se vi manca uno dei cinque, il giro non
-  si chiude, e i fallimenti della seconda slide sono esattamente i punti dove si apre.</aside>
+  <aside class="notes">
+    <p><small>⏱ 3:55 → 5:10 · 75s · checkpoint: se sei oltre 4:30, accorcia la 6 e la 10</small></p>
+    <p>Quindi, cos'è un harness? <strong>Cinque sottosistemi e un giro.</strong></p>
+    <p><em>[indica a sinistra]</em> Le <strong>istruzioni</strong>: il briefing e le linee rosse. Lo
+    <strong>stato</strong>: la memoria che sopravvive alla sessione, su disco. Queste entrano nell'agente.
+    <em>[al centro]</em> L'agente lavora con i <strong>tool</strong> (shell, file, test) dentro un
+    <strong>ambiente</strong>: dipendenze, servizi, versioni. <em>[a destra]</em> E poi i
+    <strong>controlli</strong>: test, lint, build.</p>
+    <p>La parte importante è la freccia che non vedete: i risultati dei controlli
+    <strong>tornano all'agente come input</strong>, a ogni giro. Il cerchio si chiude. Ecco perché si chiama
+    harness.</p>
+    <p>Un file di prompt non è un harness: è un pezzo di un sottosistema. <strong>L'harness è il
+    loop.</strong> E se ne manca uno dei cinque, il loop si apre. Indovinate dove? Esattamente nei
+    fallimenti di prima.</p>
+  </aside>
 </section>
 
 <!-- 6 · WHERE DEFAULTS FAIL -->
@@ -172,15 +195,19 @@
     </table>
   </div>
   <p class="rule">Autonomy is exactly where <strong>nobody's defaults stop working.</strong></p>
-  <aside class="notes">La tabella incrocia i fallimenti di apertura con l'anatomia: ogni sintomo
-  ha un responsabile preciso tra i cinque sottosistemi. Il loop non finisce perché mancano
-  stop condition e budget. Il file sbagliato si modifica perché le istruzioni non conoscono
-  l'inventario reale del progetto. Il tool inventato nasce da perimetri mai disegnati. Il
-  drift arriva quando il fatto non è scritto da nessuna parte e il loop corre libero. E la
-  vittoria dichiarata troppo presto è il buco del feedback: nessuno esterno verifica. Nei
-  task corti i default reggono, perché un umano corregge a ogni giro. È esattamente dove
-  inizia l'autonomia che cedono: l'agente gira solo, a lungo, con soldi veri. Da qui le tre
-  sartorie.</aside>
+  <aside class="notes">
+    <p><small>⏱ 5:10 → 5:55 · 45s · tagliabile</small></p>
+    <p>Ogni fallimento ha un responsabile preciso. <em>[scorri la tabella, una riga a testa, veloce]</em>
+    Loop infinito: mancano <strong>stop condition e budget</strong>. File sbagliato: istruzioni che non
+    conoscono il progetto vero. Tool inventato: <strong>perimetri</strong> mai disegnati. Drift: nessuno ha
+    scritto cosa vuol dire "fatto". Vittoria prematura: nessuno, <strong>fuori dall'agente</strong>,
+    verifica.</p>
+    <p>Perché nelle demo i default reggono? Perché lì ci siete voi, che correggete a ogni turno.
+    Cedono esattamente dove comincia l'<strong>autonomia</strong>: l'agente da solo, per ore, con soldi
+    veri.</p>
+    <p>Vediamo tre sartorie concrete.</p>
+    <p><small>Se sei in ritardo: dici solo le ultime tre frasi.</small></p>
+  </aside>
 </section>
 
 <!-- 7 · TAILORING 1: THE ROUTER -->
@@ -210,20 +237,25 @@
     </div>
   </div>
   <p class="rule">Every rule on the right is a scar. <strong>Off-the-rack doesn't know your scars. And an encyclopedia is not a map.</strong></p>
-  <aside class="notes">Due difetti qui, uno del default e uno nostro. Il default: nessuna
-  istruzione scritta, quindi le convenzioni restano in testa alle persone, e l'agente non ci
-  può arrivare. La reazione naturale quando si comincia: un file unico dove buttare tutto. È
-  una trappola documentata: il file cresce a ogni fallimento, il ciclo vizioso
-  dell'aggiungi-una-regola, e con esso il budget di contesto mangiato, le priorità che si
-  confondono, le contraddizioni che si accumulano. E c'è l'effetto lost in the middle,
-  dimostrato su modelli già nel 2023: l'informazione a metà di un testo lungo viene usata
-  molto meno che agli estremi. La regola di sicurezza a riga trecento di un file da seicento
-  viene quasi sempre ignorata. La sartoria: il file d'ingresso è un router, non
-  un'enciclopedia. Panoramica, comandi di primo avvio, massimo quindici vincoli non
-  negoziabili, e link ai documenti per tema, da leggere solo quando il task li richiede. E le
-  regole vere, le cicatrici: quelle della colonna destra sono reali, dal mio setup. Ogni
-  regola portabile dovrebbe anche dichiarare origine, quando si applica e quando scade: si
-  manutenzione come il codice, si audità, e le regole vecchie si buttano.</aside>
+  <aside class="notes">
+    <p><small>⏱ 5:55 → 7:25 · 90s</small></p>
+    <p><strong>Prima sartoria: le istruzioni.</strong></p>
+    <p>Il default è nessuna istruzione scritta. E la reazione naturale, quando si comincia, è il
+    <strong>file unico</strong>: AGENTS.md, CLAUDE.md, dove buttare tutto. L'agente sbaglia? Aggiungi una
+    regola. Il file cresce, seicento righe, e arrivano i guai: mangia contesto, le priorità si
+    confondono, le regole si contraddicono.</p>
+    <p>E c'è un effetto misurato, si chiama <strong>"lost in the middle"</strong>: i modelli usano molto
+    meglio quello che sta all'inizio e alla fine di un testo lungo che quello che sta in mezzo. La
+    vostra regola di sicurezza a riga trecento? Diluita. Ignorata.</p>
+    <p>La sartoria: il file d'ingresso è un <strong>router, non un'enciclopedia</strong>. Da cinquanta a
+    duecento righe. Panoramica, come si avvia, e al massimo una <strong>quindicina di vincoli veri</strong>.
+    Il resto in documenti per tema, che l'agente apre solo quando il task li richiede.</p>
+    <p><em>[indica la colonna destra]</em> Queste regole sono le mie, prese pari pari dal mio setup. Ognuna
+    è una <strong>cicatrice</strong>. "Mai due build nello stesso albero": dietro ci sono due agenti che
+    compilavano nella stessa cartella e test che fallivano a caso, per un pomeriggio intero. Ed è proprio questo che un abito da
+    scaffale non può sapere: le vostre cicatrici.</p>
+    <p>E si manutengono come codice: quelle vecchie si buttano.</p>
+  </aside>
 </section>
 
 <!-- 8 · TAILORING 2: THREE-LAYER DONE -->
@@ -258,19 +290,23 @@
     </div>
   </div>
   <p class="rule">If the judgment stays inside the agent, <strong>"done" is a mood, not a fact.</strong></p>
-  <aside class="notes">Il fallimento più comune, la vittoria dichiarata troppo presto, ha una
-  causa misurata: le reti neurali sono sistematicamente sovraconfidenti, e un modello che
-  valuta il proprio lavoro è strutturalmente generoso con se stesso. La cura non è renderlo
-  più obiettivo: è separare chi fa da chi controlla. La definizione di fatto si scrive prima
-  che il lavoro cominci, come insieme di criteri verificabili da macchina: cosa restituisce,
-  con che prestazione su dati fissati, con che perimetro inviolato. E il giudizio si
-  esternalizza in tre livelli, statico, runtime, end-to-end: la sintassi giusta è il minimo,
-  i test che passano e l'applicazione che parte davvero sono la prova centrale, e il flusso
-  utente completo eseguito davvero è l'ultima difesa. Si passa al livello successivo solo se
-  il precedente è verde. Due dettagli che valgono oro: i messaggi di errore devono portare
-  istruzioni di riparazione, cosa è fallito, dove, come si sistema, così l'agente si
-  autocorregge senza di noi. E niente refactoring finché il funzionale non è verificato: il
-  refactoring sposta il confine tra codice verificato e non verificato.</aside>
+  <aside class="notes">
+    <p><small>⏱ 7:25 → 8:55 · 90s</small></p>
+    <p><strong>Seconda sartoria: definire "fatto".</strong> Qui attacchiamo il fallimento più comune.</p>
+    <p>Le reti neurali sono sistematicamente <strong>sovraconfidenti</strong>. Un modello che giudica il
+    proprio lavoro è, per costruzione, generoso con se stesso. Non lo correggete chiedendogli di
+    essere più obiettivo. Lo correggete <strong>separando chi fa da chi controlla</strong>.</p>
+    <p>Due mosse. Prima: "fatto" si scrive <strong>prima di cominciare</strong>, come stop condition che una
+    macchina può verificare: criteri, budget di prestazioni, perimetro da non toccare. Per esempio: "l'endpoint ordini risponde
+    sotto i 200 millisecondi sul dataset di test, e lo schema del database non si tocca".</p>
+    <p>Seconda: il giudizio si porta fuori dall'agente, su <strong>tre livelli</strong>. <em>[scendi col dito sul diagramma]</em> Statico: lint e typecheck, il minimo sindacale. Runtime: i test passano e
+    <strong>l'app parte davvero</strong>. End-to-end: il <strong>flusso utente completo</strong>, eseguito
+    davvero. Si sale di livello solo se quello prima è verde.</p>
+    <p>Due dettagli che valgono oro. I messaggi di errore devono contenere <strong>istruzioni di
+    riparazione</strong>: cosa è fallito, dove, come si sistema. Così l'agente si corregge da solo, senza
+    di voi. E <strong>niente refactoring</strong> finché il funzionale non è verificato.</p>
+    <p>Se il giudizio resta dentro l'agente, "fatto" è uno stato d'animo, non un fatto.</p>
+  </aside>
 </section>
 
 <!-- 9 · TAILORING 3: THE LOOP -->
@@ -292,20 +328,26 @@
     <div class="dbox ok"><b>Your inbox</b><span class="dlabel">work remains: it loops. done or blocked: you decide</span></div>
   </div>
   <p class="rule">The loop must not be guarded only by the thing <strong>inside the loop.</strong></p>
-  <aside class="notes">Terza sartoria, il loop. Il passaggio chiave è uscire dal loop: oggi il
-  loop più semplice in assoluto è un comando che dice lo stato finale voluto, il metodo di
-  verifica e la condizione di stop, e poi si chiude il portatile. La differenza rispetto a un
-  prompt è una sola, ma cambia tutto: a chi affidare il giudizio sul fatto. Non all'agente
-  che ha fatto il lavoro: a un giudice indipendente, un modello diverso, uno script, o un
-  comando di test. E i loop sono famiglie, non un tipo solo: a turni, per obiettivo, a
-  tempo, per eventi. La prova dei nove per sceglierne uno è una domanda: questa cosa ha una
-  fine? Se ha una fine è un obiettivo, una maratona con traguardo. Se non ce l'ha è una
-  sorveglianza, una sveglia che suona a intervalli. Confondere i due produce il classico
-  errore di metterci dentro un lavoro infinito che ogni giro riparte da capo. Il diagramma è
-  il loop a regime: un innesco scopre il lavoro, lo smista a un worker isolato, un giudice
-  indipendente verifica, lo stato viene persistito, e a voi arriva solo la coda delle
-  decisioni. Il lavoro rimasto rimonta, il fatto o il blocco arrivano da voi. E qui il mio
-  motto da un anno: niente dentro il loop custodisce il loop.</aside>
+  <aside class="notes">
+    <p><small>⏱ 8:55 → 10:25 · 90s</small></p>
+    <p><strong>Terza sartoria: il loop.</strong></p>
+    <p>Oggi il loop più semplice è un comando solo: un <strong>obiettivo</strong>, un <strong>metodo di
+    verifica</strong>, una <strong>condizione di stop</strong>. Tipo: "fai passare tutta la suite di integrazione; verifica con
+    <code>make test</code>; fermati dopo trenta giri o se devi toccare le migration". Lo lanciate e
+    chiudete il portatile.</p>
+    <p>La domanda decisiva è: a chi affidate il giudizio su "fatto"? Non all'agente che ha fatto il
+    lavoro. A un <strong>giudice indipendente</strong>: un altro modello, uno script, una suite di test.</p>
+    <p>Prima di costruirne uno, una domanda sola: <strong>questa cosa ha una fine?</strong> Se sì, è un loop a
+    obiettivo: una maratona, con un traguardo. Se no, è sorveglianza: una sveglia che suona a
+    intervalli. L'errore classico è mettere un lavoro con un traguardo dentro un loop a tempo: ogni
+    giro riparte da zero.</p>
+    <p><em>[segui il diagramma da sinistra]</em> Ecco un loop a regime. Un <strong>trigger</strong>: un orario, un
+    evento, il task precedente chiuso. Scopre il lavoro, dal file dei progressi o dall'issue tracker.
+    Lo affida a un <strong>worker isolato</strong>. Un <strong>giudice indipendente</strong> verifica. Lo stato si
+    salva: commit, PR. E a voi arriva solo quello che richiede una decisione.</p>
+    <p>La regola che mi porto dietro da un anno: <strong>il loop non può essere sorvegliato solo da chi
+    sta dentro il loop.</strong></p>
+  </aside>
 </section>
 
 <!-- 10 · SIX PRIMITIVES -->
@@ -327,16 +369,19 @@
   </div>
   <p class="dlabel">the state feeds back into every heartbeat: everything reads and writes it</p>
   <p class="rule">The agent forgets. <strong>The repository doesn't.</strong></p>
-  <aside class="notes">Le sei primitive con cui si costruisce qualsiasi loop. Le automazioni
-  sono il battito: senza, il loop è un progetto che non si sveglia mai. I worktree danno
-  isolamento fisico tra agenti paralleli, ognuno nel suo checkout, ma attenzione: il tetto
-  reale è la vostra banda di review. Le skill sono la conoscenza del progetto scritta una
-  volta e letta a ogni giro: il debito d'intento pagato in anticipo. I connettori, via MCP,
-  portano il loop nei tool veri: issue, database, staging, chat, la differenza tra "ecco la
-  fix" e una pull request aperta, ticket linkato e canale avvisato da solo. I sub-agent
-  realizzano la divisione chi fa e chi controlla. E lo stato esterno è la spina: memoria su
-  disco, un file di progressi, non nella finestra di contesto. Non serve tutto per ogni
-  loop, ma serve sapere quando prendere quale.</aside>
+  <aside class="notes">
+    <p><small>⏱ 10:25 → 11:25 · 60s · tagliabile a 30s</small></p>
+    <p>Con cosa si costruisce? Sei pezzi.</p>
+    <p>Le <strong>automazioni</strong> sono il battito: senza, il loop non si sveglia mai. I
+    <strong>worktree</strong>: ogni agente nel suo checkout, niente collisioni, ma il limite vero diventa la
+    vostra capacità di fare review. Le <strong>skill</strong>: la conoscenza del progetto scritta una volta e
+    riletta a ogni giro. I <strong>connettori</strong>, via MCP: issue, database, staging, chat. È la
+    differenza tra "ecco la fix" e una pull request aperta, col ticket collegato e il canale già
+    avvisato. I <strong>sub-agent</strong>: chi fa e chi controlla. E lo <strong>stato esterno</strong>, la spina
+    dorsale: memoria su disco, non nella finestra di contesto.</p>
+    <p>L'agente dimentica. <strong>Il repository no.</strong></p>
+    <p><small>Versione corta: automazioni, sub-agent, stato esterno, poi la frase finale.</small></p>
+  </aside>
 </section>
 
 <!-- 11 · THE RECEIPTS -->
@@ -350,16 +395,18 @@
     <div class="dbox num"><b>~1M lines</b>three engineers who wrote no code themselves<div class="dlabel">~1,500 PRs in five months, agent-generated</div></div>
   </div>
   <p class="rule">None of these numbers were moved by a bigger model.</p>
-  <aside class="notes">Il riepilogo in quattro tessere, tutte da casi documentati pubblici.
-  La prima è la mia preferita: uno stesso modello, stesso progetto, quattro iterazioni in
-  cui si è aggiunto solo harness, prima le regole del progetto, poi i comandi di verifica,
-  poi lo stato dei progressi: il tasso di successo è passato dal venti per cento a quota
-  quasi cento, e il modello non è mai cambiato. La seconda e la terza sono i paper di
-  apertura. La quarta: l'esperimento del milione di righe, tre ingegneri che scrivevano solo
-  obiettivi e verifica, circa millecinquecento pull request in cinque mesi, e la lezione che
-  ne sono usciti: ogni fallimento non era "il modello non se la sente", era "che pezzo di
-  guscio manca ancora". Frase da chiudere con calma: nessuno di questi numeri è stato mosso
-  da un modello più grande.</aside>
+  <aside class="notes">
+    <p><small>⏱ 11:25 → 12:15 · 50s</small></p>
+    <p>Torniamo ai numeri. Il mio preferito è il primo. Stesso modello, stesso progetto, quattro
+    iterazioni in cui si aggiunge <strong>solo harness</strong>: le regole del progetto, i comandi di
+    verifica, lo stato dei progressi. Il tasso di successo passa <strong>dal venti a quasi il cento per
+    cento</strong>. Il modello non è mai cambiato.</p>
+    <p>Poi i due paper che abbiamo visto. E l'esperimento di OpenAI: circa <strong>un milione di
+    righe</strong>, millecinquecento pull request in cinque mesi, tre ingegneri che il codice non lo
+    scrivevano: scrivevano obiettivi e verifiche. E quando qualcosa falliva, la domanda non era "il
+    modello non ce la fa", era <strong>"che pezzo di harness manca?"</strong></p>
+    <p><em>[pausa]</em> Nessuno di questi numeri l'ha spostato un modello più grande.</p>
+  </aside>
 </section>
 
 <!-- 12 · THE REFRAME -->
@@ -372,15 +419,17 @@
     <li><b>Harness rots like code.</b> Audit it. Pay down harness debt like technical debt.</li>
   </ul>
   <p class="rule">Whoever owns the harness <strong>owns the agent.</strong></p>
-  <aside class="notes">Il ribaltamento finale. Finché trattate l'harness come configurazione,
-  vi aspettate che i default bastino. Quando lo trattate come runtime, capite che gli agenti
-  sono strutture software nuove, che vanno progettate con la stessa cura di un servizio: il
-  principio operativo è che il repository è la specifica, tutto ciò che l'agente non vede,
-  di fatto non esiste, quindi vive lì, strutturato e verificabile. E dato che è software,
-  marcisce come il software: le regole vecchie si accumulano, i vincoli scaduti restano, e il
-  rapporto segnale-rumore scende. Audit periodico, debito di harness si paga come il debito
-  tecnico. La riga finale è la mia, dalla newsletter: chi possiede il guscio possiede
-  l'agente, quindi meglio che il guscio lo possediate voi.</aside>
+  <aside class="notes">
+    <p><small>⏱ 12:15 → 13:05 · 50s</small></p>
+    <p>Allora cambiamo prospettiva. Finché trattate l'harness come <strong>configurazione</strong>, vi
+    aspettate che i default bastino. Ma l'harness è il <strong>runtime</strong>, e gli agenti sono il
+    software che ci gira sopra.</p>
+    <p><strong>Il repository è la specifica</strong>: quello che l'agente non vede, per lui non esiste.
+    Quindi tutto vive lì, strutturato e verificabile.</p>
+    <p>E siccome è software, <strong>marcisce come il software</strong>: regole vecchie, vincoli scaduti,
+    rumore. Fate audit, e pagate il debito di harness come pagate il debito tecnico.</p>
+    <p>Chi possiede l'harness possiede l'agente. <em>[pausa]</em> E vorrei che a possederlo foste voi.</p>
+  </aside>
 </section>
 
 <!-- 13 · TAKEAWAYS -->
@@ -393,16 +442,19 @@
     <li><strong>Start where it hurts:</strong> one rule per scar, one spec per task, one loop with an independent judge.</li>
   </ol>
   <p class="rule">A good prompt helps for one turn. <strong>A good harness helps permanently.</strong></p>
-  <aside class="notes">I tre takeaway in ordine di importanza decrescente e di facilità
-  crescente. Primo: quando qualcosa fallisce, il primo sospetto è il guscio, non il modello,
-  e cambiare modello è quasi sempre l'opzione più costosa; un buon file di istruzioni può
-  rendere più di un modello più caro, non è una battuta. Secondo: le tre sartorie, il router
-  invece dell'enciclopedia, il fatto verificato su tre livelli da qualcuno che non è chi ha
-  scritto, il loop con giudizio di stop proprio. Terzo: non è un progetto, è un'abitudine:
-  una regola per cicatrice, una specifica per task, un loop con un giudice indipendente.
-  Domani mattina: prendete l'ultimo task in cui l'agente ha dichiarato vittoria troppo
-  presto, e scrivete la definizione di fatto che non c'era. Chiudo con la frase di sempre:
-  un buon prompt aiuta per un turno, un buon harness aiuta per sempre.</aside>
+  <aside class="notes">
+    <p><small>⏱ 13:05 → 14:05 · 60s</small></p>
+    <p>Tre cose da portare a casa.</p>
+    <p><strong>Uno</strong>: quando qualcosa fallisce, sospettate prima l'harness. Cambiare modello è quasi
+    sempre l'opzione più cara, e un buon file di istruzioni può battere un modello più costoso.</p>
+    <p><strong>Due</strong>: cucitelo su misura. Un router, non un'enciclopedia. "Fatto" verificato su tre
+    livelli, da qualcuno che non ha scritto il codice. Loop con il loro giudice.</p>
+    <p><strong>Tre</strong>: partite da dove fa male. Una regola per ogni cicatrice, una specifica per ogni
+    task, un loop con un giudice indipendente.</p>
+    <p>Un compito per lunedì: prendete l'ultima volta che un agente vi ha detto "fatto" e non era
+    vero. <strong>Scrivete la definizione di "fatto" che mancava.</strong> È il primo punto di cucitura.</p>
+    <p>Un buon prompt vi aiuta per un turno. <strong>Un buon harness vi aiuta per sempre.</strong></p>
+  </aside>
 </section>
 
 <!-- 14 · CLOSE -->
@@ -411,11 +463,14 @@
   <h1>Tailor the harness. Keep the agent.</h1>
   <p class="dimtext">Stefano Maestri · maeste.it</p>
   <p class="dimtext small">Risorse Artificiali: podcast &amp; newsletter · slides: maeste.it/speaking</p>
-  <aside class="notes">Chiusura in trenta secondi. La riga da lasciare sullo schermo: sartoria
-  l'harness, tenetevi l'agente. Dove trovarmi: maeste.it per bio e progetti, il podcast
-  Risorse Artificiali e la newsletter per il materiale di ogni settimana, gli slide sul
-  sito. Domande, e in appendice ho l'audit dei sottosistemi, i tipi di loop, i costi
-  nascosti e le risposte pronte per le obiezioni più comuni.</aside>
+  <aside class="notes">
+    <p><small>⏱ 14:05 → 14:25 · 20s</small></p>
+    <p><strong>Cucite l'harness, tenetevi l'agente.</strong> Grazie.</p>
+    <p>Mi trovate su maeste.it, e ogni settimana su Risorse Artificiali. Le slide sono online, con
+    un'appendice: i paper, l'audit in cinque punti, i tipi di loop. Se c'è tempo, prendo volentieri
+    le domande.</p>
+    <p><small>Appendice: freccia giù. Ogni slide ha la risposta pronta.</small></p>
+  </aside>
 </section>
 
 <!-- APPENDIX — vertical stack, ↓ from the close -->
@@ -428,10 +483,13 @@
       <li>Result: cost per task <strong>−41%</strong>, time <strong>−44%</strong>, tokens <strong>−38%</strong></li>
       <li>Implication: benchmark scores without harness disclosure <strong>do not transfer</strong> to your stack</li>
     </ul>
-    <aside class="notes">Serve se qualcuno chiede dettagli sperimentali: stessi modelli, stessi
-    task, l'unica variabile manipolata è come il modello viene orchestrato. Un terzo delle
-    risorse per lo stesso lavoro. La conseguenza metodologica: qualsiasi confronto tra modelli
-    è incompleto senza dichiarare l'harness.</aside>
+    <aside class="notes">
+      <p><small>Appendice · se chiedono del primo paper</small></p>
+      <p>Sei modelli frontier, stessa suite di task. L'<strong>unica variabile è l'orchestrazione</strong>.
+      Risultato: per lo stesso lavoro, costi, tempi e token scendono di circa il quaranta per cento.</p>
+      <p>La conseguenza pratica: un benchmark che non dichiara l'harness <strong>non vale per il vostro
+      stack</strong>.</p>
+    </aside>
   </section>
   <section>
     <div class="eyebrow">appendix · arxiv 2605.23950</div>
@@ -441,9 +499,14 @@
       <li>"Stop comparing LLM agents <strong>without disclosing the harness</strong>"</li>
       <li>Model choice is a one-bit decision. <strong>Harness design is the whole rest of the search space.</strong></li>
     </ul>
-    <aside class="notes">Il titolo è già la tesi: smettete di confrontare agenti senza dichiarare
-    l'harness. La lettura pratica per un team: il dibattito "modello A o modello B" è una
-    decisione a un bit, la progettazione del guscio è tutto il resto dello spazio di ricerca.</aside>
+    <aside class="notes">
+      <p><small>Appendice · se chiedono del secondo paper</small></p>
+      <p>Sui task lunghi la varianza dovuta all'harness supera quella dovuta al modello: <strong>sette
+      volte</strong>, nel loro esperimento. Il titolo dice già tutto: smettete di confrontare agenti senza
+      dichiarare l'harness.</p>
+      <p>La frase da dire: scegliere il modello è una decisione da un bit. <strong>Progettare l'harness è
+      tutto il resto.</strong></p>
+    </aside>
   </section>
   <section>
     <div class="eyebrow">appendix · where is my harness broken?</div>
@@ -462,13 +525,14 @@
       <li>Fix the <strong>lowest score first</strong>: usually feedback (highest ROI)</li>
       <li>Then ablate: remove one subsystem at a time, measure the drop; as models improve, some components stop being critical, <b>new critical ones emerge</b></li>
     </ul>
-    <aside class="notes">L'audit da fare lunedì: cinque sottosistemi, un punteggio da uno a
-    cinque ciascuno, e si corregge prima il più basso, che di solito è il feedback, il comando
-    di verifica, che è anche il miglior rapporto tra sforzo e ritorno. Poi l'ablazione: togli
-    un sottosistema alla volta e misura il crollo, ti dice cosa vale adesso per il tuo task.
-    E il finding interessante: man mano che i modelli migliorano, alcuni componenti smettono di
-    essere critici, ma ne emergono sempre di nuovi critici: la lista della spesa cambia, la
-    lista della spesa non sparisce.</aside>
+    <aside class="notes">
+      <p><small>Appendice · "da dove comincio?"</small></p>
+      <p>Cinque domande, un voto da uno a cinque ciascuna. Sistemate prima <strong>il voto più basso</strong>:
+      quasi sempre è il feedback, cioè i comandi di verifica, ed è anche quello che rende di più.</p>
+      <p>Poi fate ablazione: togliete un pezzo alla volta e misurate quanto perdete. Coi modelli nuovi
+      alcuni pezzi smettono di servire e ne diventano critici altri. <strong>La lista cambia, non
+      sparisce.</strong></p>
+    </aside>
   </section>
   <section>
     <div class="eyebrow">appendix · four families, one test</div>
@@ -486,12 +550,14 @@
       <li>The goal loop vs the clock: a <b>marathon</b> (one long run toward a finish line) vs an <b>alarm clock</b> (short independent bursts, no cumulative progress)</li>
       <li>The recurring mistake: putting a <b>goal-shaped job</b> inside a <b>time-based loop</b>, restarting from scratch every interval</li>
     </ul>
-    <aside class="notes">La tabella completa delle quattro famiglie, con il test decisivo: questa
-    cosa ha una fine? La confusione più costosa è metterci un lavoro a obiettivo dentro un loop
-    a tempo: ogni giro riparte da zero, perché il loop a tempo non ricorda dove era rimasto.
-    La maratona contro la sveglia: la maratona ha il traguardo, la sveglia suona a intervalli.
-    E per il goal-based, la parte non negoziabile è il giudice indipendente, non il modello
-    che ha fatto il lavoro.</aside>
+    <aside class="notes">
+      <p><small>Appendice · tipi di loop</small></p>
+      <p>Quattro famiglie: <strong>a turni, a obiettivo, a tempo, a eventi</strong>. Il test è sempre lo stesso:
+      ha una fine?</p>
+      <p>L'errore costoso è un lavoro a obiettivo dentro un loop a tempo: ogni giro riparte da zero,
+      perché il loop a tempo non ricorda dove era arrivato. E nel loop a obiettivo il <strong>giudice
+      indipendente</strong> non è negoziabile.</p>
+    </aside>
   </section>
   <section>
     <div class="eyebrow">appendix · what grows while you sleep</div>
@@ -503,12 +569,14 @@
       <li><strong>Token blowout:</strong> the bill grows faster than the value</li>
     </ul>
     <p class="rule">Loops accelerate <strong>output and risk at the same time.</strong></p>
-    <aside class="notes">Il controcredit della slide dei loop: le quattro spese silenziose che
-    crescono mentre dormite. Il debito di verifica: verdi che hanno smesso di significare
-    funziona. Il marciume di comprensione: codice che in team non sa più spiegare. La resa
-    cognitiva: "l'agente dice che va bene" diventa la review. E il blowout di token, la
-    bolletta che corre più veloce del valore. Il messaggio onesto: i loop accelerano l'output
-    e il rischio insieme, quindi le tre sartorie non sono opzionali: sono il freno.</aside>
+    <aside class="notes">
+      <p><small>Appendice · se chiedono dei rischi</small></p>
+      <p>Quattro costi che crescono mentre dormite. <strong>Debito di verifica</strong>: check verdi che non
+      vogliono più dire "funziona". <strong>Comprensione che marcisce</strong>: codice che nessuno in team sa
+      più spiegare. <strong>Resa cognitiva</strong>: "l'agente dice che va bene" diventa la review. E la
+      <strong>bolletta dei token</strong>, che corre più veloce del valore.</p>
+      <p>I loop accelerano output e rischio insieme. Le tre sartorie sono il freno.</p>
+    </aside>
   </section>
   <section>
     <div class="eyebrow">appendix · evals in production</div>
@@ -522,11 +590,14 @@
       <li>Policy <strong>in code</strong> transforms the answers; divergence becomes a <strong>doubt</strong> for a human</li>
       <li>Every judgment stays <strong>human-owned, versioned, negotiable</strong></li>
     </ul>
-    <aside class="notes">L'esempio concreto del sottosistema feedback portato all'estremo, dalla
-    mia skill di review: una batteria è un file di domande tipizzate che va in repository e in
-    code review. Le risposte arrivano con valori tipizzati e probabilità calibrate, e il non
-    lo so è una risposta legittima. La policy in codice trasforma le risposte in dubbi per un
-    umano. Gli eval smettono di essere un prompt volatile e diventano artefatto del progetto.</aside>
+    <aside class="notes">
+      <p><small>Appendice · eval in produzione</small></p>
+      <p>Un esempio dalla mia skill di review. Una <strong>batteria</strong> è un file di domande tipizzate,
+      versionato nel repo e revisionato come codice. Le risposte hanno tipo e <strong>probabilità
+      calibrata</strong>, e "non lo so" è una risposta valida.</p>
+      <p>Una policy scritta in codice trasforma le risposte in dubbi per un umano. Il giudizio resta
+      <strong>umano, versionato, negoziabile</strong>.</p>
+    </aside>
   </section>
   <section>
     <div class="eyebrow">appendix · answers ready</div>
@@ -538,15 +609,23 @@
       <li><strong>"Where do I start?"</strong> Audit the five subsystems, fix the lowest (usually feedback: verification commands). Then write "done" for the next task, with three layers.</li>
       <li><strong>"Security?"</strong> Tool boundaries and budget are blast-radius control: least privilege, minimal spend, loud failure.</li>
     </ul>
-    <aside class="notes">Le cinque obiezioni canoniche. Sul prompt engineering: la differenza è
-    dove vive la conoscenza, in testa o nel repository, e il caso da venti a cento viene da
-    pezzi di sistema. Sul prossimo modello: i numeri sono stati mossi a modelli fermi, e
-    l'ablazione dice che l'harness coevolve col modello invece di sparire. Sui studi
-    contrari: risposta onesta, la letteratura è divisa, un studio non trova benefici generali
-    e trova un aumento del costo di inferenza oltre il venti per cento, uno paired trova
-    runtime ridotto di quasi il ventinove per cento: requisiti minimi e test sui vostri task.
-    Su dove cominciare: l'audit, e il fatto scritto con i tre livelli. Sulla sicurezza:
-    perimetri e budget sono controllo del raggio d'azione.</aside>
+    <aside class="notes">
+      <p><small>Appendice · risposte pronte</small></p>
+      <p><strong>"È solo prompt engineering?"</strong> No: il prompt vale per un turno e vive nella vostra
+      testa. L'harness sono cinque sottosistemi e vive nel repo. Il caso dal venti al cento per cento
+      viene da pezzi di sistema, non da parole migliori.</p>
+      <p><strong>"Il prossimo modello lo renderà inutile?"</strong> I numeri si sono mossi a modello fermo.
+      E l'ablazione dice che alcuni pezzi smettono di servire ma ne nascono altri: l'harness evolve col
+      modello, non sparisce.</p>
+      <p><strong>"Ho letto che i file di istruzioni non servono."</strong> Risposta onesta: le prove sono
+      miste. Uno studio non trova miglioramenti generali e un venti per cento di costo in più; uno
+      studio appaiato trova quasi il trenta per cento di runtime in meno su task piccoli. Quindi:
+      istruzioni minime, e testatele sui task che devono supportare.</p>
+      <p><strong>"Da dove comincio?"</strong> Audit dei cinque sottosistemi, sistemate il più basso, di solito
+      i comandi di verifica. Poi scrivete "fatto" per il prossimo task, con i tre livelli.</p>
+      <p><strong>"Sicurezza?"</strong> Perimetri dei tool e budget servono a contenere i danni: privilegio
+      minimo, spesa minima, errori rumorosi.</p>
+    </aside>
   </section>
   <section>
     <div class="eyebrow">appendix · sources</div>
@@ -557,9 +636,11 @@
       <li>OpenAI: harness engineering, leveraging Codex in an agent-first world</li>
       <li>Newsletter CY26W37 ("the war is over the harness") and CY26W45 ("agents as software, the harness as runtime"): maeste.it / risorseartificiali.com</li>
     </ul>
-    <aside class="notes">Tutte le fonti sono pubbliche e citate; i numeri dei casi a slide sono
-    riportati da queste fonti. Le due edizioni della newsletter contengono il mio contesto
-    completo.</aside>
+    <aside class="notes">
+      <p><small>Appendice · fonti</small></p>
+      <p>Tutte fonti pubbliche, e i numeri in slide vengono da qui. Il contesto completo è nelle due
+      edizioni della newsletter citate.</p>
+    </aside>
   </section>
 </section>
 
