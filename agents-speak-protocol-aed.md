@@ -34,6 +34,7 @@ Deck: [agents-speak-protocol-aed/index.html](agents-speak-protocol-aed/index.htm
 {{diagram:cover}}
 
 <p class="byline">Stefano Maestri <span>&amp;</span> Alessio Soldano</p>
+<p class="byline-note">Opinions are our own and do not represent our employer.</p>
 
 > **Speaker notes:** Alessio · 0:00–0:20. Leave this slide up while the room settles. Alessio opens: «For two years we have debated models, frameworks and reasoning. The moment we take an agent out of the demo, the question changes: what can it actually talk to?» Do not preview the acronym catalog. Test clicker, fullscreen and speaker view before the session.
 
