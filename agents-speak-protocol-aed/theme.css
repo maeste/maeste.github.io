@@ -56,6 +56,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); }
 .cover .diagram-wrap { position: absolute; width: 570px; right: 22px; top: 110px; }
 .reveal .byline { position: absolute; bottom: 74px; font-size: 21px; }
 .byline span { color: var(--tool); margin: 0 16px; }
+.reveal .byline-note { position: absolute; bottom: 44px; font-family: var(--mono); font-size: 13px; letter-spacing: .04em; color: var(--dim); }
 .speaker-grid, .primitive-grid, .file-grid, .bets-grid { display: grid; gap: 22px; margin: 40px 0 0; }
 .speaker-grid { grid-template-columns: 1fr 1fr; }
 .speaker-grid article { padding: 26px 30px; background: var(--surface); border-top: 3px solid var(--model); border-radius: 0 0 12px 12px; }
